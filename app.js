@@ -11,16 +11,13 @@ var Ticket = require('./models/ticket_model.js');
 var Comment = require('./models/comment_model.js');
 //Init Express
 var app = express();
-//OpenStack integration
-app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002);
-app.set('ip', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 //app.use directives for parsing
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
 //Mongose initialisiation
-mongoose.connect('mongodb://'+'admin:password@'+process.env.OPENSHIFT_MONGODB_DB_HOST+':'+process.env.OPENSHIFT_MONGODB_DB_PORT+'/certapi2');
+mongoose.connect('mongodb://localhost/netzzwergdb');
 
 var basicAuth = require('basic-auth');
 
@@ -29,18 +26,18 @@ var auth = function (req, res, next) {
 	req.auth_user = basicAuth(req);
 
 	if (!req.auth_user || !req.auth_user.name || !req.auth_user.pass) {
-		return res.send(401);
+		return res.sendStatus(401);
 	};
 	User.findOne({ 'name':  req.auth_user.name}, function (err, user) {
 			if (err) return handleError(err);
 			if (user){
 				if (req.auth_user.pass === user.password) {
-					return next(); 
+					return next();
 				} else {
-					return res.send(401);
+					return res.sendStatus(401);
 				};
 			} else {
-				return res.send(401);
+				return res.sendStatus(401);
 			}
 	})
 
@@ -57,12 +54,12 @@ app.get("/user/:name?", function(req, res) {
 	if (req.params.name) {
 		User.findOne({ 'name':  req.params.name}, '-password -avatar', function (err, user) {
 			if (err) return handleError(err);
-  			
+
 			if (user) {
 				res.send(user);
-			} 
+			}
 			else {
-				res.send(404);
+				res.sendStatus(404);
 			}
 	})
 	}
@@ -91,7 +88,7 @@ app.post('/user', auth, function(req, res) {
 		});
 	}
 	else {
-		res.send(401);
+		res.sendStatus(401);
 	}
 });
 
@@ -101,12 +98,12 @@ app.get("/ticket/:id?", function(req, res) {
 	if (req.params.id) {
 		Ticket.findOne({ '_id':  req.params.id}, '-img', function (err, ticket) {
 			if (err) return handleError(err);
-  			
+
 			if (ticket) {
 				res.send(ticket);
-			} 
+			}
 			else {
-				res.send(404);
+				res.sendStatus(404);
 			}
 	})
 	}
@@ -133,7 +130,6 @@ app.post('/ticket', auth, function(req, res) {
 	});
 });
 
-
 //Comment (/comment) - GET
 app.get("/comment/:ticket_id?", auth, function(req, res) {
 	if (req.params.ticket_id) {
@@ -147,9 +143,10 @@ app.get("/comment/:ticket_id?", auth, function(req, res) {
 	})
 	}
 	else {
-		res.send(404);
+		res.sendStatus(404);
 	}
 });
+
 //Comment (/comment) - POST
 app.post('/comment', auth, function(req, res) {
 	var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
@@ -163,10 +160,10 @@ app.post('/comment', auth, function(req, res) {
 });
 //The 404 Route
 app.get('*', function(req, res){
-   	res.send(404);
+   	res.sendStatus(404);
 });
 
 //Start server
-var server = app.listen(app.get('port'), app.get('ip'), function () {
+var server = app.listen(8080, function () {
     console.log("Listening on port %s...", server.address().port);
 });
