@@ -15,9 +15,15 @@ var app = express();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-
 //Mongose initialisiation
 mongoose.connect('mongodb://localhost/netzzwergdb');
+
+//CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 var basicAuth = require('basic-auth');
 
@@ -61,17 +67,12 @@ app.get("/user/:name?", function(req, res) {
 			else {
 				res.sendStatus(404);
 			}
-	})
+		})
 	}
 	else {
-	User.find({}, '-password -avatar', function(err, users) {
-		var userMap = {};
-		users.forEach(function(user) {
-			userMap[user._id] = user;
+		User.find({}, '-password -avatar', function (err, users) {
+			res.send(users);
 		});
-
-		res.send(userMap);
-   	});
 	}
 });
 
@@ -80,18 +81,17 @@ app.post('/user', auth, function(req, res) {
 	if(req.body.regkey=="password") {
 		var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
 		user1.save(function (err, userObj) {
-		if (err) {
-			res.send("Error creating user");
+			if (err) {
+				res.send("Error creating user");
 		} else {
 			res.json(userObj);
 		}
-		});
+	});
 	}
 	else {
 		res.sendStatus(401);
 	}
 });
-
 
 //Tickets (/ticket) - GET
 app.get("/ticket/:id?", function(req, res) {
@@ -100,24 +100,20 @@ app.get("/ticket/:id?", function(req, res) {
 			if (err) return handleError(err);
 
 			if (ticket) {
-				res.send(ticket);
+				res.send(tickets);
 			}
 			else {
 				res.sendStatus(404);
 			}
-	})
+		})
 	}
 	else {
-	Ticket.find({}, '-img', function(err, tickets) {
-		var ticketMap = {};
-		tickets.forEach(function(ticket) {
-			ticketMap[ticket._id] = ticket;
+		Ticket.find({}, '-img', function(err, tickets) {
+			res.send(tickets);
 		});
-
-		res.send(ticketMap);
-   	});
 	}
 });
+
 //Ticket (/ticket) - POST
 app.post('/ticket', auth, function(req, res) {
 	var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
@@ -134,13 +130,8 @@ app.post('/ticket', auth, function(req, res) {
 app.get("/comment/:ticket_id?", auth, function(req, res) {
 	if (req.params.ticket_id) {
 		Comment.find({ 'ticket_id':  req.params.ticket_id}, function (err, comments) {
-		var commentMap = {};
-		comments.forEach(function(comment) {
-			commentMap[comment._id] = comment;
-		});
-
-		res.send(commentMap);
-	})
+			res.send(comments);
+		})
 	}
 	else {
 		res.sendStatus(404);
@@ -158,6 +149,7 @@ app.post('/comment', auth, function(req, res) {
 	}
 	});
 });
+
 //The 404 Route
 app.get('*', function(req, res){
    	res.sendStatus(404);
