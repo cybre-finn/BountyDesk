@@ -1,13 +1,13 @@
 {
-  "name": "certapi",
+  "name": "Netzzwerg-API",
   "version": "0.0.1",
-  "description": "Backend REST API of the CERT-APP",
+  "description": "Backend for the Netzzwerg-App",
   "private": true,
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Irakulus",
+  "author": "Ikarulus",
   "dependencies": {
 	  "body-parser": "~1.12.4",
 	  "express": "~4.12.4",
