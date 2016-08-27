@@ -4,7 +4,8 @@ var bodyParser = require("body-parser");
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 var validator = require('validator');
-var basicAuth = require('basic-auth');
+var passport = require('passport');
+var Strategy = require('passport-http').BasicStrategy;
 
 var User = require('./models/user_model.js');
 var Ticket = require('./models/ticket_model.js');
@@ -25,35 +26,22 @@ app.use(function(req, res, next) {
   next();
 });
 
-var basicAuth = require('basic-auth');
-
-var auth = function (req, res, next) {
-
-  req.auth_user = basicAuth(req);
-
-  if (!req.auth_user || !req.auth_user.name || !req.auth_user.pass) {
-    return res.sendStatus(401);
-  };
-  User.findOne({ 'name':  req.auth_user.name}, function (err, user) {
-    if (err) return handleError(err);
-    if (user){
-      if (req.auth_user.pass === user.password) {
-        return next();
-      } else {
-        return res.sendStatus(401);
-      };
-    } else {
-      return res.sendStatus(401);
-    }
-  })
-
-};
+//Auth
+passport.use(new Strategy(
+  function(userid, password, done) {
+    User.findOne({ 'name': userid }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (user.password != password) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
 
 //Root (/) - GET
 app.get("/", function(req, res) {
   res.send("<h1>Netzzwerg API</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>");
 });
-
 
 //Users (/user) - GET
 app.get("/user/:name?", function(req, res) {
@@ -77,7 +65,7 @@ app.get("/user/:name?", function(req, res) {
 });
 
 //Users (/user) - POST
-app.post('/user', auth, function(req, res) {
+app.post('/user', passport.authenticate('basic', { session: false }), function(req, res) {
   if(req.body.regkey=="password") {
     var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
     user1.save(function (err, userObj) {
@@ -115,7 +103,7 @@ app.get("/ticket/:id?", function(req, res) {
 });
 
 //Ticket (/ticket) - POST
-app.post('/ticket', auth, function(req, res) {
+app.post('/ticket', passport.authenticate('basic', { session: false }), function(req, res) {
   var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
   ticket1.save(function (err, ticketObj) {
     if (err) {
@@ -127,7 +115,7 @@ app.post('/ticket', auth, function(req, res) {
 });
 
 //Comment (/comment) - GET
-app.get("/comment/:ticket_id?", auth, function(req, res) {
+app.get("/comment/:ticket_id?", passport.authenticate('basic', { session: false }), function(req, res) {
   if (req.params.ticket_id) {
     Comment.find({ 'ticket_id':  req.params.ticket_id}, function (err, comments) {
       res.send(comments);
@@ -139,7 +127,7 @@ app.get("/comment/:ticket_id?", auth, function(req, res) {
 });
 
 //Comment (/comment) - POST
-app.post('/comment', auth, function(req, res) {
+app.post('/comment', passport.authenticate('basic', { session: false }), function(req, res) {
   var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
   comment1.save(function (err, commentObj) {
     if (err) {
