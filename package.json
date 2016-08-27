@@ -9,11 +9,11 @@
   },
   "author": "Ikarulus",
   "dependencies": {
-	  "body-parser": "~1.12.4",
-	  "express": "~4.12.4",
+    "body-parser": "~1.12.4",
+    "express": "~4.12.4",
     "mongodb": "~2.2.8",
     "mongoose": "~4.3.0",
     "validator": "~5.5.0",
     "basic-auth": "~1.0.4"
-    }
+  }
 }
