@@ -6,12 +6,15 @@ var mongoose = require('mongoose');
 var validator = require('validator');
 var passport = require('passport');
 var Strategy = require('passport-http').BasicStrategy;
+var reputation_module = require('./reputation_module.js');
 
 var User = require('./models/user_model.js');
 var Ticket = require('./models/ticket_model.js');
 var Comment = require('./models/comment_model.js');
+
 //Init Express
 var app = express();
+
 //app.use directives for parsing
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -66,21 +69,22 @@ app.get("/user/:name?", function(req, res) {
 
 //Users (/user) - POST
 app.post('/user', passport.authenticate('basic', { session: false }), function(req, res) {
-  if(req.body.regkey=="password") {
-    var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
-    user1.save(function (err, userObj) {
-      if (err) {
-        res.send("Error creating user");
-      } else {
-        res.json(userObj);
-      }
-    });
-  }
-  else {
-    res.sendStatus(401);
-  }
+  reputation_module.userrep(req.user.name, function(rep) {
+    if(rep>=200) {
+      var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
+      user1.save(function (err, userObj) {
+        if (err) {
+          res.send("Error creating user");
+        } else {
+          res.json(userObj);
+        }
+      });
+    }
+    else {
+      res.sendStatus(401);
+    }
+  })
 });
-
 //Tickets (/ticket) - GET
 app.get("/ticket/:id?", function(req, res) {
   if (req.params.id) {
