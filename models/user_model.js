@@ -6,7 +6,7 @@ var userSchema = new Schema({
   prename: String,
   surname: String,
   password: String,
-  rep: Number,
+  rep: { type : Number, default: 0 },
   joined: { type : Date, default: Date.now },
   status: String,
   avatar: { data: Buffer, contentType: String }
