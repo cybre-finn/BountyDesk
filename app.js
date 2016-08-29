@@ -132,14 +132,21 @@ app.get("/comment/:ticket_id?", passport.authenticate('basic', { session: false 
 
 //Comment (/comment) - POST
 app.post('/comment', passport.authenticate('basic', { session: false }), function(req, res) {
-  var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
-  comment1.save(function (err, commentObj) {
-    if (err) {
-      res.send("Error creating comment");
-    } else {
-      res.json(commentObj);
+  reputation_module.userrep(req.user.name, function(rep) {
+    if(rep>=5) {
+      var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
+      comment1.save(function (err, commentObj) {
+        if (err) {
+          res.send("Error creating comment");
+        } else {
+          res.json(commentObj);
+        }
+      })
     }
-  });
+    else {
+      res.sendStatus(401);
+    }
+  })
 });
 
 //The 404 Route
