@@ -109,7 +109,7 @@ app.get("/ticket/:id?", function(req, res) {
 app.delete("/ticket/:id?", passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=1000) {
-      Model.remove({ _id: req.body.ticket_id }, function(err) {
+      Ticket.remove({ _id: req.body.ticket_id }, function(err) {
         if (err) {
           res.send("Error deleting ticket");
         } else {
@@ -159,6 +159,23 @@ app.post('/comment', passport.authenticate('basic', { session: false }), functio
           res.json(commentObj);
         }
       })
+    }
+    else {
+      res.sendStatus(401);
+    }
+  })
+});
+//Tickets (/ticket) - DELETE
+app.delete('/comment', passport.authenticate('basic', { session: false }), function(req, res) {
+  reputation_module.userrep(req.user.name, function(rep) {
+    if(rep>=300) {
+      Comment.remove({ _id: req.body.comment_id }, function(err) {
+        if (err) {
+          res.send("Error deleting comment");
+        } else {
+          res.send("Success")
+        }
+        });
     }
     else {
       res.sendStatus(401);
