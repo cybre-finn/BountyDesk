@@ -165,7 +165,7 @@ app.post('/comment', passport.authenticate('basic', { session: false }), functio
     }
   })
 });
-//Tickets (/ticket) - DELETE
+//Comment (/comment) - DELETE
 app.delete('/comment', passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=300) {
@@ -181,6 +181,26 @@ app.delete('/comment', passport.authenticate('basic', { session: false }), funct
       res.sendStatus(401);
     }
   })
+});
+//Room (/room) - GET
+app.get("/room/:r_number?", function(req, res) {
+  if (req.params.name) {
+    Room.findOne({ 'room_number':  req.params.r_number}, function (err, room_number) {
+      if (err) return handleError(err);
+
+      if (room_number) {
+        res.send(room_number);
+      }
+      else {
+        res.sendStatus(404);
+      }
+    })
+  }
+  else {
+    Room.find({}, function (err, rooms) {
+      res.send(rooms);
+    });
+  }
 });
 
 //The 404 Route
