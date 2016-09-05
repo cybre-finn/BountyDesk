@@ -187,11 +187,11 @@ app.delete('/comment', passport.authenticate('basic', { session: false }), funct
 //Room (/room) - GET
 app.get("/room/:r_number?", function(req, res) {
   if (req.params.name) {
-    Room.findOne({ 'room_number':  req.params.r_number}, function (err, room_number) {
+    Room.findOne({ 'room_number':  req.params.r_number}, function (err, room) {
       if (err) return handleError(err);
 
-      if (room_number) {
-        res.send(room_number);
+      if (room) {
+        res.send(room);
       }
       else {
         res.sendStatus(404);
@@ -201,6 +201,27 @@ app.get("/room/:r_number?", function(req, res) {
   else {
     Room.find({}, function (err, rooms) {
       res.send(rooms);
+    });
+  }
+});
+
+//Device (/device) - GET
+app.get("/device/:device_id?", function(req, res) {
+  if (req.params.name) {
+    Device.findOne({ '_id':  req.params.device_id}, function (err, device) {
+      if (err) return handleError(err);
+
+      if (device) {
+        res.send(device);
+      }
+      else {
+        res.sendStatus(404);
+      }
+    })
+  }
+  else {
+    Device.find({}, function (err, devices) {
+      res.send(devices);
     });
   }
 });
