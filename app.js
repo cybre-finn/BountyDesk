@@ -11,6 +11,8 @@ var reputation_module = require('./reputation_module.js');
 var User = require('./models/user_model.js');
 var Ticket = require('./models/ticket_model.js');
 var Comment = require('./models/comment_model.js');
+var Room = require('./models/room_model.js');
+var Device = require('./models/device_model.js');
 
 //Init Express
 var app = express();
