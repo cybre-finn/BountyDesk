@@ -22,6 +22,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 //Mongose initialisiation
+//TODO: Change to nussbaumdb
 mongoose.connect('mongodb://localhost/netzzwergdb');
 
 //CORS
@@ -45,7 +46,7 @@ passport.use(new Strategy(
 
 //Root (/) - GET
 app.get("/", function(req, res) {
-  res.send("<h1>Netzzwerg API</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>");
+  res.send("<h1>Nussbaum-Backend</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>");
 });
 
 //Users (/user) - GET

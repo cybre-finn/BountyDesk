@@ -1,7 +1,7 @@
 {
-  "name": "Netzzwerg-API",
+  "name": "Nussbaum-Backend",
   "version": "0.0.1",
-  "description": "Backend for the Netzzwerg-App",
+  "description": "Backend of the incredible Nussbaum",
   "private": true,
   "main": "app.js",
   "scripts": {
