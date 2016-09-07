@@ -14,6 +14,8 @@ var Comment = require('./models/comment_model.js');
 var Room = require('./models/room_model.js');
 var Device = require('./models/device_model.js');
 
+var config = require("./config.js");
+
 //Init Express
 var app = express();
 
@@ -53,10 +55,11 @@ app.get("/", function(req, res) {
 app.get("/user/:name?", function(req, res) {
   if (req.params.name) {
     User.findOne({ 'name':  req.params.name}, '-password -avatar', function (err, user) {
-      if (err) return handleError(err);
-
+      if (err) {
+        res.sendStatus(500);
+      }
       if (user) {
-        res.send(user);
+        res.json(user);
       }
       else {
         res.sendStatus(404);
@@ -65,7 +68,12 @@ app.get("/user/:name?", function(req, res) {
   }
   else {
     User.find({}, '-password -avatar', function (err, users) {
-      res.send(users);
+      if (err) {
+        res.sendStatus(500);
+      }
+      else {
+        res.json(users);
+      }
     });
   }
 });
@@ -73,12 +81,13 @@ app.get("/user/:name?", function(req, res) {
 //Users (/user) - POST
 app.post('/user', passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=200) {
+    if(rep>=300) {
       var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
       user1.save(function (err, userObj) {
         if (err) {
-          res.send("Error creating user");
-        } else {
+          res.sendStatus(500);
+        }
+        else {
           res.json(userObj);
         }
       });
@@ -92,10 +101,11 @@ app.post('/user', passport.authenticate('basic', { session: false }), function(r
 app.get("/ticket/:id?", function(req, res) {
   if (req.params.id) {
     Ticket.findOne({ '_id':  req.params.id}, '-img', function (err, ticket) {
-      if (err) return handleError(err);
-
+      if (err) {
+        res.sendStatus(500);
+      }
       if (ticket) {
-        res.send(tickets);
+        res.json(tickets);
       }
       else {
         res.sendStatus(404);
@@ -104,7 +114,12 @@ app.get("/ticket/:id?", function(req, res) {
   }
   else {
     Ticket.find({}, '-img', function(err, tickets) {
-      res.send(tickets);
+      if (err) {
+        res.sendStatus(500);
+      }
+      else {
+        res.json(tickets);
+      }
     });
   }
 });
@@ -114,11 +129,11 @@ app.delete("/ticket/:id?", passport.authenticate('basic', { session: false }), f
     if(rep>=1000) {
       Ticket.remove({ _id: req.body.ticket_id }, function(err) {
         if (err) {
-          res.send("Error deleting ticket");
+          res.sendStatus(500);
         } else {
-          res.send("Success")
+          res.sendStatus(200);
         }
-        });
+      });
     }
     else {
       res.sendStatus(401);
@@ -131,9 +146,10 @@ app.post('/ticket', passport.authenticate('basic', { session: false }), function
   var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
   ticket1.save(function (err, ticketObj) {
     if (err) {
-      res.send("Error creating ticket");
-    } else {
-      res.json(ticketObj);
+      res.sendStatus(500);
+    }
+    else {
+      res.sendStatus(201);
     }
   });
 });
@@ -142,7 +158,7 @@ app.post('/ticket', passport.authenticate('basic', { session: false }), function
 app.get("/comment/:ticket_id?", passport.authenticate('basic', { session: false }), function(req, res) {
   if (req.params.ticket_id) {
     Comment.find({ 'ticket_id':  req.params.ticket_id}, function (err, comments) {
-      res.send(comments);
+      res.json(comments);
     })
   }
   else {
@@ -157,9 +173,9 @@ app.post('/comment', passport.authenticate('basic', { session: false }), functio
       var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
       comment1.save(function (err, commentObj) {
         if (err) {
-          res.send("Error creating comment");
+          res.sendStatus(500);
         } else {
-          res.json(commentObj);
+          res.sendStatus(201);
         }
       })
     }
@@ -174,11 +190,11 @@ app.delete('/comment', passport.authenticate('basic', { session: false }), funct
     if(rep>=300) {
       Comment.remove({ _id: req.body.comment_id }, function(err) {
         if (err) {
-          res.send("Error deleting comment");
+          res.sendStatus(500);
         } else {
-          res.send("Success")
+          res.sendStatus(200);
         }
-        });
+      });
     }
     else {
       res.sendStatus(401);
@@ -192,7 +208,7 @@ app.get("/room/:r_number?", function(req, res) {
       if (err) return handleError(err);
 
       if (room) {
-        res.send(room);
+        res.json(room);
       }
       else {
         res.sendStatus(404);
@@ -201,7 +217,12 @@ app.get("/room/:r_number?", function(req, res) {
   }
   else {
     Room.find({}, function (err, rooms) {
-      res.send(rooms);
+      if (err) {
+        res.sendStatus(500);
+      }
+      else {
+        res.json(rooms);
+      }
     });
   }
 });
@@ -213,7 +234,7 @@ app.get("/device/:device_id?", function(req, res) {
       if (err) return handleError(err);
 
       if (device) {
-        res.send(device);
+        res.json(device);
       }
       else {
         res.sendStatus(404);
@@ -222,7 +243,12 @@ app.get("/device/:device_id?", function(req, res) {
   }
   else {
     Device.find({}, function (err, devices) {
-      res.send(devices);
+      if (err) {
+        res.sendStatus(500);
+      }
+      else {
+        res.json(devices);
+      }
     });
   }
 });
