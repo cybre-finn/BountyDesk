@@ -51,6 +51,7 @@ app.get("/", function(req, res) {
   res.send("<h1>Nussbaum-Backend</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>");
 });
 
+
 //Users (/user) - GET
 app.get("/user/:name?", function(req, res) {
   if (req.params.name) {
@@ -77,11 +78,10 @@ app.get("/user/:name?", function(req, res) {
     });
   }
 });
-
 //Users (/user) - POST
 app.post('/user', passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=300) {
+    if(rep>=3) {
       var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
       user1.save(function (err, userObj) {
         if (err) {
@@ -97,6 +97,25 @@ app.post('/user', passport.authenticate('basic', { session: false }), function(r
     }
   })
 });
+//Users (/user) - DELETE
+app.delete('/ticket:name?', passport.authenticate('basic', { session: false }), function(req, res) {
+  reputation_module.userrep(req.user.name, function(rep) {
+    if(rep>=300) {
+      Ticket.remove({ 'name': req.params.name }, function(err) {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          res.sendStatus(200);
+        }
+      });
+    }
+    else {
+      res.sendStatus(401);
+    }
+  })
+});
+
+
 //Tickets (/ticket) - GET
 app.get("/ticket/:id?", function(req, res) {
   if (req.params.id) {
@@ -123,11 +142,23 @@ app.get("/ticket/:id?", function(req, res) {
     });
   }
 });
+//Ticket (/ticket) - POST
+app.post('/ticket', passport.authenticate('basic', { session: false }), function(req, res) {
+  var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
+  ticket1.save(function (err, ticketObj) {
+    if (err) {
+      res.sendStatus(500);
+    }
+    else {
+      res.sendStatus(201);
+    }
+  });
+});
 //Tickets (/ticket) - DELETE
 app.delete("/ticket/:id?", passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=1000) {
-      Ticket.remove({ _id: req.body.ticket_id }, function(err) {
+      Ticket.remove({ _id: req.params.id }, function(err) {
         if (err) {
           res.sendStatus(500);
         } else {
@@ -141,18 +172,6 @@ app.delete("/ticket/:id?", passport.authenticate('basic', { session: false }), f
   })
 });
 
-//Ticket (/ticket) - POST
-app.post('/ticket', passport.authenticate('basic', { session: false }), function(req, res) {
-  var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
-  ticket1.save(function (err, ticketObj) {
-    if (err) {
-      res.sendStatus(500);
-    }
-    else {
-      res.sendStatus(201);
-    }
-  });
-});
 
 //Comment (/comment) - GET
 app.get("/comment/:ticket_id?", passport.authenticate('basic', { session: false }), function(req, res) {
@@ -165,9 +184,8 @@ app.get("/comment/:ticket_id?", passport.authenticate('basic', { session: false 
     res.sendStatus(404);
   }
 });
-
 //Comment (/comment) - POST
-app.post('/comment', passport.authenticate('basic', { session: false }), function(req, res) {
+app.post('/comment/:id?', passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=5) {
       var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
@@ -185,10 +203,10 @@ app.post('/comment', passport.authenticate('basic', { session: false }), functio
   })
 });
 //Comment (/comment) - DELETE
-app.delete('/comment', passport.authenticate('basic', { session: false }), function(req, res) {
+app.delete('/comment/:id?', passport.authenticate('basic', { session: false }), function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=300) {
-      Comment.remove({ _id: req.body.comment_id }, function(err) {
+      Comment.remove({ _id: req.params.id }, function(err) {
         if (err) {
           res.sendStatus(500);
         } else {
@@ -201,6 +219,8 @@ app.delete('/comment', passport.authenticate('basic', { session: false }), funct
     }
   })
 });
+
+
 //Room (/room) - GET
 app.get("/room/:r_number?", function(req, res) {
   if (req.params.name) {
@@ -227,6 +247,7 @@ app.get("/room/:r_number?", function(req, res) {
   }
 });
 
+
 //Device (/device) - GET
 app.get("/device/:device_id?", function(req, res) {
   if (req.params.name) {
@@ -252,6 +273,7 @@ app.get("/device/:device_id?", function(req, res) {
     });
   }
 });
+
 
 //The 404 Route
 app.get('*', function(req, res){
