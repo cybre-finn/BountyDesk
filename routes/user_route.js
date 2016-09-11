@@ -54,6 +54,7 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
     }
   })
 });
+
 //User (/user) - DELETE
 router.delete("/:name?", middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {

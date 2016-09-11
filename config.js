@@ -2,7 +2,7 @@ var config = {};
 //Reputation settings
 config.rep_create_user = 300;
 config.rep_delete_user = 500;
-config.rep_change_ticket = 300; //feature not yet added
+config.rep_change_ticket = 300;
 config.rep_delete_ticket = 500;
 config.rep_create_comment = 300;
 config.rep_delete_comment = 500;
