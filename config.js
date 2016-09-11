@@ -1,5 +1,6 @@
 var config = {};
 //Reputation settings
+config.app_port = 8080;
 config.rep_create_user = 300;
 config.rep_delete_user = 500;
 config.rep_change_ticket = 300;
