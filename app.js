@@ -13,6 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var RedisStore = require('connect-redis')(session);
+var middleware_module = require('./middleware_module.js');
 
 //Models
 var User = require('./models/user_model.js');
@@ -20,7 +21,7 @@ var User = require('./models/user_model.js');
 //Init Express
 var app = express();
 
-//app.use directives for parsing
+//app.use directives
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
@@ -57,11 +58,9 @@ passport.use(new BasicStrategy(
     });
   }
 ));
-
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
-
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
@@ -80,11 +79,19 @@ app.get("/", function(req, res) {
   res.send(config.info_api_root);
 });
 
-//Login-Route
+//Login route
 app.get("/login", passport.authenticate('basic', {session: true}), function (req, res) {
   res.sendStatus(200);
 });
-
+//Route that shows whether a user is logged in or not
+app.get("/isloggedin", middleware_module.checkloggedin, function (req, res) {
+  res.sendStatus(200);
+});
+//Logout route
+app.get("/logout", middleware_module.checkloggedin, function (req, res) {
+  req.logout();
+  res.sendStatus(200);
+});
 //The 404 Route
 app.get('*', function(req, res){
   res.sendStatus(404);

@@ -23,7 +23,7 @@ router.get("/:ticket_id?", middleware_module.checkloggedin, function(req, res) {
 //Comment (/comment) - POST
 router.post('/', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=5) {
+    if(rep>=config.rep_create_comment) {
       var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
       comment1.save(function (err, commentObj) {
         if (err) {
@@ -42,7 +42,7 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
 //Comment (/comment) - DELETE
 router.delete('/:id?', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=300) {
+    if(rep>=config.rep_delete_comment) {
       Comment.remove({ _id: req.params.id }, function(err) {
         if (err) {
           res.sendStatus(500);

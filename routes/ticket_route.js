@@ -37,21 +37,21 @@ router.get("/:id?", middleware_module.checkloggedin, function(req, res) {
 
 //Ticket (/ticket) - POST
 router.post('/', middleware_module.checkloggedin, function(req, res) {
-  var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
-  ticket1.save(function (err, ticketObj) {
-    if (err) {
-      res.sendStatus(500);
-    }
-    else {
-      res.sendStatus(201);
-    }
-  });
+      var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
+      ticket1.save(function (err, ticketObj) {
+        if (err) {
+          res.sendStatus(500);
+        }
+        else {
+          res.sendStatus(201);
+        }
+      });
 });
 
 //Tickets (/ticket) - DELETE
 router.delete("/:id?", middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=1000) {
+    if(rep>=config.rep_delete_ticket) {
       Ticket.remove({ _id: req.params.id }, function(err) {
         if (err) {
           res.sendStatus(500);
