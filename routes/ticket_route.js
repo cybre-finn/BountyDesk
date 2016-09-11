@@ -1,6 +1,8 @@
+//Config
+var config = require("../config.js");
+//Modules
 var express = require('express');
 var router = express.Router();
-var config = require("../config.js");
 var reputation_module = require('../reputation_module.js');
 var middleware_module = require('../middleware_module.js');
 //Model
@@ -32,6 +34,7 @@ router.get("/:id?", middleware_module.checkloggedin, function(req, res) {
     });
   }
 });
+
 //Ticket (/ticket) - POST
 router.post('/', middleware_module.checkloggedin, function(req, res) {
   var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name});
@@ -44,6 +47,7 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
     }
   });
 });
+
 //Tickets (/ticket) - DELETE
 router.delete("/:id?", middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {

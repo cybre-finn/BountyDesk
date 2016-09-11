@@ -1,13 +1,15 @@
+//Config
+var config = require("../config.js");
+//Modules
 var express = require('express');
 var router = express.Router();
-var config = require("../config.js");
 var reputation_module = require('../reputation_module.js');
 var middleware_module = require('../middleware_module.js');
 //Model
 var Comment = require('../models/comment_model.js');
 
 //Comment (/comment) - GET
-app.get("/:ticket_id?", middleware_module.checkloggedin, function(req, res) {
+router.get("/:ticket_id?", middleware_module.checkloggedin, function(req, res) {
   if (req.params.ticket_id) {
     Comment.find({ 'ticket_id':  req.params.ticket_id}, function (err, comments) {
       res.json(comments);
@@ -17,8 +19,9 @@ app.get("/:ticket_id?", middleware_module.checkloggedin, function(req, res) {
     res.sendStatus(404);
   }
 });
+
 //Comment (/comment) - POST
-app.post('/', middleware_module.checkloggedin, function(req, res) {
+router.post('/', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=5) {
       var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
@@ -35,8 +38,9 @@ app.post('/', middleware_module.checkloggedin, function(req, res) {
     }
   })
 });
+
 //Comment (/comment) - DELETE
-app.delete('/:id?', middleware_module.checkloggedin, function(req, res) {
+router.delete('/:id?', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=300) {
       Comment.remove({ _id: req.params.id }, function(err) {

@@ -1,3 +1,6 @@
+//Config
+var config = require("./config.js");
+
 //Modules
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -24,9 +27,9 @@ app.use(cookieParser());
 app.use(session({
   store: new RedisStore({
     host: '127.0.0.1',
-    port: 6379
+    port: config.redis_port
   }),
-  secret: '123',
+  secret: config.session_secret,
   resave: true,
   saveUninitialized: true
 }));
@@ -40,8 +43,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-//Mongoose initialisiation, TODO Change to nussbaumdb
-mongoose.connect('mongodb://localhost/netzzwergdb');
+//Mongoose initialisiation
+mongoose.connect(config.mongo_connect);
 
 //Auth
 passport.use(new BasicStrategy(
@@ -68,10 +71,13 @@ passport.deserializeUser(function(id, done) {
 //Router
 app.use('/user', require('./routes/user_route.js'));
 app.use('/ticket', require('./routes/ticket_route.js'));
+app.use('/comment', require('./routes/comment_route.js'));
+app.use('/room', require('./routes/room_route.js'));
+app.use('/device', require('./routes/device_route.js'));
 
 //Root (/) - GET
 app.get("/", function(req, res) {
-  res.send("<h1>Nussbaum-Backend</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>");
+  res.send(config.info_api_root);
 });
 
 //Login-Route

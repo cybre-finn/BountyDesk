@@ -1,13 +1,15 @@
+//Config
+var config = require("../config.js");
+//Modules
 var express = require('express');
 var router = express.Router();
-var config = require("../config.js");
 var reputation_module = require('../reputation_module.js');
 var middleware_module = require('../middleware_module.js');
 //Model
 var Device = require('../models/device_model.js');
 
 //Device (/device) - GET
-app.get("/:device_id?", function(req, res) {
+router.get("/:device_id?", function(req, res) {
   if (req.params.name) {
     Device.findOne({ '_id':  req.params.device_id}, function (err, device) {
       if (err) return handleError(err);

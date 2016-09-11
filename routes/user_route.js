@@ -1,6 +1,8 @@
+//Config
+var config = require("../config.js");
+//Modules
 var express = require('express');
 var router = express.Router();
-var config = require("../config.js");
 var reputation_module = require('../reputation_module.js');
 var middleware_module = require('../middleware_module.js');
 //Model
@@ -32,10 +34,11 @@ router.get("/:name?", function(req, res) {
     });
   }
 });
+
 //Users (/user) - POST
 router.post('/', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=3) {
+    if(rep>=config.rep_create_user) {
       var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
       user1.save(function (err, userObj) {
         if (err) {
