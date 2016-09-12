@@ -3,6 +3,7 @@ var config = require("./config.js");
 
 //Modules
 var express = require("express");
+var bcrypt = require('bcrypt');
 var bodyParser = require("body-parser");
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
@@ -53,8 +54,12 @@ passport.use(new BasicStrategy(
     User.findOne({ name: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      if (!username === user.name && !password === user.password) { return done(null, false); }
-      return done(null, user);
+      bcrypt.compare(password, user.password, function(err, res) {
+        if (res == false) { return done(null, false); }
+        else { return done(null, user); }
+      });
+
+
     });
   }
 ));
@@ -89,6 +94,7 @@ app.get("/isloggedin", middleware_module.checkloggedin, function (req, res) {
 });
 //Logout route
 app.get("/logout", middleware_module.checkloggedin, function (req, res) {
+  req.session.destroy();
   req.logout();
   res.sendStatus(200);
 });

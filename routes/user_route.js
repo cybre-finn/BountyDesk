@@ -2,6 +2,7 @@
 var config = require("../config.js");
 //Modules
 var express = require('express');
+var bcrypt = require('bcrypt');
 var router = express.Router();
 var reputation_module = require('../reputation_module.js');
 var middleware_module = require('../middleware_module.js');
@@ -39,13 +40,19 @@ router.get("/:name?", function(req, res) {
 router.post('/', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=config.rep_create_user) {
-      var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: req.body.password, status: req.body.status});
-      user1.save(function (err, userObj) {
-        if (err) {
-          res.sendStatus(500);
-        }
+      bcrypt.hash(req.body.password, config.crypt_saltRounds, function(err, hash) {
+        if (err) { res.sendStatus(500); }
         else {
-          res.json(userObj);
+          var user1 = new User({name: req.body.name, email: req.body.email, prename: req.body.prename, surname: req.body.surname, password: hash, status: req.body.status});
+          user1.save(function (err, userObj) {
+            if (err) {
+              res.sendStatus(500);
+            }
+            else {
+              res.json(userObj);
+            }
+
+          });
         }
       });
     }

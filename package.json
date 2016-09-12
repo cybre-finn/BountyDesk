@@ -10,6 +10,7 @@
   "author": "Ikarulus",
   "dependencies": {
     "basic-auth": "~1.0.4",
+    "bcrypt": "^0.8.7",
     "body-parser": "~1.12.4",
     "connect-redis": "~3.1.0",
     "content-filter": "^1.0.22",
