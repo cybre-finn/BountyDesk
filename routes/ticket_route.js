@@ -48,8 +48,8 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
   });
 });
 
-//Ticket (/ticket) - PUT
-router.put('/:id', middleware_module.checkloggedin, function(req, res) {
+//Ticket (/ticket) - PATCH
+router.patch('/:id', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=config.rep_change_ticket) {
       Ticket.update({ _id: req.params.id}, { $set: { headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name }}, function (err, ticketObj) {
