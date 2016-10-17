@@ -10,10 +10,10 @@
   "author": "Ikarulus",
   "dependencies": {
     "basic-auth": "~1.0.4",
-    "bcrypt": "^0.8.7",
+    "bcrypt": "~0.8.7",
     "body-parser": "~1.12.4",
     "connect-redis": "~3.1.0",
-    "content-filter": "^1.0.22",
+    "content-filter": "~1.0.22",
     "cookie-parser": "~1.4.3",
     "express": "~4.12.4",
     "express-session": "~1.14.1",
