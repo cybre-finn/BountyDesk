@@ -14,4 +14,5 @@ Usage: <https://gist.github.com/ikarulus/c57ae21442201fae89fa194c1e021f6d> (de)
 3. `npm install`
 4. Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [Redis](https://redis.io/topics/quickstart)
 5. Wire up MongoDB and Redis database connection in the configuration file
-6. Launch via `node app.js` or `npm start`
+6. (Optional, for arch users) Start databases with `./start_dbs.sh`. Must be executable. For other distros you have to find your own way.
+7. Launch via `node app.js` or `npm start`
