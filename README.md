@@ -4,11 +4,11 @@
 
 This is currently not meant to be used in production.
 
-As the Server provides a RESTful API you can wire up any client you want, e.g. [the offcial web client by ikarulus](https://github.com/ikarulus/Nussbaum-Client) (in development)
+As the Server provides a REST-based HTTP-API you can wire up any client you want, e.g. [the web client](https://github.com/ikarulus/Nussbaum-Client) (in development)
 
 Usage: <https://gist.github.com/ikarulus/c57ae21442201fae89fa194c1e021f6d> (de)
 
-## Install (using Node Package Manager):
+## Install (using npm):
 1. `git clone https://github.com/ikarulus/Nussbaum-Backend.git`
 2. `cd` in your "Nussbaum-Backend" directory
 3. `npm install`
