@@ -1,7 +1,7 @@
 {
   "name": "NussbaumBackend",
-  "version": "0.0.1",
-  "description": "Backend of the incredible Nussbaum",
+  "version": "0.0.2",
+  "description": "Backend Nussbaum",
   "private": true,
   "main": "app.js",
   "scripts": {
