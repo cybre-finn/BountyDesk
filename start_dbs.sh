@@ -1,3 +1,3 @@
 #!/bin/bash
-mongod --dbpath testdb &
+mongod --dbpath db &
 systemctl start redis.service &
