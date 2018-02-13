@@ -11,6 +11,7 @@ var validator = require('validator');
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 var LocalStrategy = require('passport-local').Strategy;
+var JsonStrategy = require('passport-json').Strategy;
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var RedisStore = require('connect-redis')(session);
@@ -63,6 +64,19 @@ passport.use(new BasicStrategy(
     });
   }
 ));
+passport.use(new JsonStrategy(
+  function(username, password, done) {
+    User.findOne({ name: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      bcrypt.compare(password, user.password, function(err, res) {
+        if (res == false) { return done(null, false); }
+        else { return done(null, user); }
+      });
+    });
+  }
+));
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -87,6 +101,10 @@ app.get("/", function(req, res) {
 //Login route
 app.get("/login", passport.authenticate('basic', {session: true}), function (req, res) {
   res.sendStatus(200);
+});
+//Login route - post
+app.post("/login", passport.authenticate('json', {session: true}), function (req, res) {
+  res.json("success");
 });
 //Route that shows whether a user is logged in or not
 app.get("/isloggedin", middleware_module.checkloggedin, function (req, res) {
