@@ -104,11 +104,11 @@ app.get("/login", passport.authenticate('basic', {session: true}), function (req
 });
 //Login route - post
 app.post("/login", passport.authenticate('json', {session: true}), function (req, res) {
-  res.json("success");
+  res.json({ user: req.user});
 });
 //Route that shows whether a user is logged in or not
-app.get("/isloggedin", middleware_module.checkloggedin, function (req, res) {
-  res.sendStatus(200);
+app.get("/auth", middleware_module.checkloggedin, function (req, res) {
+  res.json({ user: req.user });
 });
 //Logout route
 app.get("/logout", middleware_module.checkloggedin, function (req, res) {
