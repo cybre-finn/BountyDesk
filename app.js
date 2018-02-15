@@ -94,7 +94,7 @@ app.use('/room', require('./routes/room_route.js'));
 app.use('/device', require('./routes/device_route.js'));
 
 //Root (/) - GET
-app.get("/", function(req, res) {
+app.get("/api", function(req, res) {
   res.send(config.info_api_root);
 });
 
