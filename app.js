@@ -101,7 +101,7 @@ app.post("/login", passport.authenticate('json', {session: true}), function (req
   res.json({ user: req.user});
 });
 //Route that shows whether a user is logged in or not
-app.get("/auth", middleware_module.checkloggedin, function (req, res) {
+app.get("/auth", middleware_module.checkloggedin_silent, function (req, res) {
   res.json({ user: req.user });
 });
 //Logout route
