@@ -105,10 +105,10 @@ app.get("/auth", middleware_module.checkloggedin_silent, function (req, res) {
   res.json({ user: req.user });
 });
 //Logout route
-app.get("/logout", middleware_module.checkloggedin, function (req, res) {
+app.post("/logout", middleware_module.checkloggedin, function (req, res) {
   req.session.destroy();
   req.logout();
-  res.sendStatus(200);
+  res.json({ user: req.user});
 });
 //The 404 Route
 app.get('*', function(req, res){
