@@ -1,6 +1,6 @@
 # Nussbaum-Server
 
-[![Build Status](https://travis-ci.org/ikarulus/Nussbaum-Server.svg?branch=master)](https://travis-ci.org/ikarulus/Nussbaum)
+[![Build Status](https://travis-ci.org/ikarulus/Nussbaum.svg?branch=master)](https://travis-ci.org/ikarulus/Nussbaum)
 
 This is currently not meant to be used in production.
 
