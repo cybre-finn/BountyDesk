@@ -15,7 +15,8 @@ define([
             id: 0,
             username: '',
             name: '',
-            email: ''
+            email: '',
+            rep: 0
         },
 
         url: function(){
