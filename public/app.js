@@ -11,7 +11,7 @@ function($, _, Backbone) {
     var app = {
         root : "/",                     // The root path to run the application through.
         URL : "/",                      // Base application URL
-        API : "http://localhost:8080",                   // Base API URL (used by models & collections)
+        API : "",                   // Base API URL (used by models & collections)
 
         // Show alert classes and hide after specified timeout
         showAlert: function(title, text, klass) {
