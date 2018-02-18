@@ -112,7 +112,7 @@ app.post("/logout", middleware_module.checkloggedin, function (req, res) {
 });
 //The 404 Route
 app.get('*', function(req, res){
-  res.sendStatus(404);
+  res.sendFile('public/index.html', { root : __dirname});
 });
 
 //Start server
