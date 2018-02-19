@@ -9,7 +9,7 @@ config.rep_delete_comment = 500;
 config.rep_create_room = 500;
 config.rep_delete_room = 3248;
 //DB settings
-if (process.env.MONGO_URI) config.mongo_connect = process.env.MONGO_URI;
+if (process.env.MONGODB_URI) config.mongo_connect = process.env.MONGODB_URI;
 else config.mongo_connect = 'mongodb://localhost/netzzwergdb';
 if (process.env.REDIS_URL) config.redis_url = process.env.REDIS_URL;
 else config.redis_url = '127.0.0.1';
