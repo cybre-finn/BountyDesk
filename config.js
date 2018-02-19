@@ -9,11 +9,10 @@ config.rep_delete_comment = 500;
 config.rep_create_room = 500;
 config.rep_delete_room = 3248;
 //DB settings
-if (process.env.MONGO_HOST) config.mongo_connect = 'mongodb://'+process.env.REDIS_HOST;
+if (process.env.MONGO_URI) config.mongo_connect = process.env.MONGO_URI;
 else config.mongo_connect = 'mongodb://localhost/netzzwergdb';
-if (process.env.REDIS_HOST) config.redis_host = process.env.REDIS_HOST;
-else config.redis_host = '127.0.0.1';
-config.redis_port = 6379;
+if (process.env.REDIS_URL) config.redis_url = process.env.REDIS_URL;
+else config.redis_url = '127.0.0.1';
 //misc
 config.crypt_saltRounds = 10;
 if (process.env.PORT) config.app_port = process.env.PORT;

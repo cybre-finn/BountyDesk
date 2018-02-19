@@ -29,8 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(cookieParser());
 app.use(session({
   store: new RedisStore({
-    host: '127.0.0.1',
-    port: config.redis_port
+    url: config.redis_port
   }),
   secret: config.session_secret,
   resave: true,
