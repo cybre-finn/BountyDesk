@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(cookieParser());
 app.use(session({
   store: new RedisStore({
-    url: config.redis_port
+    url: config.redis_url
   }),
   secret: config.session_secret,
   resave: true,
@@ -107,7 +107,7 @@ app.get("/auth", middleware_module.checkloggedin_silent, function (req, res) {
 app.post("/logout", middleware_module.checkloggedin, function (req, res) {
   req.session.destroy();
   req.logout();
-  res.json({ user: "logged_out"});
+  res.json({ user: "logged"});
 });
 //The 404 Route
 app.get('*', function(req, res){
