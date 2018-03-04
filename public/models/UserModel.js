@@ -12,16 +12,12 @@ define([
         },
 
         defaults: {
-            id: 0,
-            username: '',
             name: '',
             email: '',
+            password: '',
             rep: 0
         },
 
-        url: function(){
-            return app.API + '/user';
-        }
 
     });
     
