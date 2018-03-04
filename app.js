@@ -81,7 +81,7 @@ passport.deserializeUser(function(id, done) {
 //Router
 app.use(express.static(__dirname+'/public'));
 app.use('/user', require('./routes/user_route.js'));
-app.use('/ticket', require('./routes/ticket_route.js'));
+app.use('/tickets', require('./routes/ticket_route.js'));
 app.use('/comment', require('./routes/comment_route.js'));
 app.use('/room', require('./routes/room_route.js'));
 app.use('/device', require('./routes/device_route.js'));

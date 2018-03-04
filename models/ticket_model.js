@@ -4,11 +4,10 @@ var ticketSchema = new Schema({
   headline: String,
   content: String,
   contact_email: String,
-  user: String,
-  vote: Number,
+  issuer: String,
+  bounty: Number,
   status: { type : Number, default: 0 },
   created: { type : Date, default: Date.now },
-  deadline: { type : Date },
-  img: { data: Buffer, contentType: String }
+  deadline: { type : Date }
 });
 module.exports = mongoose.model('tickets', ticketSchema);
