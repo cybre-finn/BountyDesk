@@ -7,11 +7,16 @@ define([
 
     "models/SessionModel",
     "models/UserModel",
+    "models/TicketModel",
+
+    "collections/TicketCollection",
 
     "views/HeaderView",
     "views/LoginPageView",
     "views/CreateTicketView"
-], function(app, SessionModel, UserModel, HeaderView, LoginPageView, CreateTicketView){
+], function(app, SessionModel, UserModel, TicketModel, 
+    TicketCollection,
+    HeaderView, LoginPageView, CreateTicketView){
 
     var WebRouter = Backbone.Router.extend({
 
