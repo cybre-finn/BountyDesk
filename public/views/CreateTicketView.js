@@ -12,6 +12,7 @@ define([
 
         initialize: function () {
             _.bindAll(this);
+            var self = this;
             this.TicketCollection = new TicketCollection({});
         },
 
@@ -20,11 +21,7 @@ define([
         },
 
         render: function () {
-            if (app.session.get('logged_in')) this.template = _.template(CreateTicketViewTpl);
-            else this.template = _.template(CreateTicketViewTpl);
-            //If no login was required: 
-            //this.template = _.template(CreateTicketViewTpl);
-
+            this.template = _.template(CreateTicketViewTpl);
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
             return this;
         },

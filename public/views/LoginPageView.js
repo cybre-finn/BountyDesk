@@ -1,17 +1,16 @@
 define([
     "app",
 
-    "text!templates/logged-in-page.html",
     "text!templates/login-page.html",
 
     "parsley"
-], function(app, LoggedInPageTpl, LoginPageTpl){
+], function(app, LoginPageTpl){
 
     var LoginView = Backbone.View.extend({
 
         initialize: function () {
             _.bindAll(this);
-
+            
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.render);
         },
@@ -99,9 +98,8 @@ define([
         },
 
         render:function () {
-            if(app.session.get('logged_in')) this.template = _.template(LoggedInPageTpl);
+            if(app.session.get('logged_in')) Backbone.history.navigate("#", { trigger: true, replace: true });
             else this.template = _.template(LoginPageTpl); 
-
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
             return this;
         }

@@ -12,12 +12,13 @@ define([
     "collections/TicketCollection",
 
     "views/HeaderView",
+    "views/MainPageView",
     "views/LoginPageView",
     "views/CreateTicketView",
     "views/CreateUserView"
 ], function(app, SessionModel, UserModel, TicketModel, 
     TicketCollection,
-    HeaderView, LoginPageView, CreateTicketView, CreateUserView){
+    HeaderView, MainPageView, LoginPageView, CreateTicketView, CreateUserView){
 
     var WebRouter = Backbone.Router.extend({
 
@@ -26,7 +27,8 @@ define([
         },
 
         routes: {
-            "" : "index",
+            "" : "main",
+            "authentification" : "login",
             "CreateTicket" : "CreateTicket",
             "CreateUser" : "CreateUser"
         },
@@ -53,10 +55,11 @@ define([
                 var self = this;
                 app.session.checkAuth({
                     success: function(res){
+                        
                         // If auth successful, render inside the page wrapper
                         $('#content').html( self.currentView.render().$el);
                     }, error: function(res){
-                        self.navigate("/", { trigger: true, replace: true });
+                        self.navigate("#authentification", { trigger: true, replace: true });
                     }
                 });
 
@@ -68,7 +71,14 @@ define([
 
         },
 
-        index: function() {
+        main: function() {
+            // Fix for non-pushState routing (IE9 and below)
+            var hasPushState = !!(window.history && history.pushState);
+            if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
+            else this.show(new MainPageView({}), {requiresAuth: true});
+        },
+
+        login: function() {
             // Fix for non-pushState routing (IE9 and below)
             var hasPushState = !!(window.history && history.pushState);
             if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
@@ -78,13 +88,13 @@ define([
             // Fix for non-pushState routing (IE9 and below)
             var hasPushState = !!(window.history && history.pushState);
             if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
-            else this.show(new CreateTicketView({}));
+            else this.show(new CreateTicketView({}), {requiresAuth: true});
         },
         CreateUser: function() {
             // Fix for non-pushState routing (IE9 and below)
             var hasPushState = !!(window.history && history.pushState);
             if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
-            else this.show(new CreateUserView({}));
+            else this.show(new CreateUserView({}), {requiresAuth: true});
         }
 
     });

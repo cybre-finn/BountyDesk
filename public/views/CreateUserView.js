@@ -13,6 +13,7 @@ define([
         initialize: function () {
             _.bindAll(this);
             this.UserCollection = new UserCollection({});
+            this.render();
         },
 
         events: {
@@ -20,11 +21,11 @@ define([
         },
 
         render: function () {
-            if (app.session.get('logged_in')) this.template = _.template(CreateUserViewTpl);
-            else this.template = _.template(CreateUserViewTpl);
-
+            this.template = _.template(CreateUserViewTpl);
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
+            console.log("yeah");
             return this;
+            
         },
 
         onCreateUser: function (e) {
