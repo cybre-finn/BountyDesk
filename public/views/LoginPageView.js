@@ -98,8 +98,10 @@ define([
         },
 
         render:function () {
+            //maybe the following two lines are bad style, maybe replace later
             if(app.session.get('logged_in')) Backbone.history.navigate("#", { trigger: true, replace: true });
-            else this.template = _.template(LoginPageTpl); 
+            else Backbone.history.navigate("#authentification", true)
+            this.template = _.template(LoginPageTpl); 
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
             return this;
         }
