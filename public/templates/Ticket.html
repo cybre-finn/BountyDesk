@@ -1,0 +1,5 @@
+<div id="Ticket-template" class="container">
+<h1><%= this.TicketModel.toJSON().headline %></h1>
+<p class="text-muted">Issued <%= this.TicketModel.toJSON().created %> by <%= this.TicketModel.toJSON().issuer %></p>
+<p class="text-justify"><%= this.TicketModel.toJSON().content %></p>
+</div>

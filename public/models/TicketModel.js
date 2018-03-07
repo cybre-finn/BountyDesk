@@ -13,8 +13,8 @@ define([
 
         defaults: {
 
-        }
-
+        },
+        urlRoot: '/tickets'
     });
     
     return TicketModel;

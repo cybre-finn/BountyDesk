@@ -13,12 +13,13 @@ define([
 
     "views/HeaderView",
     "views/MainPageView",
+    "views/TicketView",
     "views/LoginPageView",
     "views/CreateTicketView",
     "views/CreateUserView"
 ], function(app, SessionModel, UserModel, TicketModel, 
     TicketCollection,
-    HeaderView, MainPageView, LoginPageView, CreateTicketView, CreateUserView){
+    HeaderView, MainPageView, TicketView, LoginPageView, CreateTicketView, CreateUserView){
 
     var WebRouter = Backbone.Router.extend({
 
@@ -29,6 +30,7 @@ define([
         routes: {
             "" : "main",
             "authentification" : "login",
+            "ticket/:viewid" : "ViewTicket",
             "CreateTicket" : "CreateTicket",
             "CreateUser" : "CreateUser"
         },
@@ -83,6 +85,12 @@ define([
             var hasPushState = !!(window.history && history.pushState);
             if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
             else this.show(new LoginPageView({}));
+        },
+        ViewTicket: function(viewid) {
+            // Fix for non-pushState routing (IE9 and below)
+            var hasPushState = !!(window.history && history.pushState);
+            if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
+            else this.show(new TicketView({ticket_id: viewid}));
         },
         CreateTicket: function() {
             // Fix for non-pushState routing (IE9 and below)
