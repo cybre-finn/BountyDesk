@@ -12,12 +12,18 @@ define([
         initialize: function () {
             _.bindAll(this);
             this.TicketCollection = new TicketCollection({});
-            if(app.session.get('logged_in')==true) this.TicketCollection.fetch();
-            this.listenTo(this.TicketCollection, 'change add remove update', this.render);
+            if (app.session.get('logged_in') == true) {
+                var self = this;
+                this.TicketCollection.fetch({
+                    success: function () {
+                        self.render();
+                    }
+                });
+            }
         },
 
         events: {
-            
+
         },
 
         render: function () {
