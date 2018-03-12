@@ -11,15 +11,14 @@ define([
 
         initialize: function () {
             _.bindAll(this);
-            this.TicketModel = new TicketModel({id: this.options.ticket_id});
-            if (app.session.get('logged_in') == true) {
-                var self = this;
-                this.TicketModel.fetch({
-                    success: function () {
-                        self.render();
-                    }
-                });
-            }
+            this.TicketModel = new TicketModel({ id: this.options.ticket_id });
+            var self = this;
+            this.TicketModel.fetch({
+                success: function () {
+                    self.render();
+                }
+            });
+
 
         },
 

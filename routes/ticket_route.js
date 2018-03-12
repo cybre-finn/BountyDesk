@@ -9,7 +9,7 @@ var middleware_module = require('../middleware_module.js');
 var Ticket = require('../models/ticket_model.js');
 
 //Tickets (/ticket) - GET
-router.get("/:id?", middleware_module.checkloggedin, function(req, res) {
+router.get("/:id?", function(req, res) {
   if (req.params.id) {
     Ticket.findOne({ '_id':  req.params.id}, '-img', function (err, ticket) {
       if (err) {
