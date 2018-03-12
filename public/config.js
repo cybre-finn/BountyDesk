@@ -8,7 +8,8 @@ requirejs.config({
       "backbone"              : "assets/lib/backbone",
       "bootstrap"             : "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap",
       "text"                  : "assets/lib/text",
-      "parsley"               : "assets/lib/parsley"
+      "parsley"               : "assets/lib/parsley",
+      "fontawesome"           : "https://use.fontawesome.com/releases/v5.0.8/js/all"
     },
     "shim" : {
         "underscore" : { exports  : "_" },
