@@ -9,9 +9,9 @@ var middleware_module = require('../middleware_module.js');
 var Ticket = require('../models/ticket_model.js');
 
 //Tickets (/ticket) - GET
-router.get("/:id?", function(req, res) {
+router.get("/:id?", function (req, res) {
   if (req.params.id) {
-    Ticket.findOne({ '_id':  req.params.id}, '-img', function (err, ticket) {
+    Ticket.findOne({ '_id': req.params.id }, '-img', function (err, ticket) {
       if (err) {
         res.sendStatus(500);
       }
@@ -24,7 +24,7 @@ router.get("/:id?", function(req, res) {
     })
   }
   else {
-    Ticket.find({}, '-img', function(err, tickets) {
+    Ticket.find({}, '-img', function (err, tickets) {
       if (err) {
         res.sendStatus(500);
       }
@@ -35,31 +35,39 @@ router.get("/:id?", function(req, res) {
   }
 });
 
-//Ticket (/ticket) - POST
-router.post('/', middleware_module.checkloggedin, function(req, res) {
-  var ticket1 = new Ticket({headline: req.body.headline, content: req.body.content,
-                            contact_email: req.body.contact_email, issuer: req.body.issuer,
-                            user: req.user.name});
+//Ticket (/tickets) - POST
+router.post('/', middleware_module.checkloggedin, function (req, res) {
+  var ticket1 = new Ticket({
+    status: req.body.status, headline: req.body.headline, content: req.body.content,
+    contact_email: req.body.contact_email, issuer: req.body.issuer,
+    user: req.user.name, bounty: req.body.bounty
+  });
   ticket1.save(function (err, ticketObj) {
     if (err) {
       res.sendStatus(500);
     }
     else {
-      res.sendStatus(201);
+      res.json(ticketObj);
     }
   });
 });
 
-//Ticket (/ticket) - PATCH
-router.patch('/:id', middleware_module.checkloggedin, function(req, res) {
-  reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=config.rep_change_ticket) {
-      Ticket.update({ _id: req.params.id}, { $set: { headline: req.body.headline, content: req.body.content, contact_email: req.body.contact_email, user: req.auth_user.name }}, function (err, ticketObj) {
+//Ticket (/tickets) - PUT
+router.put('/:id', middleware_module.checkloggedin, function (req, res) {
+  reputation_module.userrep(req.user.name, function (rep) {
+    if (rep >= config.rep_change_ticket) {
+      Ticket.update({ _id: req.params.id }, {
+        $set: {
+          status: req.body.status, headline: req.body.headline, content: req.body.content,
+          contact_email: req.body.contact_email, issuer: req.body.issuer,
+          user: req.user.name, bounty: req.body.bounty
+        }
+      }, function (err, ticketObj) {
         if (err) {
           res.sendStatus(500);
         }
         else {
-          res.sendStatus(200);
+          res.json(ticketObj);
         }
       });
     }
@@ -69,11 +77,11 @@ router.patch('/:id', middleware_module.checkloggedin, function(req, res) {
   })
 });
 
-//Tickets (/ticket) - DELETE
-router.delete("/:id?", middleware_module.checkloggedin, function(req, res) {
-  reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=config.rep_delete_ticket) {
-      Ticket.remove({ _id: req.params.id }, function(err) {
+//Tickets (/tickets) - DELETE
+router.delete("/:id?", middleware_module.checkloggedin, function (req, res) {
+  reputation_module.userrep(req.user.name, function (rep) {
+    if (rep >= config.rep_delete_ticket) {
+      Ticket.remove({ _id: req.params.id }, function (err) {
         if (err) {
           res.sendStatus(500);
         } else {

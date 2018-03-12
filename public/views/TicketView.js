@@ -23,7 +23,7 @@ define([
         },
 
         events: {
-
+            "click #classify-btn": "onClassifyTicket"
         },
 
         render: function () {
@@ -32,6 +32,29 @@ define([
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
             return this;
         },
+
+        onClassifyTicket: function (e) {
+            e.preventDefault();
+            if (this.$('input[name=classify-options]:checked', '#classify-form').val() == 5) {
+                this.TicketModel.set({
+                    status: 5,
+                });
+            }
+            else {
+                this.TicketModel.set({
+                    status: 1,
+                    bounty: $('input[name=classify-options]:checked', '#classify-form').val()
+                });
+            }
+            this.TicketModel.save(null, {
+                success: function (model, response) {
+                    Backbone.history.navigate('#', true);
+                },
+                error: function (model, response) {
+                    console.log("error");
+                }
+            });
+        }
 
     });
 

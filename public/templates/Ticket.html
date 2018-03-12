@@ -1,5 +1,39 @@
 <div id="Ticket-template" class="container">
-<h1><%= this.TicketModel.toJSON().headline %></h1>
-<p class="text-muted">Issued <%= this.TicketModel.toJSON().created %> by <%= this.TicketModel.toJSON().issuer %></p>
-<p class="text-justify"><%= this.TicketModel.toJSON().content %></p>
+    <h1>
+        <%= this.TicketModel.toJSON().headline %>
+    </h1>
+    <p class="text-muted">Issued
+        <%= this.TicketModel.toJSON().created %> by
+            <%= this.TicketModel.toJSON().issuer %>
+    </p>
+    <p class="text-justify">
+        <%= this.TicketModel.toJSON().content %>
+    </p>
+    <% if(this.TicketModel.toJSON().status==0&&user.name){ %>
+        <hr />
+        <h3>Classify </h3>
+        <form id="classify-form">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-warning">
+                <input name="classify-options" id="classify-spam" value="5" autocomplete="off" type="radio"> Decline
+            </label>
+            <label class="btn btn-outline-primary">
+                <input name="classify-options" id="classify-10" value="10" autocomplete="off" type="radio"> +10
+            </label>
+            <label class="btn btn-outline-primary active">
+                <input name="classify-options" id="classify-25" value="25" autocomplete="off" checked="" type="radio"> +25
+            </label>
+            <label class="btn btn-outline-primary">
+                <input name="classify-options" id="classify-50" value="50" autocomplete="off" type="radio"> +50
+            </label>
+            <label class="btn btn-outline-primary">
+                <input name="classify-options" id="classify-75" value="75" autocomplete="off" type="radio"> +75
+            </label>
+            <label class="btn btn-outline-primary">
+                <input name="classify-options" id="classify-100" value="100" autocomplete="off" type="radio"> +100
+            </label>
+        </div>
+        <button type="submit" id="classify-btn" class="btn btn-primary">Submit</button>
+        </form>
+        <% } %>
 </div>
