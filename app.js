@@ -82,9 +82,9 @@ passport.deserializeUser(function(id, done) {
 app.use(express.static(__dirname+'/public'));
 app.use('/users', require('./routes/user_route.js'));
 app.use('/tickets', require('./routes/ticket_route.js'));
-app.use('/comment', require('./routes/comment_route.js'));
-app.use('/room', require('./routes/room_route.js'));
-app.use('/device', require('./routes/device_route.js'));
+app.use('/comments', require('./routes/comment_route.js'));
+app.use('/rooms', require('./routes/room_route.js'));
+app.use('/devices', require('./routes/device_route.js'));
 
 //Root (/) - GET
 app.get("/api", function(req, res) {
