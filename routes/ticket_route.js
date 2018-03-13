@@ -39,7 +39,7 @@ router.get("/:id?", function (req, res) {
 router.post('/', middleware_module.checkloggedin, function (req, res) {
   var ticket1 = new Ticket({
     status: req.body.status, headline: req.body.headline, content: req.body.content,
-    contact_email: req.body.contact_email, issuer: req.body.issuer,
+    contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room,
     user: req.user.name, bounty: req.body.bounty
   });
   ticket1.save(function (err, ticketObj) {
@@ -59,7 +59,7 @@ router.put('/:id', middleware_module.checkloggedin, function (req, res) {
       Ticket.update({ _id: req.params.id }, {
         $set: {
           status: req.body.status, headline: req.body.headline, content: req.body.content,
-          contact_email: req.body.contact_email, issuer: req.body.issuer,
+          contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room,
           user: req.user.name, bounty: req.body.bounty
         }
       }, function (err, ticketObj) {

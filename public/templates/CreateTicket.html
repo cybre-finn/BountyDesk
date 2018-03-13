@@ -2,14 +2,20 @@
 
 <form id="login-form">
     <div class="form-group">
-        <input type="text" class="form-control" id="CreateTicket-issuer" placeholder="Issuer" data-required="true" value="<%= user.name %>" data-notblank="true">
+        <input type="text" class="form-control" id="CreateTicket-issuer" placeholder="Issuer" data-required="true" value="<%= user.name %>"
+            data-notblank="true">
         <span class="help-block"></span>
     </div>
     <div class="form-group">
         <input type="text" class="form-control" id="CreateTicket-headline" placeholder="In a Nutshell" data-rangelength="[0,100]">
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" id="CreateTicket-room" placeholder="Room">
+        <select id="CreateTicket-room" class="custom-select">
+            <option disabled selected>Select room</option>
+            <% this.RoomCollection.each(function(model){ %>
+            <option value="<%= model.toJSON().room_number %>"><%= model.toJSON().room_number %> <%= model.toJSON().role %></option>
+            <% }); %>
+        </select>
     </div>
     <div class="form-group">
         <textarea class="form-control" id="CreateTicket-content" placeholder="Description" rows="4"></textarea>

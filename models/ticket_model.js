@@ -5,6 +5,7 @@ var ticketSchema = new Schema({
   content: String,
   contact_email: String,
   issuer: String,
+  room: String,
   bounty: Number,
   status: { type : Number, default: 0 },
   created: { type : Date, default: Date.now },
