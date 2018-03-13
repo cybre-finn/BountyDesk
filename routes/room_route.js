@@ -36,13 +36,13 @@ router.get("/:r_number?", function(req, res) {
 router.post('/', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=config.rep_create_room) {
-      var room1 = new Room({room_number: req.body.room_number, coord: req.body.coord});
+      var room1 = new Room({room_number: req.body.room_number, role: req.body.role, coord: req.body.coord});
       room1.save(function (err, RoomObj) {
         if (err) {
           res.sendStatus(500);
         }
         else {
-          res.sendStatus(201);
+          res.json(RoomObj);
         }
       });
     }
@@ -52,16 +52,18 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
   })
 });
 //Room (/room) - DELETE
-router.delete("/:r_number?", middleware_module.checkloggedin, function(req, res) {
+router.delete("/:id?", middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=config.rep_delete_room) {
-      Room.remove({ room_number: req.params.r_number }, function(err) {
+      Room.findOne({ '_id':  req.params.id}, function (err, response_room) {
+      Room.remove({ _id: req.params.id }, function(err) {
         if (err) {
           res.sendStatus(500);
         } else {
-          res.sendStatus(200);
+          res.json(response_room);
         }
       });
+    });
     }
     else {
       res.sendStatus(401);

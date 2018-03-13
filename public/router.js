@@ -16,10 +16,13 @@ define([
     "views/TicketView",
     "views/LoginPageView",
     "views/CreateTicketView",
-    "views/CreateUserView"
+    "views/CreateUserView",
+    "views/RoomsView"
 ], function(app, SessionModel, UserModel, TicketModel, 
     TicketCollection,
-    HeaderView, MainPageView, TicketView, LoginPageView, CreateTicketView, CreateUserView){
+    HeaderView, MainPageView, TicketView, LoginPageView, 
+    CreateTicketView, CreateUserView,
+    RoomsView){
 
     var WebRouter = Backbone.Router.extend({
 
@@ -32,7 +35,8 @@ define([
             "authentification" : "login",
             "ticket/:viewid" : "ViewTicket",
             "CreateTicket" : "CreateTicket",
-            "CreateUser" : "CreateUser"
+            "CreateUser" : "CreateUser",
+            "AllRooms" : "Rooms"
         },
 
         show: function(view, options){
@@ -103,6 +107,12 @@ define([
             var hasPushState = !!(window.history && history.pushState);
             if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
             else this.show(new CreateUserView({}), {requiresAuth: true});
+        },
+        Rooms: function() {
+            // Fix for non-pushState routing (IE9 and below)
+            var hasPushState = !!(window.history && history.pushState);
+            if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
+            else this.show(new RoomsView({}), {requiresAuth: true});
         }
 
     });
