@@ -31,7 +31,7 @@ router.get("/:id?", function (req, res) {
       else {
         res.json(tickets);
       }
-    });
+    }).sort({ created: -1 });
   }
 });
 
