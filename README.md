@@ -1,12 +1,39 @@
-# Nussbaum-Server
+# Nussbaum
 
 [![Build Status](https://travis-ci.org/ikarulus/Nussbaum.svg?branch=master)](https://travis-ci.org/ikarulus/Nussbaum)
 
-This is currently not meant to be used in production.
+**This is currently not meant to be used in production.**
 
-As the Server provides a REST-based HTTP-API you can wire up any client you want, e.g. [the web client](https://github.com/ikarulus/Nussbaum-Client) (in development)
+Nussbaum aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments for e.g. schools.
 
-Usage: <https://gist.github.com/ikarulus/c57ae21442201fae89fa194c1e021f6d> (de)
+Insted of admin/user privilege management, access/edit privileges are reputation based. It does *only* support ticket management and nearly nothing else.
+With the first stable release it may provide these features:
+
+* Public ticket endpoint
+* RESTful API and Backend
+* Email notification
+* Public/Private comments on support tickets
+* Seamless wiki integrations (as it provides no wiki)
+
+## Screenshots
+![Screenshot](https://user-images.githubusercontent.com/20602537/38381227-6dae4584-3906-11e8-92e6-c8740a6319cd.png)
+
+
+## Security
+**I wouldn't deploy this in a large scale. As I'm not an experienced JS developer I can't guarantee for anything including slain kitten.**
+I try to integrate several security best practises. See TODO. Please consider using SLL/TLS - e.g. via nginx reverse proxy and letsencrypt's free certificates.
+
+## TODO
+#### first release
+:key:: Security
+- [ ] ticket endpoint
+    - [ ] integrate rate limiting for Public ticket endpoint :key:
+- [ ] node multithreading
+- [ ] wiki integration
+- [ ] security check :key:
+    - [ ] xss
+    - [ ] packages
+    - [ ] intercept all errors
 
 ## Install (using npm):
 1. `git clone https://github.com/ikarulus/Nussbaum-Backend.git`
