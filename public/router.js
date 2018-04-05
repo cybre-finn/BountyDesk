@@ -100,7 +100,7 @@ define([
             // Fix for non-pushState routing (IE9 and below)
             var hasPushState = !!(window.history && history.pushState);
             if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
-            else this.show(new CreateTicketView({}), {requiresAuth: true});
+            else this.show(new CreateTicketView({}), {requiresAuth: false});
         },
         CreateUser: function() {
             // Fix for non-pushState routing (IE9 and below)

@@ -2,19 +2,27 @@
 
 <form id="login-form">
     <div class="form-group">
-        <input type="text" class="form-control" id="CreateTicket-issuer" placeholder="Issuer" data-required="true" value="<%= user.name %>"
+        <input type="text" class="form-control" id="CreateTicket-issuer" placeholder="Issuer" data-required="true" value="<% if(logged_in){ %><%= user.name %><% }%>"
             data-notblank="true">
-        <span class="help-block"></span>
     </div>
+        <% if(!logged_in){ %>
+            <div class="form-group">
+            <input type="email" class="form-control" id="CreateTicket-email" placeholder="Contact email" data-required="true" value="" data-notblank="true">
+        </div>
+        <% }%>
+        <span class="help-block"></span>
     <div class="form-group">
-        <input type="text" class="form-control" id="CreateTicket-headline" placeholder="In a Nutshell" data-rangelength="[0,100]">
+        <input type="text" class="form-control" id="CreateTicket-headline" placeholder="In a nutshell" data-rangelength="[0,100]">
     </div>
     <div class="form-group">
         <select id="CreateTicket-room" class="custom-select">
             <option disabled selected>Select room</option>
             <% this.RoomCollection.each(function(model){ %>
-            <option value="<%= model.toJSON().room_number %>"><%= model.toJSON().room_number %> <%= model.toJSON().role %></option>
-            <% }); %>
+                <option value="<%= model.toJSON().room_number %>">
+                    <%= model.toJSON().room_number %>
+                        <%= model.toJSON().role %>
+                </option>
+                <% }); %>
         </select>
     </div>
     <div class="form-group">

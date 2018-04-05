@@ -26,22 +26,37 @@ define([
         events: {
             "click #CreateTicket-btn": "onCreateTicket"
         },
-        
+
         render: function () {
             this.template = _.template(CreateTicketViewTpl);
-            this.$el.html(this.template({ user: app.session.user.toJSON() }));
+            this.$el.html(this.template({
+                logged_in: app.session.get("logged_in"),
+                user: app.session.user.toJSON()
+            }));
             return this;
         },
 
         onCreateTicket: function (e) {
+
             e.preventDefault();
-            this.TicketCollection.create({
-                issuer: this.$("#CreateTicket-issuer").val(),
-                headline: this.$("#CreateTicket-headline").val(),
-                room: this.$("#CreateTicket-room").val(),
-                content: this.$("#CreateTicket-content").val()
-            });
-            Backbone.history.navigate('#', true);
+            if (app.session.get("logged_in")) {
+                this.TicketCollection.create({
+                    issuer: this.$("#CreateTicket-issuer").val(),
+                    headline: this.$("#CreateTicket-headline").val(),
+                    room: this.$("#CreateTicket-room").val(),
+                    content: this.$("#CreateTicket-content").val()
+                });
+                Backbone.history.navigate('#', true);
+            }
+            else {
+                this.TicketCollection.create({
+                    issuer: this.$("#CreateTicket-issuer").val(),
+                    headline: this.$("#CreateTicket-headline").val(),
+                    room: this.$("#CreateTicket-room").val(),
+                    content: this.$("#CreateTicket-content").val(),
+                    contact_email: this.$("#CreateTicket-email").val()
+                });
+            }
         }
 
     });
