@@ -4,7 +4,7 @@
 
 **This is currently not meant to be used in production.**
 
-Nussbaum aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments for e.g. schools.
+Nussbaum aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments of e.g. schools.
 
 Insted of admin/user privilege management, access/edit privileges are reputation based. It does *only* support ticket management and nearly nothing else.
 With the first stable release it may provide these features:
@@ -14,6 +14,15 @@ With the first stable release it may provide these features:
 * Email notification
 * Public/Private comments on support tickets
 * Seamless wiki integrations (as it provides no wiki)
+
+## Installation (using npm):
+1. `git clone https://github.com/ikarulus/Nussbaum-Backend.git`
+2. `cd` in your "Nussbaum-Backend" directory
+3. `npm install`
+4. Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [Redis](https://redis.io/topics/quickstart)
+5. Wire up MongoDB and Redis database connection in the configuration file
+6. (Optional, for arch users) Start databases with `./start_dbs.sh`. Must be executable. For other distros you have to find your own way.
+7. Launch via `node app.js` or `npm start`
 
 ## Screenshots
 ![Screenshot](https://user-images.githubusercontent.com/20602537/38381227-6dae4584-3906-11e8-92e6-c8740a6319cd.png)
@@ -34,12 +43,4 @@ I try to integrate several security best practises. See TODO. Please consider us
     - [ ] xss
     - [ ] packages
     - [ ] intercept all errors
-
-## Install (using npm):
-1. `git clone https://github.com/ikarulus/Nussbaum-Backend.git`
-2. `cd` in your "Nussbaum-Backend" directory
-3. `npm install`
-4. Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [Redis](https://redis.io/topics/quickstart)
-5. Wire up MongoDB and Redis database connection in the configuration file
-6. (Optional, for arch users) Start databases with `./start_dbs.sh`. Must be executable. For other distros you have to find your own way.
-7. Launch via `node app.js` or `npm start`
+- [ ] rename application
