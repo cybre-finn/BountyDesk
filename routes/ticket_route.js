@@ -5,6 +5,19 @@ var express = require('express');
 var router = express.Router();
 var reputation_module = require('../reputation_module.js');
 var middleware_module = require('../middleware_module.js');
+var RateLimit = require('express-rate-limit');
+var RateLimitRedisStore = require('rate-limit-redis');
+var redis = require('redis');
+
+var limiter = new RateLimit({
+  store: new RateLimitRedisStore({
+    client: redis.createClient(config.redis_url)
+  }),
+  windowMs: 1 * 60 * 60 * 1000, // 1 hour window
+  max: 50, // limit each IP to 100 requests per windowMs
+  delayMs: 0, // disable delaying - full speed until the max limit is reached
+});
+
 //Model
 var Ticket = require('../models/ticket_model.js');
 
@@ -36,12 +49,20 @@ router.get("/:id?", function (req, res) {
 });
 
 //Ticket (/tickets) - POST
-router.post('/', middleware_module.checkloggedin, function (req, res) {
-  var ticket1 = new Ticket({
-    status: req.body.status, headline: req.body.headline, content: req.body.content,
-    contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room,
-    user: req.user.name, bounty: req.body.bounty
-  });
+router.post('/', limiter, function (req, res) {
+  if (req.isAuthenticated()) {
+    var ticket1 = new Ticket({
+      status: req.body.status, headline: req.body.headline, content: req.body.content,
+      contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room,
+      user: req.user.name, bounty: req.body.bounty
+    });
+  }
+  else {
+    var ticket1 = new Ticket({
+      headline: req.body.headline, content: req.body.content,
+      contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room
+    });
+  }
   ticket1.save(function (err, ticketObj) {
     if (err) {
       res.sendStatus(500);
