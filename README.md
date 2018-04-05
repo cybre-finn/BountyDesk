@@ -33,14 +33,19 @@ With the first stable release it may provide these features:
 I try to integrate several security best practises. See TODO. Please consider using SLL/TLS - e.g. via nginx reverse proxy and letsencrypt's free certificates.
 
 ## TODO
-#### first release
+### first release
 :key:: Security
-- [ ] ticket endpoint
-    - [ ] integrate rate limiting for Public ticket endpoint :key:
+- [x] ticket endpoint
+    - [x] integrate rate limiting for Public ticket endpoint :key:
 - [ ] node multithreading
-- [ ] wiki integration
 - [ ] security check :key:
     - [ ] xss
     - [ ] packages
     - [ ] intercept all errors
 - [ ] rename application
+
+### later releases
+- [ ] wiki integration
+- [ ] Docker
+    [ ] Container
+    [ ] Compose
