@@ -15,6 +15,11 @@ With the first stable release it may provide these features:
 * Public/Private comments on support tickets
 * Seamless wiki integrations (as it provides no wiki)
 
+## Demo
+[nussbaum.herokuapp.com](https://nussbaum.herokuapp.com)
+
+Use admin/admin for an account with 100000 reputation.
+
 ## Installation (using npm):
 1. `git clone https://github.com/ikarulus/Nussbaum-Backend.git`
 2. `cd` in your "Nussbaum-Backend" directory
@@ -23,10 +28,6 @@ With the first stable release it may provide these features:
 5. Wire up MongoDB and Redis database connection in the configuration file
 6. (Optional, for arch users) Start databases with `./start_dbs.sh`. Must be executable. For other distros you have to find your own way.
 7. Launch via `node app.js` or `npm start`
-
-## Screenshots
-![Screenshot](https://user-images.githubusercontent.com/20602537/38381227-6dae4584-3906-11e8-92e6-c8740a6319cd.png)
-
 
 ## Security
 **I wouldn't deploy this in a large scale. As I'm not an experienced JS developer I can't guarantee for anything including slain kitten.**
@@ -37,15 +38,34 @@ I try to integrate several security best practises. See TODO. Please consider us
 :key:: Security
 - [x] ticket endpoint
     - [x] integrate rate limiting for Public ticket endpoint :key:
+- [ ] tickets
+    - [ ] assignment
+    - [ ] reward distribution
+    - [ ] blocked (by)
+    - [ ] improve API
+        - [ ] dont send add archived by default
+        - [ ] 
 - [ ] node multithreading
-- [ ] security check :key:
+- [ ] security checklist :key:
     - [ ] xss
     - [ ] packages
     - [ ] intercept all errors
+    - [ ] 
 - [ ] rename application
+- [ ] validate forms
+- [ ] error/success messages
 
 ### later releases
 - [ ] wiki integration
 - [ ] Docker
-    [ ] Container
-    [ ] Compose
+    - [ ] Container
+    - [ ] Compose
+- [ ] blocked diagram
+- [ ] backend tests :key:
+- [ ] status comments
+    - [ ] public/internal
+- [ ] statistics endpoint
+    - [ ] grafana integration
+
+## Screenshots
+![Screenshot](https://user-images.githubusercontent.com/20602537/38381227-6dae4584-3906-11e8-92e6-c8740a6319cd.png)
