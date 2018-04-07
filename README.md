@@ -39,12 +39,11 @@ I try to integrate several security best practises. See TODO. Please consider us
 - [x] ticket endpoint
     - [x] integrate rate limiting for Public ticket endpoint :key:
 - [ ] tickets
-    - [ ] assignment
+    - [x] assignment
     - [ ] reward distribution
     - [ ] blocked (by)
     - [ ] improve API
         - [ ] dont send add archived by default
-        - [ ] 
 - [ ] node multithreading
 - [ ] security checklist :key:
     - [ ] xss
