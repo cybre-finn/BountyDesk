@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var fileId = mongoose.Types.ObjectId();
 var ticketSchema = new Schema({
   headline: String,
   content: String,
@@ -7,8 +8,11 @@ var ticketSchema = new Schema({
   issuer: String,
   room: String,
   bounty: Number,
-  status: { type : Number, default: 0 },
-  created: { type : Date, default: Date.now },
-  deadline: { type : Date }
+  assigned: [{
+    name: String
+  }],
+  status: { type: Number, default: 0 },
+  created: { type: Date, default: Date.now },
+  deadline: { type: Date },
 });
 module.exports = mongoose.model('tickets', ticketSchema);

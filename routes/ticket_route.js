@@ -81,7 +81,7 @@ router.put('/:id', middleware_module.checkloggedin, function (req, res) {
         $set: {
           status: req.body.status, headline: req.body.headline, content: req.body.content,
           contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room,
-          user: req.user.name, bounty: req.body.bounty
+          user: req.user.name, bounty: req.body.bounty, assigned: req.body.assigned
         }
       }, function (err, ticketObj) {
         if (err) {
