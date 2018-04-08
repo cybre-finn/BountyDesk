@@ -14,7 +14,6 @@
                         <%=  this.TicketModel.toJSON().bounty %>
                     </span>
                     <% } %>
-                    <br>
                         <% for (var i in this.TicketModel.toJSON().assigned){ %>
                             <span class="badge badge-primary">
                                 <i class="fas fa-user"></i>
@@ -28,48 +27,49 @@
     <p class="text-justify">
         <%= this.TicketModel.toJSON().content %>
     </p>
-    <% if(this.TicketModel.toJSON().status==0&&logged_in){ %>
+    <% if(this.TicketModel.toJSON().status>0&&logged_in) { %>
         <hr />
-        <h3>Classify </h3>
-        <form id="classify-form">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-outline-warning">
-                    <input name="classify-options" id="classify-spam" value="5" autocomplete="off" type="radio"> Decline
-                </label>
-                <label class="btn btn-outline-primary">
-                    <input name="classify-options" id="classify-10" value="10" autocomplete="off" type="radio"> +10
-                </label>
-                <label class="btn btn-outline-primary active">
-                    <input name="classify-options" id="classify-25" value="25" autocomplete="off" checked="" type="radio"> +25
-                </label>
-                <label class="btn btn-outline-primary">
-                    <input name="classify-options" id="classify-50" value="50" autocomplete="off" type="radio"> +50
-                </label>
-                <label class="btn btn-outline-primary">
-                    <input name="classify-options" id="classify-75" value="75" autocomplete="off" type="radio"> +75
-                </label>
-                <label class="btn btn-outline-primary">
-                    <input name="classify-options" id="classify-100" value="100" autocomplete="off" type="radio"> +100
-                </label>
-            </div>
-            <button type="submit" id="classify-btn" class="btn btn-primary">
+        <h3>Assign</h3>
+        <form id="assign-form">
+            <select class="selectpicker" id="assign-select" multiple data-live-search="true" title="Select Assignees">
+                <% this.UserCollection.each(function(model){ %>
+                    <option value="<%= model.toJSON()._id %>">
+                        <%= model.toJSON().name %>
+                    </option>
+                    <% }); %>
+            </select>
+            <button type="submit" id="assign-btn" class="btn btn-primary">
                 <i class="fas fa-angle-right"></i>
             </button>
         </form>
-        <% } if(this.TicketModel.toJSON().status>0&&logged_in) { %>
-            <hr />
-            <h3>Assign</h3>
-            <form id="assign-form">
-                <select class="selectpicker" id="assign-select" multiple data-live-search="true" title="Select Assignees">
-                    <% this.UserCollection.each(function(model){ %>
-                        <option value="<%= model.toJSON()._id %>">
-                            <%= model.toJSON().name %>
-                        </option>
-                        <% }); %>
-                </select>
-                <button type="submit" id="assign-btn" class="btn btn-primary">
-                    <i class="fas fa-angle-right"></i>
-                </button>
-            </form>
-            <% } %>
+        <% } %>
+            <% if(this.TicketModel.toJSON().status==0&&logged_in){ %>
+                <hr />
+                <h3>Classify </h3>
+                <form id="classify-form">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-warning">
+                            <input name="classify-options" id="classify-spam" value="5" autocomplete="off" type="radio"> Decline
+                        </label>
+                        <label class="btn btn-outline-primary">
+                            <input name="classify-options" id="classify-10" value="10" autocomplete="off" type="radio"> +10
+                        </label>
+                        <label class="btn btn-outline-primary active">
+                            <input name="classify-options" id="classify-25" value="25" autocomplete="off" checked="" type="radio"> +25
+                        </label>
+                        <label class="btn btn-outline-primary">
+                            <input name="classify-options" id="classify-50" value="50" autocomplete="off" type="radio"> +50
+                        </label>
+                        <label class="btn btn-outline-primary">
+                            <input name="classify-options" id="classify-75" value="75" autocomplete="off" type="radio"> +75
+                        </label>
+                        <label class="btn btn-outline-primary">
+                            <input name="classify-options" id="classify-100" value="100" autocomplete="off" type="radio"> +100
+                        </label>
+                    </div>
+                    <button type="submit" id="classify-btn" class="btn btn-primary">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                </form>
+                <% } %>
 </div>

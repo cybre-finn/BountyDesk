@@ -79,7 +79,7 @@ define([
         onAssignTicket: function (e) {
             e.preventDefault();
             //TODO this is to blown up and not IE8 compatible - a simple for in maybe?
-            self=this;
+            var self=this;
             var assigned_users=$('#assign-select').val().reduce(function (result, item, index) {
                 var key = "_id"
                 var value = item;
@@ -93,7 +93,6 @@ define([
                 status: 2,
                 assigned: assigned_users
             });
-            var self = this;
             this.TicketModel.save(null, {
                 success: function (model, response) {
                     self.render();
