@@ -47,10 +47,10 @@ define([
                 user: app.session.user.toJSON()
             }));
             $('select').selectpicker();
-            $('a').click(function (e) {
-                e.preventDefault();
-                //return false;
-            });
+            if (this.TicketModel.toJSON().assigned) for (assigned in this.TicketModel.toJSON().assigned){
+                var userid=this.TicketModel.toJSON().assigned[assigned]._id;
+                $("option[value="+userid+"]").prop('selected', true);
+            }
             return this;
         },
 

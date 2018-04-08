@@ -31,7 +31,7 @@
         <hr />
         <h3>Assign</h3>
         <form id="assign-form">
-            <select class="selectpicker" id="assign-select" multiple data-live-search="true" title="Select Assignees">
+            <select class="selectpicker" id="assign-select" multiple data-size="5" data-live-search="true" title="Select Assignees">
                 <% this.UserCollection.each(function(model){ %>
                     <option value="<%= model.toJSON()._id %>">
                         <%= model.toJSON().name %>
