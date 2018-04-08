@@ -26,6 +26,9 @@ define([
                             }
                         });
                     }
+                    else {
+                        self.render();
+                    }
                 }
             });
 
