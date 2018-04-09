@@ -35,57 +35,83 @@ define([
         },
 
         events: {
-            "click #classify-btn": "onClassifyTicket",
-            "click #assign-btn": "onAssignTicket"
+            "click #status-btn": "onChStatus",
+            "click #bounty-btn": "onChBounty",
+            "click #assign-btn": "onAssign"
         },
 
         render: function () {
             this.template = _.template(TicketViewTpl);
             console.log(this.TicketModel.toJSON());
             this.$el.html(this.template({
+                status: this.TicketModel.toJSON().status,
                 logged_in: app.session.get("logged_in"),
                 user: app.session.user.toJSON()
             }));
             $('select').selectpicker();
-            if (this.TicketModel.toJSON().assigned) for (assigned in this.TicketModel.toJSON().assigned){
-                var userid=this.TicketModel.toJSON().assigned[assigned]._id;
-                $("option[value="+userid+"]").prop('selected', true);
+            if (this.TicketModel.toJSON().assigned) for (assigned in this.TicketModel.toJSON().assigned) {
+                var userid = this.TicketModel.toJSON().assigned[assigned]._id;
+                $("option[value=" + userid + "]").prop('selected', true);
             }
             return this;
         },
 
-        onClassifyTicket: function (e) {
+        onChStatus: function (e) {
             e.preventDefault();
-            if (this.$('input[name=classify-options]:checked', '#classify-form').val() == 5) {
-                this.TicketModel.set({
-                    status: 5,
+            var status = this.$('input[name=status-options]:checked', '#status-form').val();
+            if (status == "delete") {
+                this.TicketModel.destroy({
+                    success: function (model, response) {
+                        Backbone.history.navigate('/', true);
+                    },
+                    error: function (model, response) {
+                        console.log("error");
+                    }
                 });
             }
             else {
+                var self = this;
                 this.TicketModel.set({
-                    status: 1,
-                    bounty: $('input[name=classify-options]:checked', '#classify-form').val()
+                    status: Number(status)
+                });
+                this.TicketModel.save(null, {
+                    success: function (model, response) {
+                        self.render();
+                    },
+                    error: function (model, response) {
+                        console.log("error");
+                    }
                 });
             }
+
+        },
+        onChBounty: function (e) {
+            e.preventDefault();
+            var bounty = this.$('input[name=bounty-options]:checked', '#bounty-form').val();
+            this.TicketModel.set({
+                bounty: Number(bounty)
+            });
+            var self = this;
             this.TicketModel.save(null, {
                 success: function (model, response) {
-                    Backbone.history.navigate('#', true);
+                    self.render();
                 },
                 error: function (model, response) {
                     console.log("error");
                 }
             });
+
         },
-        onAssignTicket: function (e) {
+        onAssign: function (e) {
             e.preventDefault();
             //TODO this is to blown up and not IE8 compatible - a simple for in maybe?
-            var self=this;
-            var assigned_users=$('#assign-select').val().reduce(function (result, item, index) {
+            var self = this;
+            var assigned_users = $('#assign-select').val().reduce(function (result, item, index) {
                 var key = "_id"
                 var value = item;
                 var obj = {};
                 obj[key] = value;
-                obj["name"] = _.findWhere(self.UserCollection.toJSON(), {_id: value}).name;
+                obj["name"] = _.findWhere(self.UserCollection.toJSON(), { _id: value }).name;
                 result.push(obj);
                 return result;
             }, []);
@@ -101,7 +127,7 @@ define([
                     console.log("error");
                 }
             });
-            
+
         }
     });
 

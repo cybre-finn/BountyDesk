@@ -2023,8 +2023,6 @@
 
           if (!that.multiple || (that.multiple && that.options.maxOptions === 1)) {
             that.$button.focus();
-          } else if (that.options.liveSearch) {
-            that.$searchbox.focus();
           }
 
           // Trigger select 'change'
@@ -2043,22 +2041,16 @@
         if (e.currentTarget == this) {
           e.preventDefault();
           e.stopPropagation();
-          if (that.options.liveSearch && !$(e.target).hasClass('close')) {
-            that.$searchbox.focus();
-          } else {
-            that.$button.focus();
-          }
+          that.$button.focus();
         }
       });
 
       this.$menuInner.on('click', '.divider, .dropdown-header', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        if (that.options.liveSearch) {
-          that.$searchbox.focus();
-        } else {
-          that.$button.focus();
-        }
+
+        that.$button.focus();
+
       });
 
       this.$menu.on('click', '.popover-title .close', function () {
@@ -2070,11 +2062,8 @@
       });
 
       this.$menu.on('click', '.actions-btn', function (e) {
-        if (that.options.liveSearch) {
-          that.$searchbox.focus();
-        } else {
-          that.$button.focus();
-        }
+        that.$button.focus();
+        
 
         e.preventDefault();
         e.stopPropagation();
@@ -2351,12 +2340,8 @@
         that.selectpicker.view.currentActive = liActive;
 
         if (updateScroll) that.$menuInner[0].scrollTop = offset;
-
-        if (that.options.liveSearch) {
-          that.$searchbox.focus();
-        } else {
-          $this.focus();
-        }
+    $this.focus();
+        
       } else if (
         !$this.is('input') &&
         !REGEXP_TAB_OR_ESCAPE.test(e.which) ||
