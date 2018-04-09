@@ -40,7 +40,7 @@ I try to integrate several security best practises. See TODO. Please consider us
     - [x] integrate rate limiting for Public ticket endpoint :key:
 - [ ] tickets
     - [x] assignment
-    - [ ] reward distribution
+    - [x] reward distribution
     - [ ] blocked (by)
     - [ ] improve API
         - [ ] dont send add archived by default

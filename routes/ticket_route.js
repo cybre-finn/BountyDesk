@@ -20,6 +20,7 @@ var limiter = new RateLimit({
 
 //Model
 var Ticket = require('../models/ticket_model.js');
+var User = require('../models/user_model.js');
 
 //Tickets (/ticket) - GET
 router.get("/:id?", function (req, res) {
@@ -77,19 +78,32 @@ router.post('/', limiter, function (req, res) {
 router.put('/:id', middleware_module.checkloggedin, function (req, res) {
   reputation_module.userrep(req.user.name, function (rep) {
     if (rep >= config.rep_change_ticket) {
-      Ticket.update({ _id: req.params.id }, {
-        $set: {
+      Ticket.findById(req.body._id, function (err, ticket) {
+        if (err) res.sendStatus(500);
+        ticket.set({
           status: req.body.status, headline: req.body.headline, content: req.body.content,
           contact_email: req.body.contact_email, issuer: req.body.issuer, room: req.body.room,
           user: req.user.name, bounty: req.body.bounty, assigned: req.body.assigned
-        }
-      }, function (err, ticketObj) {
-        if (err) {
-          res.sendStatus(500);
-        }
-        else {
-          res.json(ticketObj);
-        }
+        });
+        ticket.save(function (err, ticketObj) {
+          if (req.body.status == 4 && ticketObj.assigned && ticketObj.bounty) {
+            var id = "";
+            var quotient = 0;
+            for (var index = 0; index < ticketObj.assigned.length; index++) {
+              id = ticketObj.assigned[index]._id;
+              quotient = Math.round(ticketObj.bounty / ticketObj.assigned.length);
+              User.update({ _id: id }, { $inc: { rep: quotient}}, function (err) {
+                if (err) console.error(err);
+              });
+            }
+          }
+          if (err) {
+            res.sendStatus(500);
+          }
+          else {
+            res.json(ticketObj);
+          }
+        });
       });
     }
     else {
