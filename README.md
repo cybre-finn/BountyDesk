@@ -44,7 +44,7 @@ I try to integrate several security best practises. See TODO. Please consider us
     - [ ] blocked (by)
     - [ ] improve API
         - [ ] dont send add archived by default
-- [ ] node multithreading
+- [x] node multithreading
 - [ ] security checklist :key:
     - [x] xss
     - [ ] packages
@@ -52,12 +52,13 @@ I try to integrate several security best practises. See TODO. Please consider us
 - [x] rename application
 - [ ] validate forms
 - [ ] error/success messages
+- [ ] disable forms by reputation
 
 ### later releases
 - [ ] wiki integration
-- [ ] Docker
-    - [ ] Container
-    - [ ] Compose
+- [x] Docker
+    - [x] Container
+    - [x] Compose
 - [ ] blocked diagram
 - [ ] backend tests :key:
 - [ ] status comments
