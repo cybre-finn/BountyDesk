@@ -9,7 +9,8 @@ requirejs.config({
     "text": "assets/lib/text",
     "parsley": "assets/lib/parsley",
     "fontawesome": "https://use.fontawesome.com/releases/v5.0.8/js/all",
-    "bootstrap_select": "assets/lib/bootstrap-select"
+    "bootstrap_select": "assets/lib/bootstrap-select",
+    "showdown": "https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min"
   },
   "shim": {
     "underscore": { exports: "_" },

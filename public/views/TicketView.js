@@ -6,8 +6,9 @@ define([
     "collections/UserCollection",
 
     "bootstrap_select",
+    "showdown",
     "parsley"
-], function (app, TicketViewTpl, TicketModel, UserCollection, bootstrap_select) {
+], function (app, TicketViewTpl, TicketModel, UserCollection, bootstrap_select, showdown) {
 
     var TicketView = Backbone.View.extend({
 
@@ -41,12 +42,14 @@ define([
         },
 
         render: function () {
+            var converter = new showdown.Converter();
             this.template = _.template(TicketViewTpl);
             console.log(this.TicketModel.toJSON());
             this.$el.html(this.template({
                 status: this.TicketModel.toJSON().status,
                 logged_in: app.session.get("logged_in"),
-                user: app.session.user.toJSON()
+                user: app.session.user.toJSON(),
+                content: converter.makeHtml(this.TicketModel.toJSON().content)
             }));
             $('select').selectpicker();
             if (this.TicketModel.toJSON().assigned) for (assigned in this.TicketModel.toJSON().assigned) {
