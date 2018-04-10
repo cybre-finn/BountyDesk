@@ -1,10 +1,10 @@
-# Nussbaum
+# NeoDesk
 
-[![Build Status](https://travis-ci.org/ikarulus/Nussbaum.svg?branch=master)](https://travis-ci.org/ikarulus/Nussbaum)
+[![Build Status](https://travis-ci.org/ikarulus/NeoDesk.svg?branch=master)](https://travis-ci.org/ikarulus/NeoDesk)
 
 **This is currently not meant to be used in production.**
 
-Nussbaum aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments of e.g. schools.
+NeoDesk aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments of e.g. schools.
 
 Insted of admin/user privilege management, access/edit privileges are reputation based. It does *only* support ticket management and nearly nothing else.
 With the first stable release it may provide these features:
@@ -16,13 +16,13 @@ With the first stable release it may provide these features:
 * Seamless wiki integrations (as it provides no wiki)
 
 ## Demo
-[nussbaum.herokuapp.com](https://nussbaum.herokuapp.com)
+[neodesk.herokuapp.com](https://neodesk.herokuapp.com)
 
 Use admin/admin for an account with 100000 reputation.
 
 ## Installation (using npm):
-1. `git clone https://github.com/ikarulus/Nussbaum-Backend.git`
-2. `cd` in your "Nussbaum-Backend" directory
+1. `git clone https://github.com/ikarulus/NeoDesk.git`
+2. `cd` in your "NeoDesk" directory
 3. `npm install`
 4. Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [Redis](https://redis.io/topics/quickstart)
 5. Wire up MongoDB and Redis database connection in the configuration file
@@ -46,11 +46,10 @@ I try to integrate several security best practises. See TODO. Please consider us
         - [ ] dont send add archived by default
 - [ ] node multithreading
 - [ ] security checklist :key:
-    - [ ] xss
+    - [x] xss
     - [ ] packages
     - [ ] intercept all errors
-    - [ ] 
-- [ ] rename application
+- [x] rename application
 - [ ] validate forms
 - [ ] error/success messages
 

@@ -1,7 +1,7 @@
 {
-  "name": "Nussbaum",
+  "name": "neodesk",
   "version": "0.0.2",
-  "description": "Nussbaum",
+  "description": "Small helpdesk manager",
   "private": true,
   "main": "app.js",
   "scripts": {
