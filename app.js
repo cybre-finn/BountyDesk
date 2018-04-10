@@ -42,7 +42,24 @@ app.use(passport.session());
 
 //Mongoose initialisiation
 mongoose.connect(config.mongo_connect);
-
+//Create bootstrap user
+mongoose.connection.on('connected', function () {
+  mongoose.connection.db.collection('users').count(function (err, count) {
+    console.log('count %s', count);
+    if (count == 0) {
+      console.log("Create bootstrap user");
+      bcrypt.hash(config.bootstrap_user_password, config.crypt_saltRounds, function (err, hash) {
+        if (err) console.log(err);
+        else {
+          var user1 = new User({ name: "bootstrap", password: hash, rep: config.bootstrap_user_reputation });
+          user1.save(function (err, userObj) {
+            if (err) console.log(err);
+          });
+        }
+      });
+    }
+  });
+});
 //Auth
 passport.use(new BasicStrategy(
   function (username, password, done) {

@@ -13,6 +13,11 @@ if (process.env.MONGODB_URI) config.mongo_connect = process.env.MONGODB_URI;
 else config.mongo_connect = 'mongodb://localhost/netzzwergdb';
 if (process.env.REDIS_URL) config.redis_url = process.env.REDIS_URL;
 else config.redis_url = '//127.0.0.1:6379';
+//Bootstrapuser
+if (process.env.BOOSTRAP_USER_REPUTATION) config.bootstrap_user_reputation = process.env.BOOSTRAP_USER_REPUTATION;
+else config.bootstrap_user_reputation = 4000;
+if (process.env.BOOSTRAP_USER_PASSWORD) config.bootstrap_user_password = process.env.BOOSTRAP_USER_PASSWORD;
+else config.bootstrap_user_password = "bootstrap";
 //misc
 config.crypt_saltRounds = 10;
 if (process.env.PORT) config.app_port = process.env.PORT;
