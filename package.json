@@ -17,7 +17,6 @@
     "cookie-parser": "~1.4.3",
     "express": "~4.16.2",
     "express-rate-limit": "^2.11.0",
-    "express-sanitizer": "^1.0.3",
     "express-session": "~1.14.1",
     "mongodb": "~3.0.1",
     "mongoose": "~5.0.1",
@@ -27,6 +26,6 @@
     "passport-local": "~1.0.0",
     "rate-limit-redis": "^1.4.0",
     "redis": "^2.8.0",
-    "validator": "~5.5.0"
+    "xss-clean": "^0.1.1"
   }
 }
