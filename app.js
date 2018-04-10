@@ -15,7 +15,7 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var RedisStore = require('connect-redis')(session);
 var middleware_module = require('./middleware_module.js');
-var xss = require('xss-clean')
+var xss = require('xss-clean');
 
 //Models
 var User = require('./models/user_model.js');
