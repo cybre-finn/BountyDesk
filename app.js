@@ -15,6 +15,7 @@ var JsonStrategy = require('passport-json').Strategy;
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var RedisStore = require('connect-redis')(session);
+var expressSanitizer = require('express-sanitizer');
 var middleware_module = require('./middleware_module.js');
 
 //Models
@@ -24,8 +25,14 @@ var User = require('./models/user_model.js');
 var app = express();
 
 //app.use directives
-app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json()); // for parsing application/json
+app.use(expressSanitizer());
+// Apply sanitize to every relevant request
+app.use(function (req, res, next) {
+  req.body = req.sanitize(req.body);
+  next();
+});
 app.use(cookieParser());
 app.use(session({
   store: new RedisStore({
