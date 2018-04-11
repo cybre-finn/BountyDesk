@@ -45,8 +45,14 @@ define([
                     headline: this.$("#CreateTicket-headline").val(),
                     room: this.$("#CreateTicket-room").val(),
                     content: this.$("#CreateTicket-content").val()
-                });
-                Backbone.history.navigate('#', true);
+                }, {
+                        success: function (model, response) {
+                            Backbone.history.navigate('#', true);
+                        },
+                        error: function (model, response) {
+                            console.log("error");
+                        }
+                    });
             }
             else {
                 this.TicketCollection.create({
