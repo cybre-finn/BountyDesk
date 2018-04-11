@@ -1,5 +1,23 @@
 var cpuCount = require('os').cpus().length;
-var cluster = require('cluster');
+//Config
+var config = require("./config.js");
+
+//Modules
+const express = require("express");
+const bcrypt = require('bcrypt');
+const bodyParser = require("body-parser");
+const mongodb = require('mongodb');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const BasicStrategy = require('passport-http').BasicStrategy;
+const LocalStrategy = require('passport-local').Strategy;
+const JsonStrategy = require('passport-json').Strategy;
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const RedisStore = require('connect-redis')(session);
+const middleware_module = require('./middleware_module.js');
+const xss = require('xss-clean');
+const cluster = require('cluster');
 if (cluster.isMaster) {
 
   for (var i = 0; i < cpuCount; i++) {
@@ -7,27 +25,6 @@ if (cluster.isMaster) {
   }
 
 } else {
-
-  //Config
-  var config = require("./config.js");
-
-  //Modules
-  var express = require("express");
-  var bcrypt = require('bcrypt');
-  var bodyParser = require("body-parser");
-  var mongodb = require('mongodb');
-  var mongoose = require('mongoose');
-  var passport = require('passport');
-  var BasicStrategy = require('passport-http').BasicStrategy;
-  var LocalStrategy = require('passport-local').Strategy;
-  var JsonStrategy = require('passport-json').Strategy;
-  var session = require('express-session');
-  var cookieParser = require('cookie-parser');
-  var RedisStore = require('connect-redis')(session);
-  var middleware_module = require('./middleware_module.js');
-  var xss = require('xss-clean');
-  const cluster = require('cluster');
-  const numCPUs = require('os').cpus().length;
 
   //Models
   var User = require('./models/user_model.js');
@@ -53,25 +50,25 @@ if (cluster.isMaster) {
   app.use(passport.session());
 
   //Mongoose initialisiation
+  mongo_options = { auto_reconnect: true, reconnectTries: 100, reconnectInterval: 3000, keepAlive: 120, connectTimeoutMS: 3000 };
   var db = mongoose.connection;
-  db.on('connecting', function() {
+  db.on('connecting', function () {
     console.log('connecting to MongoDB...');
   });
-  db.on('error', function(error) {
+  db.on('error', function (error) {
     console.error('Error in MongoDb connection: ' + error);
     mongoose.disconnect();
   });
-  db.once('open', function() {
+  db.once('open', function () {
     console.log('MongoDB connection opened!');
   });
   db.on('reconnected', function () {
     console.log('MongoDB reconnected!');
   });
-  db.on('disconnected', function() {
+  db.on('disconnected', function () {
     console.log('MongoDB disconnected!');
-    mongoose.connect(config.mongo_connect, {server:{auto_reconnect:true}});
+    mongoose.connect(config.mongo_connect, mongo_options);
   });
-  mongo_options = { auto_reconnect:true, reconnectTries:100, reconnectInterval:3000, keepAlive: 120, connectTimeoutMS: 3000 };
   mongoose.connect(config.mongo_connect, mongo_options);
 
   //Create bootstrap user
