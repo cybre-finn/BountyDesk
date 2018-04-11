@@ -1,6 +1,6 @@
 <div id="Ticket-template" class="container">
     <div class="row p-1">
-        <div class="col-sm-8 mb-3 mb-md-0">
+        <div class="col-lg-8 mb-3 mb-md-0">
             <div class="card">
                 <div class="card-header">Ticket</div>
                 <div class="card-body p-3">
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4 mb-3 mb-md-0">
+        <div class="col-lg-4 mb-3 mb-md-0">
             <% if(logged_in){ %>
                 <div class="card mb-3">
                     <div class="card-header">Properties</div>
@@ -109,7 +109,7 @@
                             </form>
                         </li>
                         <% if (status<4&&!status==0){ %>
-                        <li class="list-group-item">
+                            <li class="list-group-item">
                                 <h4 class="text-muted">Bounty</h4>
                                 <form id="bounty-form" class="mb-2">
                                     <div class="btn-group btn-group-toggle" id="bounty-options" data-toggle="buttons">
@@ -130,25 +130,25 @@
                                         <i class="fas fa-angle-right"></i>
                                     </button>
                                 </form>
-                        </li>
-                        <% } if(status>0&&status<4&&logged_in) { %></4>
-                        <li class="list-group-item">
-                                <h4 class="text-muted">Assigned Users</h4>
-                                <form id="assign-form">
-                                    <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-size="5" data-live-search="true"
-                                        title="Assign users">
-                                        <% this.UserCollection.each(function(model){ %>
-                                            <option value="<%= model.toJSON()._id %>">
-                                                <%= model.toJSON().name %>
-                                            </option>
-                                            <% }); %>
-                                    </select>
-                                    <button type="submit" id="assign-btn" class="btn btn-primary">
-                                        <i class="fas fa-angle-right"></i>
-                                    </button>
-                                </form>   
-                        </li>
-                        <% } %>
+                            </li>
+                            <% } if(status>0&&status<4&&logged_in) { %></4>
+                                <li class="list-group-item">
+                                    <h4 class="text-muted">Assigned Users</h4>
+                                    <form id="assign-form">
+                                        <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-size="5" data-live-search="true"
+                                            title="Assign users">
+                                            <% this.UserCollection.each(function(model){ %>
+                                                <option value="<%= model.toJSON()._id %>">
+                                                    <%= model.toJSON().name %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                        <button type="submit" id="assign-btn" class="btn btn-primary">
+                                            <i class="fas fa-angle-right"></i>
+                                        </button>
+                                    </form>
+                                </li>
+                                <% } %>
                     </ul>
 
                 </div>
