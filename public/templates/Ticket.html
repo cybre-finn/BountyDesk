@@ -1,138 +1,158 @@
 <div id="Ticket-template" class="container">
-    <h1 class="mb-0">
-        <%= this.TicketModel.toJSON().headline %>
-    </h1>
-    <p class="text-muted">
-        <% switch(status) { case 0:%>
-            <span class="badge badge-primary">
-                <i class="fas fa-exclamation"></i>
-                new
-            </span>
-            <% break; case 1:%>
-                <span class="badge badge-primary">
-                    <i class="fas fa-exclamation"></i>
-                    unassigned
-                </span>
-                <% break; case 2:%>
-                    <span class="badge badge-info">
-                        <i class="fas fa-ellipsis-h"></i>
-                        processing
-                    </span>
-                    <% break; case 3:%>
-                        <span class="badge badge-secondary">
-                            <i class="fas fa-hand-paper"></i>
-                            blocked
-                        </span>
-                        <% break; case 4:%>
-                            <span class="badge badge-success">
-                                <i class="fas fa-check"></i>
-                                solved
+    <div class="row p-1">
+        <div class="col-sm-8 mb-3 mb-md-0">
+            <div class="card">
+                <div class="card-header">Ticket</div>
+                <div class="card-body p-3">
+                    <h1 class="mb-1 card-title">
+                        <%= this.TicketModel.toJSON().headline %>
+                    </h1>
+                    <p class="text-muted">
+                        <% switch(status) { case 0:%>
+                            <span class="badge badge-primary">
+                                <i class="fas fa-exclamation"></i>
+                                new
                             </span>
-                            <% break; case 5:%>
-                                <span class="badge badge-danger">
-                                    <i class="fas fa-ban"></i>
-                                    rejected
+                            <% break; case 1:%>
+                                <span class="badge badge-primary">
+                                    <i class="fas fa-exclamation"></i>
+                                    unassigned
                                 </span>
-                                <% break; }%>
-                                    <% if(this.TicketModel.toJSON().room){ %>
-                                        <span class="badge badge-primary">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            <%= this.TicketModel.toJSON().room %>
+                                <% break; case 2:%>
+                                    <span class="badge badge-info">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                        processing
+                                    </span>
+                                    <% break; case 3:%>
+                                        <span class="badge badge-secondary">
+                                            <i class="fas fa-hand-paper"></i>
+                                            blocked
                                         </span>
-                                        <% } %>
-                                            <% if(this.TicketModel.toJSON().bounty){ %>
-                                                <span class="badge badge-primary">
-                                                    <i class="fas fa-plus-square"></i>
-                                                    <%=this.TicketModel.toJSON().bounty %>
+                                        <% break; case 4:%>
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-check"></i>
+                                                solved
+                                            </span>
+                                            <% break; case 5:%>
+                                                <span class="badge badge-danger">
+                                                    <i class="fas fa-ban"></i>
+                                                    rejected
                                                 </span>
-                                                <% } %>
-                                                    <% for (var i in this.TicketModel.toJSON().assigned){ %>
+                                                <% break; }%>
+                                                    <% if(this.TicketModel.toJSON().room){ %>
                                                         <span class="badge badge-primary">
-                                                            <i class="fas fa-user"></i>
-                                                            <%= this.TicketModel.toJSON().assigned[i].name %>
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <%= this.TicketModel.toJSON().room %>
                                                         </span>
                                                         <% } %>
-                                                            <br>Issued
-                                                            <%= this.TicketModel.toJSON().created %> by
-                                                                <%= this.TicketModel.toJSON().issuer %>
-    </p>
-    <p class="text-justify">
-        <%= content %>
-    </p>
-    <% if(logged_in){ %>
-        <hr />
-
-
-        <form id="status-form" class="mb-2">
-            <div class="btn-group btn-group-toggle" id="status-options" data-toggle="buttons">
-                <% if(!(status==1 || status==2)){ %>
-                    <label class="btn btn-outline-info">
-                        <input name="status-options" id="status-accept" value="2" autocomplete="off" type="radio">
-                        <i class="fas fa-ellipsis-h"></i> Processing
-                    </label>
-                    <% } if(status!=0 && status!=5 && status!=4){ %>
-                        <label class="btn btn-outline-success">
-                            <input name="status-options" id="status-solved" value="4" autocomplete="off" type="radio">
-                            <i class="fas fa-check"></i> Solved
-                        </label>
-                        <%} if(status<=3){ %>
-                            <label class="btn btn-outline-secondary">
-                                <input name="status-options" id="status-blocked" value="3" autocomplete="off" type="radio">
-                                <i class="fas fa-hand-paper"></i> Blocked
-                            </label>
-                            <% } if(status<4){ %>
-                                <label class="btn btn-outline-warning">
-                                    <input name="status-options" id="status-spam" value="5" autocomplete="off" type="radio">
-                                    <i class="fas fa-ban"></i> Rejected
-                                </label>
-                                <%} if(status==0){ %>
-                                    <label class="btn btn-outline-danger">
-                                        <input name="status-options" id="status-delete" value="delete" autocomplete="off" type="radio">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </label>
-                                    <% } %>
-            </div>
-            <button type="submit" id="status-btn" class="btn btn-primary">
-                <i class="fas fa-angle-right"></i>
-            </button>
-        </form>
-        <% if (status<4&&!status==0){ %>
-            <form id="bounty-form" class="mb-2">
-                <div class="btn-group btn-group-toggle" id="bounty-options" data-toggle="buttons">
-                    <label class="btn btn-outline-primary">
-                        <input name="bounty-options" id="bounty-10" value="10" autocomplete="off" type="radio"> +10
-                    </label>
-                    <label class="btn btn-outline-primary">
-                        <input name="bounty-options" id="bounty-25" value="25" autocomplete="off" type="radio"> +25
-                    </label>
-                    <label class="btn btn-outline-primary">
-                        <input name="bounty-options" id="bounty-50" value="50" autocomplete="off" type="radio"> +50
-                    </label>
-                    <label class="btn btn-outline-primary">
-                        <input name="bounty-options" id="bounty-75" value="75" autocomplete="off" type="radio"> +75
-                    </label>
-                    <label class="btn btn-outline-primary">
-                        <input name="bounty-options" id="bounty-100" value="100" autocomplete="off" type="radio"> +100
-                    </label>
+                                                            <% if(this.TicketModel.toJSON().bounty){ %>
+                                                                <span class="badge badge-primary">
+                                                                    <i class="fas fa-plus-square"></i>
+                                                                    <%=this.TicketModel.toJSON().bounty %>
+                                                                </span>
+                                                                <% } %>
+                                                                    <% for (var i in this.TicketModel.toJSON().assigned){ %>
+                                                                        <span class="badge badge-primary">
+                                                                            <i class="fas fa-user"></i>
+                                                                            <%= this.TicketModel.toJSON().assigned[i].name %>
+                                                                        </span>
+                                                                        <% } %>
+                                                                            <br>Issued
+                                                                            <%= this.TicketModel.toJSON().created %> by
+                                                                                <%= this.TicketModel.toJSON().issuer %>
+                    </p>
+                    <p class="text-justify">
+                        <%= content %>
+                    </p>
                 </div>
-                <button type="submit" id="bounty-btn" class="btn btn-primary">
-                    <i class="fas fa-angle-right"></i>
-                </button>
-            </form>
-            <% }} %>
-                <% if(status>0&&status<4&&logged_in) { %>
-                    <form id="assign-form">
-                        <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-size="5" data-live-search="true"
-                            title="Assign users">
-                            <% this.UserCollection.each(function(model){ %>
-                                <option value="<%= model.toJSON()._id %>">
-                                    <%= model.toJSON().name %>
-                                </option>
-                                <% }); %>
-                        </select>
-                        <button type="submit" id="assign-btn" class="btn btn-primary">
-                            <i class="fas fa-angle-right"></i>
-                        </button>
-                    </form>
-                    <% } %>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 mb-md-0">
+            <% if(logged_in){ %>
+                <div class="card mb-3">
+                    <div class="card-header">Properties</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h4 class="text-muted">Status</h4>
+                            <form id="status-form" class="mb-2">
+                                <div class="btn-group-vertical btn-group-toggle" id="status-options" data-toggle="buttons">
+                                    <% if(!(status==1 || status==2)){ %>
+                                        <label class="btn btn-outline-info">
+                                            <input name="status-options" id="status-accept" value="2" autocomplete="off" type="radio">
+                                            <i class="fas fa-ellipsis-h"></i> Processing
+                                        </label>
+                                        <% } if(status!=0 && status!=5 && status!=4){ %>
+                                            <label class="btn btn-outline-success">
+                                                <input name="status-options" id="status-solved" value="4" autocomplete="off" type="radio">
+                                                <i class="fas fa-check"></i> Solved
+                                            </label>
+                                            <%} if(status<=3){ %>
+                                                <label class="btn btn-outline-secondary">
+                                                    <input name="status-options" id="status-blocked" value="3" autocomplete="off" type="radio">
+                                                    <i class="fas fa-hand-paper"></i> Blocked
+                                                </label>
+                                                <% } if(status<4){ %>
+                                                    <label class="btn btn-outline-warning">
+                                                        <input name="status-options" id="status-spam" value="5" autocomplete="off" type="radio">
+                                                        <i class="fas fa-ban"></i> Rejected
+                                                    </label>
+                                                    <%} if(status==0){ %>
+                                                        <label class="btn btn-outline-danger">
+                                                            <input name="status-options" id="status-delete" value="delete" autocomplete="off" type="radio">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </label>
+                                                        <% } %>
+                                </div>
+                                <button type="submit" id="status-btn" class="btn btn-primary">
+                                    <i class="fas fa-angle-right"></i>
+                                </button>
+                            </form>
+                        </li>
+                        <% if (status<4&&!status==0){ %>
+                        <li class="list-group-item">
+                                <h4 class="text-muted">Bounty</h4>
+                                <form id="bounty-form" class="mb-2">
+                                    <div class="btn-group btn-group-toggle" id="bounty-options" data-toggle="buttons">
+                                        <label class="btn btn-outline-primary">
+                                            <input name="bounty-options" id="bounty-10" value="10" autocomplete="off" type="radio"> +10
+                                        </label>
+                                        <label class="btn btn-outline-primary">
+                                            <input name="bounty-options" id="bounty-25" value="25" autocomplete="off" type="radio"> +25
+                                        </label>
+                                        <label class="btn btn-outline-primary">
+                                            <input name="bounty-options" id="bounty-50" value="50" autocomplete="off" type="radio"> +50
+                                        </label>
+                                        <label class="btn btn-outline-primary">
+                                            <input name="bounty-options" id="bounty-100" value="100" autocomplete="off" type="radio"> +100
+                                        </label>
+                                    </div>
+                                    <button type="submit" id="bounty-btn" class="btn btn-primary">
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </form>
+                        </li>
+                        <% } if(status>0&&status<4&&logged_in) { %></4>
+                        <li class="list-group-item">
+                                <h4 class="text-muted">Assigned Users</h4>
+                                <form id="assign-form">
+                                    <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-size="5" data-live-search="true"
+                                        title="Assign users">
+                                        <% this.UserCollection.each(function(model){ %>
+                                            <option value="<%= model.toJSON()._id %>">
+                                                <%= model.toJSON().name %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                    <button type="submit" id="assign-btn" class="btn btn-primary">
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </form>   
+                        </li>
+                        <% } %>
+                    </ul>
+
+                </div>
+                <% } %>
+        </div>
+    </div>
 </div>
