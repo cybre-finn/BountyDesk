@@ -53,9 +53,27 @@ if (cluster.isMaster) {
   app.use(passport.session());
 
   //Mongoose initialisiation
-  mongo_options = { keepAlive: 300000, connectTimeoutMS: 30000 };
+  var db = mongoose.connection;
+  db.on('connecting', function() {
+    console.log('connecting to MongoDB...');
+  });
+  db.on('error', function(error) {
+    console.error('Error in MongoDb connection: ' + error);
+    mongoose.disconnect();
+  });
+  db.once('open', function() {
+    console.log('MongoDB connection opened!');
+  });
+  db.on('reconnected', function () {
+    console.log('MongoDB reconnected!');
+  });
+  db.on('disconnected', function() {
+    console.log('MongoDB disconnected!');
+    mongoose.connect(config.mongo_connect, {server:{auto_reconnect:true}});
+  });
+  mongo_options = { auto_reconnect:true, reconnectTries:100, reconnectInterval:3000, keepAlive: 120, connectTimeoutMS: 3000 };
   mongoose.connect(config.mongo_connect, mongo_options);
- 
+
   //Create bootstrap user
   mongoose.connection.on('connected', function () {
     mongoose.connection.db.collection('users').count(function (err, count) {
