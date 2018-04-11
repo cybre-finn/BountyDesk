@@ -49,7 +49,8 @@ define([
                 status: this.TicketModel.toJSON().status,
                 logged_in: app.session.get("logged_in"),
                 user: app.session.user.toJSON(),
-                content: converter.makeHtml(this.TicketModel.toJSON().content)
+                content: converter.makeHtml(this.TicketModel.toJSON().content),
+                timeago: app.timeAgo(this.TicketModel.toJSON().created)
             }));
             $('select').selectpicker();
             if (this.TicketModel.toJSON().assigned) for (assigned in this.TicketModel.toJSON().assigned) {

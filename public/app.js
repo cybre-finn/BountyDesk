@@ -22,6 +22,11 @@ function($, _, Backbone) {
             setTimeout(function() {
                 $("#header-alert").hide();
             }, 7000 );
+        },
+        // TODO: Create module for this...
+        timeAgo: function(timestamp) {
+            var date = new Date(timestamp);
+            return date.toDateString();
         }
     };
 

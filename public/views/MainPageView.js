@@ -28,7 +28,10 @@ define([
 
         render: function () {
             this.template = _.template(MainPageTpl);
-            this.$el.html(this.template({ user: app.session.user.toJSON() }));
+            this.$el.html(this.template({
+                user: app.session.user.toJSON(),
+                timeago: app.timeAgo.bind(app)
+            }));
             return this;
         },
 

@@ -33,7 +33,7 @@
                 <%= model.toJSON().headline %>
               </h5>
               <small class="text-muted">
-                <%= model.toJSON().created %>
+                <%= timeago(model.toJSON().created) %>
               </small>
             </div>
             <p class="mb-1">
