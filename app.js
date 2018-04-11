@@ -53,7 +53,9 @@ if (cluster.isMaster) {
   app.use(passport.session());
 
   //Mongoose initialisiation
-  mongoose.connect(config.mongo_connect);
+  mongo_options = { keepAlive: 300000, connectTimeoutMS: 30000 };
+  mongoose.connect(config.mongo_connect, mongo_options);
+ 
   //Create bootstrap user
   mongoose.connection.on('connected', function () {
     mongoose.connection.db.collection('users').count(function (err, count) {
