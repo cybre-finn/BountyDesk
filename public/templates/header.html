@@ -4,21 +4,25 @@
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <% if(logged_in){ %>
 
-
-        <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/CreateTicket">
-                        <i class="fas fa-paper-plane"> </i> New Ticket</a>
-                </li>
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/CreateTicket">
+                    <i class="fas fa-paper-plane"> </i> New Ticket</a>
+            </li>
+            <% if(logged_in){ %>
                 <li class="nav-item">
                     <a class="nav-link" href="/MyTickets">
                         <i class="fas fa-paperclip"> </i> My Tickets</a>
                 </li>
-            </ul>
-
+                <li class="nav-item">
+                        <a class="nav-link" href="/BlockedTickets">
+                            <i class="fas fa-hand-paper"> </i> Blocked Tickets</a>
+                    </li>
+                <% } %>
+        </ul>
+        <% if(logged_in){ %>
             <ul class="nav navbar-nav navbar-left">
                 <li class="nav-item dropdown">
                     <span class="nav-link dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" id="download" aria-expanded="true">
@@ -40,8 +44,9 @@
                     </div>
                 </li>
             </ul>
-        </div>
-        <% } %>
+            <% } %>
+    </div>
+
 </nav>
 <div id="header-alert" class="alert alert-dismissible alert-success" style="display:none;">
 </div>
