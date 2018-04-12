@@ -41,7 +41,7 @@ I try to integrate several security best practises. See TODO. Please consider us
 - [ ] tickets
     - [x] assignment
     - [x] reward distribution
-    - [ ] blocked (by)
+    - [x] blocked
     - [ ] improve API
         - [ ] dont send add archived by default
 - [x] node multithreading
@@ -50,9 +50,12 @@ I try to integrate several security best practises. See TODO. Please consider us
     - [ ] packages
     - [ ] intercept all errors
 - [x] rename application
-- [ ] validate forms
-- [ ] error/success messages
+- [x] validate forms
+- [x] error/success messages
 - [ ] disable forms by reputation
+- [ ] search
+- [ ] status comments
+    - [ ] email
 
 ### later releases
 - [ ] wiki integration
