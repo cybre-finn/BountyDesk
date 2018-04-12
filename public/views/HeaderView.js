@@ -17,26 +17,21 @@ define([
         },
         
         events: {
-            "click #logout-link"         : "onLogoutClick",
-            "click #remove-account-link" : "onRemoveAccountClick"
+            "click #logout-link"         : "onLogoutClick"
         },
       
         onLoginStatusChange: function(evt){
             this.render();
-            if(app.session.get("logged_in")) app.showAlert("Success!", "Logged in as "+app.session.user.get("username"), "alert-success");
-            else app.showAlert("See ya!", "Logged out successfully", "alert-success");
+            if(!app.session.get("logged_in")) {
+                app.showAlert("Logout: See ya!", "alert-success");
+                Backbone.history.navigate("/authentification", true);
+            }
         },
 
         onLogoutClick: function(evt) {
             evt.preventDefault();
             app.session.logout({});  // No callbacks needed b/c of session event listening
         },
-
-        onRemoveAccountClick: function(evt){
-            evt.preventDefault();
-            app.session.removeAccount({});
-        },
-
 
         render: function () {
             if(DEBUG) console.log("RENDER::", app.session.user.toJSON(), app.session.toJSON());

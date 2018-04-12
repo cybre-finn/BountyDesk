@@ -2,9 +2,7 @@ define([
     "app",
 
     "text!templates/main-page.html",
-    "collections/TicketCollection",
-
-    "parsley"
+    "collections/TicketCollection"
 ], function (app, MainPageTpl, TicketCollection) {
 
     var MainPageView = Backbone.View.extend({

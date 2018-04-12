@@ -74,31 +74,31 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <h4 class="text-muted">Status</h4>
-                            <form id="status-form" class="mb-2">
+                            <form id="status-form" class="mb-2" novalidate>
                                 <div class="btn-group-vertical btn-group-toggle" id="status-options" data-toggle="buttons">
                                     <% if(!(status==1 || status==2)){ %>
                                         <label class="btn btn-outline-info">
-                                            <input name="status-options" id="status-accept" value="2" autocomplete="off" type="radio">
+                                            <input name="status-options" id="status-accept" value="2" autocomplete="off" type="radio" required>
                                             <i class="fas fa-ellipsis-h"></i> Processing
                                         </label>
                                         <% } if(status!=0 && status!=5 && status!=4){ %>
                                             <label class="btn btn-outline-success">
-                                                <input name="status-options" id="status-solved" value="4" autocomplete="off" type="radio">
+                                                <input name="status-options" id="status-solved" value="4" autocomplete="off" type="radio" required>
                                                 <i class="fas fa-check"></i> Solved
                                             </label>
                                             <%} if(status<=3){ %>
                                                 <label class="btn btn-outline-secondary">
-                                                    <input name="status-options" id="status-blocked" value="3" autocomplete="off" type="radio">
+                                                    <input name="status-options" id="status-blocked" value="3" autocomplete="off" type="radio" required>
                                                     <i class="fas fa-hand-paper"></i> Blocked
                                                 </label>
                                                 <% } if(status<4){ %>
                                                     <label class="btn btn-outline-warning">
-                                                        <input name="status-options" id="status-spam" value="5" autocomplete="off" type="radio">
+                                                        <input name="status-options" id="status-spam" value="5" autocomplete="off" type="radio" required>
                                                         <i class="fas fa-ban"></i> Rejected
                                                     </label>
                                                     <%} if(status==0){ %>
                                                         <label class="btn btn-outline-danger">
-                                                            <input name="status-options" id="status-delete" value="delete" autocomplete="off" type="radio">
+                                                            <input name="status-options" id="status-delete" value="delete" autocomplete="off" type="radio" required>
                                                             <i class="fas fa-trash"></i> Delete
                                                         </label>
                                                         <% } %>
@@ -111,19 +111,19 @@
                         <% if (status<4&&!status==0){ %>
                             <li class="list-group-item">
                                 <h4 class="text-muted">Bounty</h4>
-                                <form id="bounty-form" class="mb-2">
+                                <form id="bounty-form" class="mb-2" novalidate>
                                     <div class="btn-group btn-group-toggle" id="bounty-options" data-toggle="buttons">
                                         <label class="btn btn-outline-primary">
-                                            <input name="bounty-options" id="bounty-10" value="10" autocomplete="off" type="radio"> +10
+                                            <input name="bounty-options" id="bounty-10" value="10" autocomplete="off" type="radio" required> +10
                                         </label>
                                         <label class="btn btn-outline-primary">
-                                            <input name="bounty-options" id="bounty-25" value="25" autocomplete="off" type="radio"> +25
+                                            <input name="bounty-options" id="bounty-25" value="25" autocomplete="off" type="radio" required> +25
                                         </label>
                                         <label class="btn btn-outline-primary">
-                                            <input name="bounty-options" id="bounty-50" value="50" autocomplete="off" type="radio"> +50
+                                            <input name="bounty-options" id="bounty-50" value="50" autocomplete="off" type="radio" required> +50
                                         </label>
                                         <label class="btn btn-outline-primary">
-                                            <input name="bounty-options" id="bounty-100" value="100" autocomplete="off" type="radio"> +100
+                                            <input name="bounty-options" id="bounty-100" value="100" autocomplete="off" type="radio" required> +100
                                         </label>
                                     </div>
                                     <button type="submit" id="bounty-btn" class="btn btn-primary">
@@ -132,11 +132,11 @@
                                 </form>
                             </li>
                             <% } if(status>0&&status<4&&logged_in) { %></4>
-                                <li class="list-group-item">
+                                <li class="list-group-item" novalidate>
                                     <h4 class="text-muted">Assigned Users</h4>
-                                    <form id="assign-form">
+                                    <form id="assign-form" novalidate>
                                         <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-size="5" data-live-search="true"
-                                            title="Assign users">
+                                            title="Assign users" required>
                                             <% this.UserCollection.each(function(model){ %>
                                                 <option value="<%= model.toJSON()._id %>">
                                                     <%= model.toJSON().name %>

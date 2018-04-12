@@ -4,9 +4,7 @@ define([
     "text!templates/CreateTicket.html",
 
     "collections/TicketCollection",
-    "collections/RoomCollection",
-
-    "parsley"
+    "collections/RoomCollection"
 ], function (app, CreateTicketViewTpl, TicketCollection, RoomCollection) {
 
     var CreateTicketView = Backbone.View.extend({
@@ -24,7 +22,7 @@ define([
         },
 
         events: {
-            "click #CreateTicket-btn": "onCreateTicket"
+            "submit #CreateTicket-form": "onCreateTicket"
         },
 
         render: function () {
@@ -37,31 +35,38 @@ define([
         },
 
         onCreateTicket: function (e) {
-
+            console.log(e);
             e.preventDefault();
-            if (app.session.get("logged_in")) {
-                this.TicketCollection.create({
-                    issuer: this.$("#CreateTicket-issuer").val(),
-                    headline: this.$("#CreateTicket-headline").val(),
-                    room: this.$("#CreateTicket-room").val(),
-                    content: this.$("#CreateTicket-content").val()
-                }, {
-                        success: function (model, response) {
-                            Backbone.history.navigate('#', true);
-                        },
-                        error: function (model, response) {
-                            console.log("error");
-                        }
+            if (e.target.checkValidity() === true) {
+                if (app.session.get("logged_in")) {
+                    this.TicketCollection.create({
+                        issuer: this.$("#CreateTicket-issuer").val(),
+                        headline: this.$("#CreateTicket-headline").val(),
+                        room: this.$("#CreateTicket-room").val(),
+                        content: this.$("#CreateTicket-content").val()
+                    }, {
+                            success: function (model, response) {
+                                if (!app.session.get("logged_in")) {
+                                    app.showAlert("Ticket created. Keep track of your mailbox for updates from us.", "alert-success");
+                                } else Backbone.history.navigate('/', true);
+                            },
+                            error: function (model, response) {
+                                app.showAlert("HTTP error: " + response.status, "alert-danger");
+                            }
+                        });
+                }
+                else {
+                    this.TicketCollection.create({
+                        issuer: this.$("#CreateTicket-issuer").val(),
+                        headline: this.$("#CreateTicket-headline").val(),
+                        room: this.$("#CreateTicket-room").val(),
+                        content: this.$("#CreateTicket-content").val(),
+                        contact_email: this.$("#CreateTicket-email").val()
                     });
+                }
             }
             else {
-                this.TicketCollection.create({
-                    issuer: this.$("#CreateTicket-issuer").val(),
-                    headline: this.$("#CreateTicket-headline").val(),
-                    room: this.$("#CreateTicket-room").val(),
-                    content: this.$("#CreateTicket-content").val(),
-                    contact_email: this.$("#CreateTicket-email").val()
-                });
+                e.target.classList.add('was-validated');
             }
         }
 

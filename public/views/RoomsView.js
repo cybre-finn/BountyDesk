@@ -5,9 +5,7 @@ define([
 
     "collections/RoomCollection",
 
-    "models/RoomModel",
-
-    "parsley"
+    "models/RoomModel"
 ], function (app, RoomsViewTpl, RoomCollection, RoomModel) {
 
     var RoomsView = Backbone.View.extend({
@@ -24,7 +22,7 @@ define([
         },
 
         events: {
-            "click #CreateRoom-btn": "onCreateRoom",
+            "submit #CreateRoom-form": "onCreateRoom",
             "click #DeleteRoom-btn": "onDeleteRoom"
         },
 
@@ -32,27 +30,34 @@ define([
             this.template = _.template(RoomsViewTpl);
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
             return this;
-            
+
         },
 
         onCreateRoom: function (e) {
             e.preventDefault();
-            var self = this;
-            this.RoomCollection.create({
-                room_number: this.$("#CreateRoom-room_number").val(),
-                role: this.$("#CreateRoom-role").val(),
-            }, {
-            success: function(model, response) {
-                self.render();
-            }}
-        );
+            if (e.target.checkValidity() === true) {
+                var self = this;
+                this.RoomCollection.create({
+                    room_number: this.$("#CreateRoom-room_number").val(),
+                    role: this.$("#CreateRoom-role").val(),
+                }, {
+                        success: function (model, response) {
+                            app.showAlert("Created new room", "alert-success");
+                            self.render();
+                        }, error: function (model, response) {
+                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                        }
+                    }
+                );
+            } else e.target.classList.add('was-validated');
         },
         onDeleteRoom: function (e) {
             var self = this;
-            this.RoomCollection.where({room_number: this.$("#DeleteRoom-btn").val() })[0].destroy({
-                success: function(model, response) {
+            this.RoomCollection.where({ room_number: this.$("#DeleteRoom-btn").val() })[0].destroy({
+                success: function (model, response) {
                     self.render();
-                }});
+                }
+            });
         }
 
     });

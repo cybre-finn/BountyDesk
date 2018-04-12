@@ -1,109 +1,25 @@
 <div class="container">
     <div class="row">
-        <div class="col-sm">
-            <h1>Login</h1>
-            <form id="login-form">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="login-username-input" placeholder="Username" data-required="true" data-notblank="true">
-                    <span class="help-block"></span>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="login-password-input" placeholder="Password" data-required="true" data-notblank="true"
-                        data-rangelength="[5,100]">
-                </div>
-                <a id="login-btn" href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
-            </form>
+        <div class="col-sm-3">
         </div>
-        <div class="col-sm">
-            <!--<h1>Signup</h1>
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Login</div>
+                <div class="card-body">
+                    <form id="login-form" novalidate>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="login-username-input" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="login-password-input" placeholder="Password" required>
+                        </div>
+                        <button id="login-btn" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>-->
+            </div>
+        </div>
+        <div class="col-sm-3">
         </div>
     </div>
 </div>
-<!--
-    <div id="login-template" class="container">
-	<div class="row clearfix" id="login-form-container">
-		<img class="displayed" src="/assets/img/logo.png" alt="logo"/>
-
-        <div class="col-md-5 well well-lg text-center">
-            <h1>Login</h1>
-            <div class="height:50px;">
-                <ul id="login-errors" class="parsley-error-list"></ul>
-            </div>
-
-            <form id="login-form" class="form" data-validate="parsley">
-                <fieldset>
-                    <div class="control-group">
-                            <label class="form-control-label" for="inputSuccess1">Valid input</label>
-                            <input value="correct value" class="form-control is-valid" id="inputValid" type="text">
-                            <div class="valid-feedback">Success! You've done it.</div>
-                            <div class="controls">
-                            <input type="text" id="login-username-input" name="username" placeholder="Username" value="<%= user.username || '' %>"
-                                data-required="true" data-notblank="true">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <div class="control-group mb20">
-                        <div class="controls">
-                            <input class="input-medium" type="password" id="login-password-input" placeholder="Password" name="user_password" 
-                                value="" data-required="true" data-notblank="true" data-rangelength="[5,25]">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <a href="#" id="login-btn" class="btn btn-primary btn-lg" data-bypass>Login</a>
-
-                </fieldset>
-            </form>
-        </div>
-
-        <div class="col-md-2"></div>
-
-        <div class="col-md-5 well well-lg text-center">
-            <h1>Signup</h1>
-            <div class="height:50px;">
-                <ul id="signup-errors" class="parsley-error-list"></ul>
-            </div>
-            <form id="signup-form" class="form" data-validate="parsley">
-                <fieldset>
-                    <div class="control-group">
-                        <div class="controls">
-                            <input type="text" id="signup-username-input" name="username" placeholder="Username" value="<%= user.username || '' %>"
-                                data-required="true" data-notblank="true">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <input class="input-medium" type="password" id="signup-password-input" placeholder="Password" name="user_password" 
-                                value="" data-required="true" data-notblank="true" data-rangelength="[5,25]">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="control-group mb20">
-                        <div class="controls">
-                            <input class="input-medium" type="password" id="signup-password-confirm-input" placeholder="Confirm Password" name="user_password" 
-                                value="" data-required="true" data-notblank="true" data-rangelength="[5,25]" data-equalto="#signup-password-input">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <a href="#" id="signup-btn" class="btn btn-primary btn-lg" data-bypass>Signup</a>
-                    
-                </fieldset>
-            </form>
-        </div>
-
-	</div>
-</div>
--->

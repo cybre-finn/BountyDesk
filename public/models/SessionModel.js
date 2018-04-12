@@ -41,19 +41,19 @@ define([
          */
         checkAuth: function(callback, args) {
             var self = this;
-            this.fetch({ 
+            this.fetch({
                 success: function(mod, res){
                     if(!res.error && res.user){
                         self.updateSessionUser(res.user);
                         self.set({ logged_in : true });
-                        if('success' in callback) callback.success(mod, res);    
+                        if('success' in callback) callback.success(mod, res);
                     } else {
                         self.set({ logged_in : false });
-                        if('error' in callback) callback.error(mod, res);    
+                        if('error' in callback) callback.error(mod, res);
                     }
                 }, error:function(mod, res){
                     self.set({ logged_in : false });
-                    if('error' in callback) callback.error(mod, res);    
+                    if('error' in callback) callback.error(mod, res);
                 }
             }).complete( function(){
                 if('complete' in callback) callback.complete();
@@ -80,7 +80,7 @@ define([
                 success: function(res){
 
                     if( !res.error ){
-                        if(_.indexOf(['login', 'signup'], opts.method) !== -1){
+                        if(opts.method=="login"){
 
                             self.updateSessionUser( res.user || {} );
                             self.set({ user_id: res.user.id, logged_in: true });
@@ -108,14 +108,6 @@ define([
 
         logout: function(opts, callback, args){
             this.postAuth(_.extend(opts, { method: 'logout' }), callback);
-        },
-
-        signup: function(opts, callback, args){
-            this.postAuth(_.extend(opts, { method: 'signup' }), callback);
-        },
-
-        removeAccount: function(opts, callback, args){
-            this.postAuth(_.extend(opts, { method: 'remove_account' }), callback);
         }
 
     });

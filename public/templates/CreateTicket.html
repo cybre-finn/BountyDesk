@@ -1,21 +1,20 @@
 <h1>New Ticket</h1>
 
-<form id="login-form">
+<form id="CreateTicket-form" novalidate>
     <div class="form-group">
-        <input type="text" class="form-control" id="CreateTicket-issuer" placeholder="Issuer" data-required="true" value="<% if(logged_in){ %><%= user.name %><% }%>"
+        <input type="text" class="form-control" id="CreateTicket-issuer" placeholder="Issuer" required value="<% if(logged_in){ %><%= user.name %><% }%>"
             data-notblank="true">
     </div>
         <% if(!logged_in){ %>
             <div class="form-group">
-            <input type="email" class="form-control" id="CreateTicket-email" placeholder="Contact email" data-required="true" value="" data-notblank="true">
+            <input type="email" class="form-control" id="CreateTicket-email" placeholder="Contact email" required>
         </div>
         <% }%>
-        <span class="help-block"></span>
     <div class="form-group">
-        <input type="text" class="form-control" id="CreateTicket-headline" placeholder="In a nutshell" data-rangelength="[0,100]">
+        <input type="text" class="form-control" id="CreateTicket-headline" placeholder="In a nutshell (optional)">
     </div>
     <div class="form-group">
-        <select id="CreateTicket-room" class="custom-select">
+        <select id="CreateTicket-room" class="custom-select" required>
             <option disabled selected>Select room</option>
             <% this.RoomCollection.each(function(model){ %>
                 <option value="<%= model.toJSON().room_number %>">
@@ -26,7 +25,7 @@
         </select>
     </div>
     <div class="form-group">
-        <textarea class="form-control" id="CreateTicket-content" placeholder="Description" rows="4"></textarea>
+        <textarea class="form-control" id="CreateTicket-content" placeholder="Description" rows="4" required></textarea>
     </div>
     <button id="CreateTicket-btn" type="submit" class="btn btn-primary">Create Ticket</button>
 </form>

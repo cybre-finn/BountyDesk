@@ -3,9 +3,7 @@ define([
 
     "text!templates/CreateUser.html",
 
-    "collections/UserCollection",
-
-    "parsley"
+    "collections/UserCollection"
 ], function (app, CreateUserViewTpl, UserCollection) {
 
     var CreateUserView = Backbone.View.extend({
@@ -17,7 +15,7 @@ define([
         },
 
         events: {
-            "click #CreateUser-btn": "onCreateUser"
+            "submit #CreateUser-form": "onCreateUser"
         },
 
         render: function () {
@@ -25,18 +23,28 @@ define([
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
             console.log("yeah");
             return this;
-            
+
         },
 
         onCreateUser: function (e) {
             e.preventDefault();
-            this.UserCollection.create({
-                name: this.$("#CreateUser-name").val(),
-                email: this.$("#CreateUser-email").val(),
-                real_name: this.$("#CreateUser-real_name").val(),
-                password: this.$("#CreateUser-password").val()
-            });
-            Backbone.history.navigate('#', true);
+            if (e.target.checkValidity() === true) {
+                this.UserCollection.create({
+                    name: this.$("#CreateUser-name").val(),
+                    email: this.$("#CreateUser-email").val(),
+                    real_name: this.$("#CreateUser-real_name").val(),
+                    password: this.$("#CreateUser-password").val()
+                }, {
+                        success: function (model, response) {
+                            app.showAlert("User created", "alert-success");
+                        },
+                        error: function (model, response) {
+                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                        }
+                    });
+            } else {
+                e.target.classList.add('was-validated');
+            }
         }
 
     });

@@ -2,9 +2,7 @@ define([
     "app",
 
     "text!templates/MyTickets.html",
-    "collections/TicketCollection",
-
-    "parsley"
+    "collections/TicketCollection"
 ], function (app, MyTicketsTpl, TicketCollection) {
 
     var MyTicketsView = Backbone.View.extend({

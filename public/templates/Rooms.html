@@ -1,9 +1,9 @@
 <h1>New Room</h1>
 
-<form id="create-room-form" class="container">
+<form id="CreateRoom-form" class="container" novalidate>
     <div class="row mb-3">
-        <input type="text" class="form-control col" id="CreateRoom-room_number" placeholder="Unique room name" data-required="true" data-notblank="true">
-        <input type="text" class="form-control col" id="CreateRoom-role" placeholder="Role (optional)" data-required="false" data-notblank="true">
+        <input type="text" class="form-control col" id="CreateRoom-room_number" placeholder="Unique room name" required>
+        <input type="text" class="form-control col" id="CreateRoom-role" placeholder="Role (optional)" required>
     </div>
     <div class="row mb-3">
         <button id="CreateRoom-btn" type="submit" class="btn btn-primary">Create Room</button>

@@ -6,8 +6,7 @@ define([
     "collections/UserCollection",
 
     "bootstrap_select",
-    "showdown",
-    "parsley"
+    "showdown"
 ], function (app, TicketViewTpl, TicketModel, UserCollection, bootstrap_select, showdown) {
 
     var TicketView = Backbone.View.extend({
@@ -32,13 +31,12 @@ define([
                     }
                 }
             });
-
         },
 
         events: {
-            "click #status-btn": "onChStatus",
-            "click #bounty-btn": "onChBounty",
-            "click #assign-btn": "onAssign"
+            "submit #status-form": "onChStatus",
+            "submit #bounty-form": "onChBounty",
+            "submit #assign-form": "onAssign"
         },
 
         render: function () {
@@ -62,77 +60,83 @@ define([
 
         onChStatus: function (e) {
             e.preventDefault();
-            var status = this.$('input[name=status-options]:checked', '#status-form').val();
-            if (status == "delete") {
-                this.TicketModel.destroy({
+            if (e.target.checkValidity() === true) {
+                var status = this.$('input[name=status-options]:checked', '#status-form').val();
+                if (status == "delete") {
+                    this.TicketModel.destroy({
+                        success: function (model, response) {
+                            Backbone.history.navigate('/', true);
+                        },
+                        error: function (model, response) {
+                            console.log("error");
+                        }
+                    });
+                }
+                else {
+                    var self = this;
+                    this.TicketModel.set({
+                        status: Number(status)
+                    });
+                    this.TicketModel.save(null, {
+                        success: function (model, response) {
+                            self.render();
+                        },
+                        error: function (model, response) {
+                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                        }
+                    });
+                }
+            } else e.target.classList.add('was-validated');
+        },
+
+        onChBounty: function (e) {
+            e.preventDefault();
+            if (e.target.checkValidity() === true) {
+                var bounty = this.$('input[name=bounty-options]:checked', '#bounty-form').val();
+                this.TicketModel.set({
+                    bounty: Number(bounty)
+                });
+                var self = this;
+                this.TicketModel.save(null, {
                     success: function (model, response) {
-                        Backbone.history.navigate('/', true);
+                        self.render();
                     },
                     error: function (model, response) {
-                        console.log("error");
+                        app.showAlert("HTTP error: " + response.status, "alert-danger");
                     }
                 });
-            }
-            else {
+            } else e.target.classList.add('was-validated');
+
+        },
+        onAssign: function (e) {
+            e.preventDefault();
+            //TODO this is to blown up and not IE8 compatible - a simple for in maybe?
+            if (e.target.checkValidity() === true) {
                 var self = this;
+                var assigned_users = $('#assign-select').val().reduce(function (result, item, index) {
+                    var key = "_id"
+                    var value = item;
+                    var obj = {};
+                    obj[key] = value;
+                    obj["name"] = _.findWhere(self.UserCollection.toJSON(), { _id: value }).name;
+                    result.push(obj);
+                    return result;
+                }, []);
                 this.TicketModel.set({
-                    status: Number(status)
+                    status: 2,
+                    assigned: assigned_users
                 });
                 this.TicketModel.save(null, {
                     success: function (model, response) {
                         self.render();
                     },
                     error: function (model, response) {
-                        console.log("error");
+                        app.showAlert("HTTP error: " + response.status, "alert-danger");
                     }
                 });
-            }
-
-        },
-        onChBounty: function (e) {
-            e.preventDefault();
-            var bounty = this.$('input[name=bounty-options]:checked', '#bounty-form').val();
-            this.TicketModel.set({
-                bounty: Number(bounty)
-            });
-            var self = this;
-            this.TicketModel.save(null, {
-                success: function (model, response) {
-                    self.render();
-                },
-                error: function (model, response) {
-                    console.log("error");
-                }
-            });
-
-        },
-        onAssign: function (e) {
-            e.preventDefault();
-            //TODO this is to blown up and not IE8 compatible - a simple for in maybe?
-            var self = this;
-            var assigned_users = $('#assign-select').val().reduce(function (result, item, index) {
-                var key = "_id"
-                var value = item;
-                var obj = {};
-                obj[key] = value;
-                obj["name"] = _.findWhere(self.UserCollection.toJSON(), { _id: value }).name;
-                result.push(obj);
-                return result;
-            }, []);
-            this.TicketModel.set({
-                status: 2,
-                assigned: assigned_users
-            });
-            this.TicketModel.save(null, {
-                success: function (model, response) {
-                    self.render();
-                },
-                error: function (model, response) {
-                    console.log("error");
-                }
-            });
-
+            } else e.target.classList.add('was-validated');
         }
+
     });
 
     return TicketView;
