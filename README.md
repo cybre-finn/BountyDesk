@@ -29,6 +29,12 @@ Use admin/admin for an account with 100000 reputation.
 6. (Optional, for arch users) Start databases with `./start_dbs.sh`. Must be executable. For other distros you have to find your own way.
 7. Launch via `node app.js` or `npm start`
 
+## Docker
+Find the prebuilt Docker image on Dockerhub: [https://hub.docker.com/r/ikarulus/neodesk/](https://hub.docker.com/r/ikarulus/neodesk/)
+### docker-compose
+This project provides a docker-compose-yml.
+Use `docker-compose up` to pull and start the stack.
+
 ## Security
 **I wouldn't deploy this in a large scale. As I'm not an experienced JS developer I can't guarantee for anything including slain kitten.**
 I try to integrate several security best practises. See TODO. Please consider using SLL/TLS - e.g. via nginx reverse proxy and letsencrypt's free certificates.
