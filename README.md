@@ -6,7 +6,7 @@
 
 NeoDesk aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments of e.g. schools.
 
-Insted of admin/user privilege management, access/edit privileges are reputation based. It does *only* support ticket management and nearly nothing else.
+Instead of admin/user privilege management, access/edit privileges are reputation based. It does *only* support ticket management and nearly nothing else.
 With the first stable release it may provide these features:
 
 * Public ticket endpoint
