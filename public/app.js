@@ -14,15 +14,18 @@ define([
             API: "",                   // Base API URL (used by models & collections)
 
             // Show alert classes and hide after specified timeout
-            showAlert: function (text, klass) {
+            showAlert: function (text, klass, duration) {
                 $("#header-alert").removeClass("alert-danger alert-warning alert-success alert-info");
                 $("#header-alert").addClass(klass);
                 $("#header-alert").html(
                     '<button type="button" class="close" data-dismiss="alert">&times;</button><p class="mb-0">' + text + '</p>');
                 $("#header-alert").show();
-                setTimeout(function () {
-                    $("#header-alert").hide();
-                }, 3000);
+                if (typeof duration === "undefined") var duration = 3000
+                if (!duration == 0) {
+                    setTimeout(function () {
+                        $("#header-alert").hide();
+                    }, duration);
+                }
             },
             // TODO: Create module for this...
             timeAgo: function (timestamp) {
