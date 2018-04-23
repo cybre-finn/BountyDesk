@@ -8,7 +8,7 @@ var middleware_module = require('../middleware_module.js');
 var RateLimit = require('express-rate-limit');
 var RateLimitRedisStore = require('rate-limit-redis');
 var redis = require('redis');
-
+const nodemailer = require('nodemailer');
 var limiter = new RateLimit({
   store: new RateLimitRedisStore({
     client: redis.createClient(config.redis_url)
@@ -21,6 +21,15 @@ var limiter = new RateLimit({
 //Model
 var Ticket = require('../models/ticket_model.js');
 var User = require('../models/user_model.js');
+var smtpConfig = {
+  host: config.smtp_host,
+  port: config.smtp_port ,
+  requireTLS: config.smtp_tls,
+  auth: {
+    user: config.smtp_user,
+    pass: config.smtp_password
+  }
+};
 
 //Tickets (/ticket) - GET
 router.get("/:id?", function (req, res) {
@@ -69,6 +78,17 @@ router.post('/', limiter, function (req, res) {
       res.sendStatus(500);
     }
     else {
+      var transporter = nodemailer.createTransport(smtpConfig);
+      var message = {
+        from: config.smtp_address,
+        to: ticketObj.contact_email,
+        subject: 'New support ticket',
+        html: 'You just created a support ticket. Take a look and consult for updates here: <a href="'+config.url+'ticket/'
+          + ticketObj._id + '">'+config.url+'ticket/'+ticketObj._id+'</a>.'
+      };
+      transporter.sendMail(message, function (err) {
+        if (err) console.log(err);
+      });
       res.json(ticketObj);
     }
   });
@@ -92,7 +112,7 @@ router.put('/:id', middleware_module.checkloggedin, function (req, res) {
             for (var index = 0; index < ticketObj.assigned.length; index++) {
               id = ticketObj.assigned[index]._id;
               quotient = Math.round(ticketObj.bounty / ticketObj.assigned.length);
-              User.update({ _id: id }, { $inc: { rep: quotient}}, function (err) {
+              User.update({ _id: id }, { $inc: { rep: quotient } }, function (err) {
                 if (err) console.error(err);
               });
             }
@@ -101,6 +121,17 @@ router.put('/:id', middleware_module.checkloggedin, function (req, res) {
             res.sendStatus(500);
           }
           else {
+            var transporter = nodemailer.createTransport(smtpConfig);
+            var message = {
+              from: config.smtp_address,
+              to: ticketObj.contact_email,
+              subject: 'Updated support ticket '+ticketObj._id,
+              html: 'A ticket has just been updated. Take a look and consult for updates here: <a href="'+config.url+'ticket/'
+                + ticketObj._id + '">'+config.url+'ticket/'+ticketObj._id+'</a>.'
+            };
+            transporter.sendMail(message, function (err) {
+              if (err) console.log(err);
+            });
             res.json(ticketObj);
           }
         });

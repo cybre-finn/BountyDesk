@@ -1,3 +1,4 @@
+'use strict';
 var cpuCount = require('os').cpus().length;
 //Config
 var config = require("./config.js");
@@ -50,7 +51,7 @@ if (cluster.isMaster) {
   app.use(passport.session());
 
   //Mongoose initialisiation
-  mongo_options = { auto_reconnect: true, reconnectTries: 100, reconnectInterval: 3000, keepAlive: 120, connectTimeoutMS: 3000 };
+  var mongo_options = { auto_reconnect: true, reconnectTries: 100, reconnectInterval: 3000, keepAlive: 120, connectTimeoutMS: 3000 };
   var db = mongoose.connection;
   db.on('connecting', function () {
     console.log('connecting to MongoDB...');
