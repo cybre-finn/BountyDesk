@@ -93,8 +93,8 @@ define([
                         if(callback && 'error' in callback) callback.error(res);
                     }
                 },
-                error: function(mod, res){
-                    if(callback && 'error' in callback) callback.error(res);
+                error: function(mod, res, status){
+                    if(callback && 'error' in callback) callback.error(status);
                 }
             }).complete( function(){
                 if(callback && 'complete' in callback) callback.complete(res);

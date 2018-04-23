@@ -30,7 +30,7 @@ define([
                         },
                         error: function (err) {
                             if (DEBUG) console.log("ERROR", err);
-                            app.showAlert(err.error, 'alert-danger');
+                            app.showAlert(err, 'alert-danger');
                         }
                     });
             } else {
