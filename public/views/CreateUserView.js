@@ -21,7 +21,6 @@ define([
         render: function () {
             this.template = _.template(CreateUserViewTpl);
             this.$el.html(this.template({ user: app.session.user.toJSON() }));
-            console.log("yeah");
             return this;
 
         },
@@ -39,7 +38,7 @@ define([
                             app.showAlert("User created", "alert-success");
                         },
                         error: function (model, response) {
-                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                            app.showAlert(response.status, "alert-danger");
                         }
                     });
             } else {

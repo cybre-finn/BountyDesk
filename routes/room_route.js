@@ -47,7 +47,7 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
       });
     }
     else {
-      res.sendStatus(401);
+      res.sendStatus(403);
     }
   })
 });
@@ -66,7 +66,7 @@ router.delete("/:id?", middleware_module.checkloggedin, function(req, res) {
     });
     }
     else {
-      res.sendStatus(401);
+      res.sendStatus(403);
     }
   })
 });

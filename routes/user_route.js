@@ -12,7 +12,7 @@ var User = require('../models/user_model.js');
 //Users (/user) - GET
 router.get("/:name?", function(req, res) {
   if (req.params.name) {
-    User.findOne({ 'name':  req.params.name}, '-password -avatar', function (err, user) {
+    User.findOne({ 'name':  req.params.name}, '-password', function (err, user) {
       if (err) {
         res.sendStatus(500);
       }
@@ -25,7 +25,7 @@ router.get("/:name?", function(req, res) {
     })
   }
   else {
-    User.find({}, '-password -avatar', function (err, users) {
+    User.find({}, '-password', function (err, users) {
       if (err) {
         res.sendStatus(500);
       }
@@ -57,7 +57,7 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
       });
     }
     else {
-      res.sendStatus(401);
+      res.sendStatus(403);
     }
   })
 });
@@ -75,7 +75,7 @@ router.delete("/:name?", middleware_module.checkloggedin, function(req, res) {
       });
     }
     else {
-      res.sendStatus(401);
+      res.sendStatus(403);
     }
   })
 });

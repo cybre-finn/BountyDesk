@@ -45,7 +45,7 @@ define([
                             app.showAlert("Created new room", "alert-success");
                             self.render();
                         }, error: function (model, response) {
-                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                            app.showAlert(response.status, "alert-danger");
                         }
                     }
                 );

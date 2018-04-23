@@ -82,7 +82,7 @@ define([
                             self.render();
                         },
                         error: function (model, response) {
-                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                            app.showAlert(response.status, "alert-danger");
                         }
                     });
                 }
@@ -102,7 +102,7 @@ define([
                         self.render();
                     },
                     error: function (model, response) {
-                        app.showAlert("HTTP error: " + response.status, "alert-danger");
+                        app.showAlert(response.status, "alert-danger");
                     }
                 });
             } else e.target.classList.add('was-validated');
@@ -131,7 +131,7 @@ define([
                         self.render();
                     },
                     error: function (model, response) {
-                        app.showAlert("HTTP error: " + response.status, "alert-danger");
+                        app.showAlert(response.status, "alert-danger");
                     }
                 });
             } else e.target.classList.add('was-validated');
