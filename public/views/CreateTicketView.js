@@ -46,9 +46,8 @@ define([
                         content: this.$("#CreateTicket-content").val()
                     }, {
                             success: function (model, response) {
-                                if (!app.session.get("logged_in")) {
-                                    app.showAlert("Ticket created. Keep track of your mailbox for updates from us.", "alert-success");
-                                } else Backbone.history.navigate('/', true);
+                                app.showAlert("Ticket created. Keep track of your mailbox for updates from us.", "alert-success");
+                                Backbone.history.navigate('/', true);
                             },
                             error: function (model, response) {
                                 app.showAlert("HTTP error: " + response.status, "alert-danger");
@@ -62,6 +61,14 @@ define([
                         room: this.$("#CreateTicket-room").val(),
                         content: this.$("#CreateTicket-content").val(),
                         contact_email: this.$("#CreateTicket-email").val()
+                    }, {
+                        success: function (model, response) {
+                            app.showAlert("Ticket created. Keep track of your mailbox for updates from us.", "alert-success", 0);
+                            Backbone.history.navigate('/', true);
+                        },
+                        error: function (model, response) {
+                            app.showAlert("HTTP error: " + response.status, "alert-danger");
+                        }
                     });
                 }
             }
