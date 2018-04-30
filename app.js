@@ -1,7 +1,7 @@
 'use strict';
-var cpuCount = require('os').cpus().length;
+const cpuCount = require('os').cpus().length;
 //Config
-var config = require("./config.js");
+const config = require("./config.js");
 
 //Modules
 const express = require("express");
@@ -19,6 +19,10 @@ const RedisStore = require('connect-redis')(session);
 const middleware_module = require('./middleware_module.js');
 const xss = require('xss-clean');
 const cluster = require('cluster');
+
+//Models
+const User = require('./models/user_model.js');
+
 if (cluster.isMaster) {
 
   for (var i = 0; i < cpuCount; i++) {
@@ -27,11 +31,8 @@ if (cluster.isMaster) {
 
 } else {
 
-  //Models
-  var User = require('./models/user_model.js');
-
   //Init Express
-  var app = express();
+  const app = express();
 
   //app.use directives
   app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -51,8 +52,8 @@ if (cluster.isMaster) {
   app.use(passport.session());
 
   //Mongoose initialisiation
-  var mongo_options = { auto_reconnect: true, reconnectTries: 100, reconnectInterval: 3000, keepAlive: 120, connectTimeoutMS: 3000 };
-  var db = mongoose.connection;
+  const mongo_options = { auto_reconnect: true, reconnectTries: 100, reconnectInterval: 3000, keepAlive: 120, connectTimeoutMS: 3000 };
+  const db = mongoose.connection;
   db.on('connecting', function () {
     console.log('connecting to MongoDB...');
   });

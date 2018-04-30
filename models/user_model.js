@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var userSchema = new Schema({
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
   name: { type: String, index: { unique: true, dropDups: true}, required:true },
   email: { type: String, index: { unique: true, dropDups: true }},
   real_name: String,

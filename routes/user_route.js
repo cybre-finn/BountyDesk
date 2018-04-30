@@ -1,13 +1,13 @@
 //Config
-var config = require("../config.js");
+const config = require("../config.js");
 //Modules
-var express = require('express');
-var bcrypt = require('bcrypt');
-var router = express.Router();
-var reputation_module = require('../reputation_module.js');
-var middleware_module = require('../middleware_module.js');
+const express = require('express');
+const bcrypt = require('bcrypt');
+const router = express.Router();
+const reputation_module = require('../reputation_module.js');
+const middleware_module = require('../middleware_module.js');
 //Model
-var User = require('../models/user_model.js');
+const User = require('../models/user_model.js');
 
 //Users (/user) - GET
 router.get("/:name?", function(req, res) {

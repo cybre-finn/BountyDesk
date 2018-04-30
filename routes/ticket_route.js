@@ -1,15 +1,15 @@
 //Config
-var config = require("../config.js");
+const config = require("../config.js");
 //Modules
-var express = require('express');
-var router = express.Router();
-var reputation_module = require('../reputation_module.js');
-var middleware_module = require('../middleware_module.js');
-var RateLimit = require('express-rate-limit');
-var RateLimitRedisStore = require('rate-limit-redis');
-var redis = require('redis');
+const express = require('express');
+const router = express.Router();
+const reputation_module = require('../reputation_module.js');
+const middleware_module = require('../middleware_module.js');
+const RateLimit = require('express-rate-limit');
+const RateLimitRedisStore = require('rate-limit-redis');
+const redis = require('redis');
 const nodemailer = require('nodemailer');
-var limiter = new RateLimit({
+const limiter = new RateLimit({
   store: new RateLimitRedisStore({
     client: redis.createClient(config.redis_url)
   }),
@@ -19,9 +19,9 @@ var limiter = new RateLimit({
 });
 
 //Model
-var Ticket = require('../models/ticket_model.js');
-var User = require('../models/user_model.js');
-var smtpConfig = {
+const Ticket = require('../models/ticket_model.js');
+const User = require('../models/user_model.js');
+const smtpConfig = {
   host: config.smtp_host,
   port: config.smtp_port ,
   requireTLS: config.smtp_tls,

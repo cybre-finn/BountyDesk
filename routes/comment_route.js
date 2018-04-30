@@ -1,12 +1,12 @@
 //Config
-var config = require("../config.js");
+const config = require("../config.js");
 //Modules
-var express = require('express');
-var router = express.Router();
-var reputation_module = require('../reputation_module.js');
-var middleware_module = require('../middleware_module.js');
+const express = require('express');
+const router = express.Router();
+const reputation_module = require('../reputation_module.js');
+const middleware_module = require('../middleware_module.js');
 //Model
-var Comment = require('../models/comment_model.js');
+const Comment = require('../models/comment_model.js');
 
 //Comment (/comment) - GET
 router.get("/:ticket_id?", middleware_module.checkloggedin, function(req, res) {

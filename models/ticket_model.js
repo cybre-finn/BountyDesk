@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var fileId = mongoose.Types.ObjectId();
-var ticketSchema = new Schema({
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const fileId = mongoose.Types.ObjectId();
+const ticketSchema = new Schema({
   headline: String,
   content: String,
   contact_email: String,

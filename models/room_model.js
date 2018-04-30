@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var roomSchema = new Schema({
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const roomSchema = new Schema({
   room_number: { type: String, index: { unique: true, dropDups: true }, required: true },
   role: String,
   coord: String
