@@ -7,7 +7,6 @@ const config = require("./config.js");
 const express = require("express");
 const bcrypt = require('bcrypt');
 const bodyParser = require("body-parser");
-const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
