@@ -134,7 +134,6 @@ if (cluster.isMaster) {
   app.use('/tickets', require('./routes/ticket_route.js'));
   app.use('/comments', require('./routes/comment_route.js'));
   app.use('/rooms', require('./routes/room_route.js'));
-  app.use('/devices', require('./routes/device_route.js'));
 
   //Root (/) - GET
   app.get("/api", function (req, res) {
