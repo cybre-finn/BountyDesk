@@ -75,7 +75,6 @@ if (cluster.isMaster) {
   //Create bootstrap user
   mongoose.connection.on('connected', function () {
     mongoose.connection.db.collection('users').count(function (err, count) {
-      console.log('count %s', count);
       if (count == 0) {
         console.log("Create bootstrap user");
         bcrypt.hash(config.bootstrap_user_password, config.crypt_saltRounds, function (err, hash) {
