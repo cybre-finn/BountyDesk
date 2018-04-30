@@ -49,19 +49,19 @@ I try to integrate several security best practises. See TODO. Please consider us
     - [x] reward distribution
     - [x] blocked
     - [ ] improve API
-        - [ ] dont send add archived by default
+        - [ ] dont send archived by default
 - [x] node multithreading
 - [ ] security checklist :key:
     - [x] xss
-    - [ ] packages
-    - [ ] intercept all errors
+    - [x] packages
+    - [ ] intercept errors
 - [x] rename application
 - [x] validate forms
 - [x] error/success messages
 - [ ] disable forms by reputation
 - [ ] search
 - [ ] status comments
-    - [ ] email
+- [x] email
 
 ### later releases
 - [ ] wiki integration
