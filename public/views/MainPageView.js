@@ -13,6 +13,7 @@ define([
             if (app.session.get('logged_in') == true) {
                 var self = this;
                 this.TicketCollection.fetch({
+                    data: $.param({ status: 0, status: 1, status: 2}),
                     success: function () {
                         self.render();
                     }
