@@ -4,6 +4,10 @@
             <div class="card mb-4">
                 <div class="card-header">Ticket</div>
                 <div class="card-body p-3">
+                    <small class="float-right text-muted">Issued
+                        <%= timeAgo(this.TicketModel.toJSON().created) %> by
+                            <%= this.TicketModel.toJSON().issuer %>
+                    </small>
                     <h1 class="mb-1 card-title">
                         <%= this.TicketModel.toJSON().headline %>
                     </h1>
@@ -67,39 +71,39 @@
                 <div class="card-header">Comments</div>
                 <div class="card-body p-3">
                     <% if(logged_in){ %>
-                    <form id="comment-form" novalidate>
-                        <div class="form-row">
-                            <div class="col-10">
-                                <input type="text" id="comment-content" class="form-control" placeholder="Comment" required>
+                        <form id="comment-form" novalidate>
+                            <div class="form-row">
+                                <div class="col-10">
+                                    <input type="text" id="comment-content" class="form-control" placeholder="Comment" required>
+                                </div>
+                                <div class="col-2">
+                                    <button id="CreateUser-btn" type="submit" class="btn btn-primary btn-block">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-2">
-                                <button id="CreateUser-btn" type="submit" class="btn btn-primary btn-block">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <% } else { %>
-                    <i>Only members can comment on this.</i>
-                    <% } %>
-                    <div class="mt-3">
-                        <% this.CommentCollection.each(function(model){ %>
-                            <div class="media text-muted">
-                                <p class="media-body pt-2 mt-0 border-top border-gray">
-                                    <small class="float-right">
-                                        <%= timeAgo(model.toJSON().created) %>
-                                    </small>
-                                    <strong class="d-block text-gray-dark">
-                                        @<%=model.toJSON().user %>
-                                    </strong>
-                                    <%= model.toJSON().content %>
-                                </p>
-                            </div>
-                            <% }) %>
-                                <!--<small class="d-block text-right">
+                        </form>
+                        <% } else { %>
+                            <i>Only members can comment on this.</i>
+                            <% } %>
+                                <div class="mt-3">
+                                    <% this.CommentCollection.each(function(model){ %>
+                                        <div class="media text-muted">
+                                            <p class="media-body pt-2 mt-0 border-top border-gray">
+                                                <small class="float-right">
+                                                    <%= timeAgo(model.toJSON().created) %>
+                                                </small>
+                                                <strong class="d-block text-gray-dark">
+                                                    @<%=model.toJSON().user %>
+                                                </strong>
+                                                <%= model.toJSON().content %>
+                                            </p>
+                                        </div>
+                                        <% }) %>
+                                            <!--<small class="d-block text-right">
                                     <a href="#">All Comments</a>
                                 </small>-->
-                    </div>
+                                </div>
                 </div>
             </div>
 
