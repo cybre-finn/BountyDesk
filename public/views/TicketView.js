@@ -19,13 +19,13 @@ define([
             this.CommentCollection = new CommentCollection();
             var self = this;
             this.TicketModel.fetch({
-                success: function () { successTicketModel(); }
+                success: function () { successUserCollection(); }
             });
             function successTicketModel() {
                 if (app.session.get("logged_in")) {
                     self.UserCollection.fetch({
                         success: function () {
-                            successUserCollection();
+                            self.render();
                         }
                     });
                 }
@@ -37,7 +37,7 @@ define([
                 self.CommentCollection.fetch({
                     data: $.param({ ticket_id: self.options.ticket_id}),
                     success: function () {
-                        self.render();
+                        successTicketModel();
                     }
                 });
             }

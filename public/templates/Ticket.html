@@ -66,6 +66,7 @@
             <div class="card">
                 <div class="card-header">Comments</div>
                 <div class="card-body p-3">
+                    <% if(logged_in){ %>
                     <form id="comment-form" novalidate>
                         <div class="form-row">
                             <div class="col-10">
@@ -78,6 +79,9 @@
                             </div>
                         </div>
                     </form>
+                    <% } else { %>
+                    <i>Only members can comment on this.</i>
+                    <% } %>
                     <div class="mt-3">
                         <% this.CommentCollection.each(function(model){ %>
                             <div class="media text-muted">
