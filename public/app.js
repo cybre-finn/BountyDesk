@@ -35,9 +35,10 @@ define([
                 return date.toDateString();
             }
         };
-
-        $.ajaxSetup({ cache: false });          // force ajax call on all browsers
-
+        //TODO ANTI-cache in backend
+        // remove timestamp from jquery ajax (https://bugs.jquery.com/ticket/8298)
+        //$.ajaxSetup({ cache: false });          // force ajax call on all browsers
+        $.ajaxSetup({ cache: true }); 
 
         // Global event aggregator
         app.eventAggregator = _.extend({}, Backbone.Events);

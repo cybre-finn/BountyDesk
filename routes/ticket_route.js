@@ -23,7 +23,7 @@ const Ticket = require('../models/ticket_model.js');
 const User = require('../models/user_model.js');
 const smtpConfig = {
   host: config.smtp_host,
-  port: config.smtp_port ,
+  port: config.smtp_port,
   requireTLS: config.smtp_tls,
   auth: {
     user: config.smtp_user,
@@ -34,11 +34,11 @@ const smtpConfig = {
 //Tickets (/ticket) - GET
 router.get("/:id?", function (req, res) {
   if (req.params.id) {
-    Ticket.findOne({ '_id': req.params.id }, '-img', function (err, ticket) {
+    Ticket.findOne({ '_id': req.params.id }, function (err, ticket) {
       if (err) {
         res.sendStatus(500);
       }
-      if (ticket) {
+      else if (ticket) {
         res.json(ticket);
       }
       else {
@@ -47,14 +47,37 @@ router.get("/:id?", function (req, res) {
     })
   }
   else {
-    Ticket.find({}, '-img', function (err, tickets) {
+    let sort = {};
+    if (req.query.sort) {
+      if (req.query.sort.search("-") == 0) {
+        sort[req.query.sort.substring(1)] = -1;
+      }
+      else sort[req.query.sort] = 1;
+      delete req.query.sort;
+    }
+    if (req.query.limit) {
+      let limit = Number(req.query.limit)
+      delete req.query.limit;
+      Ticket.
+        find(req.query).
+        limit(limit).
+        sort(sort).
+        exec(callback);
+    }
+    else {
+      Ticket.
+        find(req.query).
+        sort(sort).
+        exec(callback);
+    }
+    function callback(err, tickets) {
       if (err) {
         res.sendStatus(500);
       }
       else {
         res.json(tickets);
       }
-    }).sort({ created: -1 });
+    };
   }
 });
 
@@ -83,8 +106,8 @@ router.post('/', limiter, function (req, res) {
         from: config.smtp_address,
         to: ticketObj.contact_email,
         subject: 'New support ticket',
-        html: 'You just created a support ticket. Take a look and consult for updates here: <a href="'+config.url+'ticket/'
-          + ticketObj._id + '">'+config.url+'ticket/'+ticketObj._id+'</a>.'
+        html: 'You just created a support ticket. Take a look and consult for updates here: <a href="' + config.url + 'ticket/'
+          + ticketObj._id + '">' + config.url + 'ticket/' + ticketObj._id + '</a>.'
       };
       transporter.sendMail(message, function (err) {
         if (err) console.log(err);
@@ -125,9 +148,9 @@ router.put('/:id', middleware_module.checkloggedin, function (req, res) {
             var message = {
               from: config.smtp_address,
               to: ticketObj.contact_email,
-              subject: 'Updated support ticket '+ticketObj._id,
-              html: 'A ticket has just been updated. Take a look and consult for updates here: <a href="'+config.url+'ticket/'
-                + ticketObj._id + '">'+config.url+'ticket/'+ticketObj._id+'</a>.'
+              subject: 'Updated support ticket ' + ticketObj._id,
+              html: 'A ticket has just been updated. Take a look and consult for updates here: <a href="' + config.url + 'ticket/'
+                + ticketObj._id + '">' + config.url + 'ticket/' + ticketObj._id + '</a>.'
             };
             transporter.sendMail(message, function (err) {
               if (err) console.log(err);
