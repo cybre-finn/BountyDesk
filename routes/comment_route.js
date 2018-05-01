@@ -8,28 +8,47 @@ const middleware_module = require('../middleware_module.js');
 //Model
 const Comment = require('../models/comment_model.js');
 
-//Comment (/comment) - GET
-router.get("/:ticket_id?", middleware_module.checkloggedin, function(req, res) {
-  if (req.params.ticket_id) {
-    Comment.find({ 'ticket_id':  req.params.ticket_id}, function (err, comments) {
-      res.json(comments);
-    })
+//Comment (/comments) - GET
+router.get("/", function (req, res) {
+  let sort = {};
+  if (req.query.sort) {
+    if (req.query.sort.search("-") == 0) {
+      sort[req.query.sort.substring(1)] = -1;
+    }
+    else sort[req.query.sort] = 1;
+    delete req.query.sort;
+  }
+  if (req.query.limit) {
+    let limit = Number(req.query.limit)
+    delete req.query.limit;
+    Comment.
+      find(req.query).
+      limit(limit).
+      sort(sort).
+      exec(callback);
   }
   else {
-    res.sendStatus(404);
+    Comment.
+      find(req.query).
+      sort(sort).
+      exec(callback);
+  }
+  function callback(err, comments) {
+    if (err) res.sendStatus(500);
+    res.json(comments);
   }
 });
 
 //Comment (/comment) - POST
-router.post('/', middleware_module.checkloggedin, function(req, res) {
-  reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=config.rep_create_comment) {
-      var comment1 = new Comment({content: req.body.content, user: req.auth_user.name, ticket_id: req.body.ticket_id});
+router.post('/', middleware_module.checkloggedin, function (req, res) {
+  reputation_module.userrep(req.user.name, function (rep) {
+    if (rep >= config.rep_create_comment) {
+      var comment1 = new Comment({ content: req.body.content, user: req.user.name, ticket_id: req.body.ticket_id });
       comment1.save(function (err, commentObj) {
         if (err) {
           res.sendStatus(500);
         } else {
-          res.sendStatus(201);
+          res.json(commentObj);;
         }
       })
     }
@@ -40,10 +59,10 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
 });
 
 //Comment (/comment) - DELETE
-router.delete('/:id?', middleware_module.checkloggedin, function(req, res) {
-  reputation_module.userrep(req.user.name, function(rep) {
-    if(rep>=config.rep_delete_comment) {
-      Comment.remove({ _id: req.params.id }, function(err) {
+router.delete('/:id?', middleware_module.checkloggedin, function (req, res) {
+  reputation_module.userrep(req.user.name, function (rep) {
+    if (rep >= config.rep_delete_comment) {
+      Comment.remove({ _id: req.params.id }, function (err) {
         if (err) {
           res.sendStatus(500);
         } else {

@@ -3,11 +3,12 @@ define([
 
     "text!templates/Ticket.html",
     "models/TicketModel",
+    "collections/CommentCollection",
     "collections/UserCollection",
 
     "bootstrap_select",
     "showdown"
-], function (app, TicketViewTpl, TicketModel, UserCollection, bootstrap_select, showdown) {
+], function (app, TicketViewTpl, TicketModel, CommentCollection, UserCollection, bootstrap_select, showdown) {
 
     var TicketView = Backbone.View.extend({
 
@@ -15,40 +16,50 @@ define([
             _.bindAll(this);
             this.UserCollection = new UserCollection({});
             this.TicketModel = new TicketModel({ id: this.options.ticket_id });
+            this.CommentCollection = new CommentCollection();
             var self = this;
-            //TODO: Clean up this spagetti
             this.TicketModel.fetch({
-                success: function () {
-                    if (app.session.get("logged_in")) {
-                        self.UserCollection.fetch({
-                            success: function () {
-                                self.render();
-                            }
-                        });
-                    }
-                    else {
+                success: function () { successTicketModel(); }
+            });
+            function successTicketModel() {
+                if (app.session.get("logged_in")) {
+                    self.UserCollection.fetch({
+                        success: function () {
+                            successUserCollection();
+                        }
+                    });
+                }
+                else {
+                    self.render();
+                }
+            }
+            function successUserCollection() {
+                self.CommentCollection.fetch({
+                    data: $.param({ ticket_id: self.options.ticket_id}),
+                    success: function () {
                         self.render();
                     }
-                }
-            });
+                });
+            }
         },
 
         events: {
             "submit #status-form": "onChStatus",
             "submit #bounty-form": "onChBounty",
-            "submit #assign-form": "onAssign"
+            "submit #assign-form": "onAssign",
+            "submit #comment-form": "onCrComment"
         },
 
         render: function () {
+            this.CommentCollection.sort();
             var converter = new showdown.Converter();
             this.template = _.template(TicketViewTpl);
-            console.log(this.TicketModel.toJSON());
             this.$el.html(this.template({
                 status: this.TicketModel.toJSON().status,
                 logged_in: app.session.get("logged_in"),
                 user: app.session.user.toJSON(),
                 content: converter.makeHtml(this.TicketModel.toJSON().content),
-                timeago: app.timeAgo(this.TicketModel.toJSON().created)
+                timeAgo: app.timeAgo,
             }));
             $('select').selectpicker();
             if (this.TicketModel.toJSON().assigned) for (assigned in this.TicketModel.toJSON().assigned) {
@@ -135,7 +146,24 @@ define([
                     }
                 });
             } else e.target.classList.add('was-validated');
-        }
+        },
+        onCrComment: function (e) {
+            e.preventDefault();
+            if (e.target.checkValidity() === true) {
+                var self = this;
+                this.CommentCollection.create({
+                    content: this.$("#comment-content").val(),
+                    ticket_id: this.options.ticket_id
+                }, {
+                        success: function (model, response) {
+                            self.render();
+                        }, error: function (model, response) {
+                            app.showAlert(response.status, "alert-danger");
+                        }
+                    }
+                );
+            } else e.target.classList.add('was-validated');
+        },
 
     });
 
