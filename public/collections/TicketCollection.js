@@ -4,12 +4,13 @@ define([
 ], function (app, TicketModel) {
     var TicketCollection = Backbone.Collection.extend({
 
-        initialize: function () {
-            
+        initialize: function (options) {
+            this.options=options;
         },
         model: TicketModel,
         "url": function () {
-            return app.API + '/tickets';
+            if (this.options.query) return app.API + '/tickets?' + this.options.query;
+            else return app.API + '/tickets';
         }
     });
 

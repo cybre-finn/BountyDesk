@@ -1,15 +1,14 @@
 define([
     "app",
 
-    "text!templates/BlockedTickets.html",
+    "text!templates/TicketQuery.html",
     "collections/TicketCollection"
 ], function (app, BlockedTicketsTpl, TicketCollection) {
 
     var BlockedTicketsView = Backbone.View.extend({
 
-        initialize: function () {
-            
-            this.TicketCollection = new TicketCollection({});
+        initialize: function (options) {
+            this.TicketCollection = new TicketCollection({query: options.urlQuery});
             var self = this;
             this.TicketCollection.fetch({
                 success: function () {

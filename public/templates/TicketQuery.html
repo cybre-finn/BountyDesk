@@ -1,6 +1,6 @@
 <div class="list-group">
 
-    <% this.TicketCollection.each(function(model){ if(model.toJSON().assigned&&model.toJSON().status<3&&model.toJSON().assigned.find(function(x){return x.name === user.name})) {  %>
+    <% this.TicketCollection.each(function(model){  %>
         <a href="#ticket/<%= model.toJSON()._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex justify-content-between align-items-center">
                 <span class="text-truncate">
@@ -13,5 +13,5 @@
                     <% } %>
             </div>
         </a>
-        <% }}); %>
+        <% }); %>
 </div>
