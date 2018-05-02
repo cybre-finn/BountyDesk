@@ -8,7 +8,7 @@ define([
     var CommentModel = Backbone.Model.extend({
         
         initialize: function(){
-            _.bindAll(this);
+            
         },
        
         defaults: {

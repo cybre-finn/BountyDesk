@@ -12,8 +12,8 @@ define([
 
     var TicketView = Backbone.View.extend({
 
-        initialize: function () {
-            _.bindAll(this);
+        initialize: function (options) {
+            this.options=options;
             this.UserCollection = new UserCollection({});
             this.TicketModel = new TicketModel({ id: this.options.ticket_id });
             this.CommentCollection = new CommentCollection();

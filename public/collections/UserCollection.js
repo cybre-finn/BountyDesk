@@ -5,7 +5,7 @@ define([
     var UserCollection = Backbone.Collection.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
         },
         model: UserModel,
         "url": function () {

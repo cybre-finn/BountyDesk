@@ -10,7 +10,7 @@ define([
     var CreateTicketView = Backbone.View.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
             this.TicketCollection = new TicketCollection({});
             this.RoomCollection = new RoomCollection({});
             var self = this;

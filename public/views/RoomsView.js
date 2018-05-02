@@ -11,7 +11,7 @@ define([
     var RoomsView = Backbone.View.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
             this.RoomCollection = new RoomCollection({});
             var self = this;
             this.RoomCollection.fetch({

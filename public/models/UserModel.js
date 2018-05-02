@@ -8,7 +8,7 @@ define([
     var UserModel = Backbone.Model.extend({
 
         initialize: function(){
-            _.bindAll(this);
+            
         },
 
         defaults: {

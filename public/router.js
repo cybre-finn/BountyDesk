@@ -29,7 +29,7 @@ define([
     var WebRouter = Backbone.Router.extend({
 
         initialize: function(){
-            _.bindAll(this);
+        
         },
 
         routes: {

@@ -5,7 +5,7 @@ define([
     var CommentCollection = Backbone.Collection.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
         },
         model: CommentModel,
         "url": function () {

@@ -8,7 +8,7 @@ define([
     var MainPageView = Backbone.View.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
             this.TicketCollection = new TicketCollection({});
             if (app.session.get('logged_in') == true) {
                 var self = this;

@@ -8,7 +8,6 @@ define([
     var MyTicketsView = Backbone.View.extend({
 
         initialize: function () {
-            _.bindAll(this);
             this.TicketCollection = new TicketCollection({});
             var self = this;
             this.TicketCollection.fetch({

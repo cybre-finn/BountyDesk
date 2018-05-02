@@ -10,7 +10,7 @@ define([
         template: _.template(HeaderTpl),
 
         initialize: function () {
-            _.bindAll(this);
+            
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);

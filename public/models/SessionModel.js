@@ -16,7 +16,7 @@ define([
         },
 
         initialize: function(){
-            _.bindAll(this);
+            
 
             // Singleton user object
             // Access or listen on this throughout any module with app.session.user

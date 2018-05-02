@@ -9,7 +9,7 @@ define([
     var CreateUserView = Backbone.View.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
             this.UserCollection = new UserCollection({});
             this.render();
         },

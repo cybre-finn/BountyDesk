@@ -5,7 +5,7 @@ define([
     var TicketCollection = Backbone.Collection.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
         },
         model: TicketModel,
         "url": function () {

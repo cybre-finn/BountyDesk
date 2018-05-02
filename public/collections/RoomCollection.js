@@ -5,7 +5,7 @@ define([
     var RoomCollection = Backbone.Collection.extend({
 
         initialize: function () {
-            _.bindAll(this);
+            
         },
         model: RoomModel,
         "url": function () {
