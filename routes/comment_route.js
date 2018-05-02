@@ -48,7 +48,7 @@ router.post('/', middleware_module.checkloggedin, function (req, res) {
         if (err) {
           res.sendStatus(500);
         } else {
-          res.json(commentObj);;
+          res.json(commentObj);
         }
       })
     }
