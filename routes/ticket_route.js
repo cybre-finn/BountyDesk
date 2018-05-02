@@ -55,6 +55,10 @@ router.get("/:id?", function (req, res) {
       else sort[req.query.sort] = 1;
       delete req.query.sort;
     }
+    if (req.query.search) {
+       req.query.$text= {$search: req.query.search};
+       delete req.query.search;
+    }
     if (req.query.limit) {
       let limit = Number(req.query.limit)
       delete req.query.limit;

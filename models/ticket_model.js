@@ -15,4 +15,5 @@ const ticketSchema = new Schema({
   created: { type: Date, default: Date.now },
   deadline: { type: Date },
 });
+ticketSchema.index({ headline: 'text', content: 'text', issuer: 'text', contact_email: 'text', room: 'text'});
 module.exports = mongoose.model('tickets', ticketSchema);

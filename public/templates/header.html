@@ -28,6 +28,13 @@
         </ul>
         <% if(logged_in){ %>
             <ul class="nav navbar-nav navbar-left">
+                <li class="nav-item">
+                    <form class="form-inline mr-3" id="search-form">
+                        <input class="form-control mr-sm-2" id="search-query" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+                            <i class="fas fa-search"></i> Search</button>
+                    </form>
+                </li>
                 <li class="nav-item dropdown">
                     <span class="nav-link dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" id="download" aria-expanded="true">
                         <i class="fas fa-user"> </i>

@@ -7,7 +7,7 @@ define([
     var LoginView = Backbone.View.extend({
 
         initialize: function () {
-            
+            _.bindAll(this, 'onLoginAttempt', 'render')
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.render);
