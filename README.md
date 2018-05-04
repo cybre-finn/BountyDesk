@@ -1,10 +1,10 @@
-# NeoDesk
+# BountyDesk
 
-[![Build Status](https://travis-ci.org/ikarulus/NeoDesk.svg?branch=master)](https://travis-ci.org/ikarulus/NeoDesk)
+[![Build Status](https://travis-ci.org/ikarulus/BountyDesk.svg?branch=master)](https://travis-ci.org/ikarulus/BountyDesk)
 
 **This is currently not meant to be used in production.**
 
-NeoDesk aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments of e.g. schools.
+BountyDesk aims to be a simplistic solution for (IT-) Helpdesk systems where Jira, Redmine and others seem too big. With this I aim for the IT-departments of e.g. schools.
 
 Instead of admin/user privilege management, access/edit privileges are reputation based. It does *only* support ticket management and nearly nothing else.
 With the first stable release it may provide these features:
@@ -16,13 +16,13 @@ With the first stable release it may provide these features:
 * Seamless wiki integrations (as it provides no wiki)
 
 ## Demo
-[neodesk.herokuapp.com](https://neodesk.herokuapp.com)
+[bountydesk.herokuapp.com](https://bountydesk.herokuapp.com)
 
 Use admin/admin for an account with 100000 reputation.
 
 ## Installation (using npm):
-1. `git clone https://github.com/ikarulus/NeoDesk.git`
-2. `cd` in your "NeoDesk" directory
+1. `git clone https://github.com/ikarulus/BountyDesk.git`
+2. `cd` in your "BountyDesk" directory
 3. `npm install`
 4. Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [Redis](https://redis.io/topics/quickstart)
 5. Wire up MongoDB and Redis database connection in the configuration file
@@ -30,7 +30,7 @@ Use admin/admin for an account with 100000 reputation.
 7. Launch via `node app.js` or `npm start`
 
 ## Docker
-Find the prebuilt Docker image on Dockerhub: [https://hub.docker.com/r/ikarulus/neodesk/](https://hub.docker.com/r/ikarulus/neodesk/)
+Find the prebuilt Docker image on Dockerhub: [https://hub.docker.com/r/ikarulus/dountydesk/](https://hub.docker.com/r/ikarulus/bountydesk/)
 ### docker-compose
 This project provides a docker-compose-yml.
 Use `docker-compose up` to pull and start the stack.

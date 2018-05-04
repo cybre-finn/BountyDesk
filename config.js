@@ -33,6 +33,6 @@ if (process.env.PORT) config.app_port = process.env.PORT;
 else config.app_port = 8080;
 if (process.env.SESSION_SECRET) config.session_secret = process.env.SESSION_SECRET;
 else config.session_secret = 'nqpvn32czr7';
-config.info_api_root = "<h1>NeoDesk-Backend</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>";
+config.info_api_root = "<h1>BountyDesk-Backend</h1>Usage: <a href=\"https://github.com/ikarulus\">https://github.com/ikarulus</a>";
 
 module.exports = config;

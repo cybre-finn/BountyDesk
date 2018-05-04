@@ -1,10 +1,10 @@
 version: "2.3"
 services:
-  neodesk:
-    image: ikarulus/neodesk:latest
+  bountydesk:
+    image: ikarulus/bountydesk:latest
     restart: on-failure
     environment:
-      MONGODB_URI: "mongodb://mongodb/neodesk"
+      MONGODB_URI: "mongodb://mongodb/bountydesk"
       REDIS_URL: //redis:6379
       SESSION_SECRET: changeme
       BOOSTRAP_USER_REPUTATION: 3000
