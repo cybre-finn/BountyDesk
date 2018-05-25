@@ -9,9 +9,13 @@ define([
     var CreateUserView = Backbone.View.extend({
 
         initialize: function () {
-            
             this.UserCollection = new UserCollection({});
-            this.render();
+            var self = this;
+            this.UserCollection.fetch({
+                success: function () {
+                    self.render();
+                }
+            });
         },
 
         events: {
@@ -27,15 +31,18 @@ define([
 
         onCreateUser: function (e) {
             e.preventDefault();
+            self=this;
             if (e.target.checkValidity() === true) {
                 this.UserCollection.create({
                     name: this.$("#CreateUser-name").val(),
                     email: this.$("#CreateUser-email").val(),
                     real_name: this.$("#CreateUser-real_name").val(),
-                    password: this.$("#CreateUser-password").val()
+                    password: this.$("#CreateUser-password").val(),
+                    rep: this.$("#CreateUser-rep").val()
                 }, {
                         success: function (model, response) {
                             app.showAlert("User created", "alert-success");
+                            self.render();
                         },
                         error: function (model, response) {
                             app.showAlert(response.status, "alert-danger");

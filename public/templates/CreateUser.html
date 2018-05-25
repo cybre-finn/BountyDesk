@@ -1,17 +1,31 @@
 <h1>New User</h1>
 
 <form id="CreateUser-form" novalidate>
-    <div class="form-group">
-        <input type="text" class="form-control" id="CreateUser-name" placeholder="Username" required>
-    </div>
-    <div class="form-group">
+    <div class="form-group d-flex justify-content-between">
+        <input type="text" class="form-control" id="CreateUser-name" placeholder="Username - cannot be changed later" required>
         <input type="email" class="form-control" id="CreateUser-email" placeholder="Email" required>
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex justify-content-between">
         <input type="text" class="form-control" id="CreateUser-real_name" placeholder="Real name (optional)">
+        <input type="number" class="form-control" id="CreateUser-rep" placeholder="Initial reputation (optional)" required>
     </div>
     <div class="form-group">
         <input type="password" class="form-control" id="CreateUser-password" placeholder="Password" required>
     </div>
     <button id="CreateUser-btn" type="submit" class="btn btn-primary">Create User</button>
 </form>
+<hr>
+
+<ul class="list-group">
+    <% this.UserCollection.each(function(model){ %>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <%= model.toJSON().name %>
+                <span class="badge badge-primary">
+                    <i class="fas fa-plus-square"></i>
+                    <%= model.toJSON().rep %>
+                </span>
+        </li>
+
+        <% }); %>
+</ul>

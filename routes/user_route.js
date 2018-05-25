@@ -43,7 +43,8 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
       bcrypt.hash(req.body.password, config.crypt_saltRounds, function(err, hash) {
         if (err) { res.sendStatus(500); }
         else {
-          var user1 = new User({name: req.body.name, email: req.body.email, real_name: req.body.real_name, password: hash, status: req.body.status});
+          var user1 = new User({name: req.body.name, email: req.body.email, real_name: req.body.real_name, password: hash, status: req.body.status,
+            rep: req.body.rep});
           user1.save(function (err, userObj) {
             if (err) {
               res.sendStatus(500);
