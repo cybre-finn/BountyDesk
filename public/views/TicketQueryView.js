@@ -8,7 +8,7 @@ define([
     var BlockedTicketsView = Backbone.View.extend({
 
         initialize: function (options) {
-            this.TicketCollection = new TicketCollection({query: options.urlQuery});
+            this.TicketCollection = new TicketCollection({ query: options.urlQuery });
             var self = this;
             this.TicketCollection.fetch({
                 success: function () {
@@ -23,7 +23,12 @@ define([
 
         render: function () {
             this.template = _.template(BlockedTicketsTpl);
-            this.$el.html(this.template({ user: app.session.user.toJSON() }));
+            if (this.TicketCollection.length != 0) {
+                this.$el.html(this.template({ user: app.session.user.toJSON() }));
+            }
+            else {
+                this.$el.html("<h3 class=\"text-muted\">Nothing here...</h3>");
+            }
             return this;
         },
 
