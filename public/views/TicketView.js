@@ -44,9 +44,9 @@ define([
         },
 
         events: {
-            "submit #status-form": "onChStatus",
-            "submit #bounty-form": "onChBounty",
-            "submit #assign-form": "onAssign",
+            "change #status-form": "onChStatus",
+            "change #bounty-form": "onChBounty",
+            "change #assign-form": "onAssign",
             "submit #comment-form": "onCrComment"
         },
 

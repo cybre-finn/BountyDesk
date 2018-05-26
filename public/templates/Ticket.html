@@ -2,12 +2,11 @@
     <div class="row p-1">
         <div class="col-lg-8 mb-3 mb-md-0">
             <div class="card mb-4">
-                <div class="card-header">Ticket</div>
-                <div class="card-body p-3">
-                    <small class="float-right text-muted">Issued
-                        <%= timeAgo(this.TicketModel.toJSON().created) %> by
-                            <%= this.TicketModel.toJSON().issuer %>
-                    </small>
+                <div class="card-header">Ticket <span class="text-muted float-right">
+                        <%= this.TicketModel.toJSON().issuer %> opened this
+                            <%= timeAgo(this.TicketModel.toJSON().created) %>
+                    </span></div>
+                <div class="card-body px-3 py-1">
                     <h1 class="mb-1 card-title">
                         <%= this.TicketModel.toJSON().headline %>
                     </h1>
@@ -42,7 +41,8 @@
                                                     <i class="fas fa-ban"></i>
                                                     rejected
                                                 </span>
-                                                <% break; }%>
+                                                <% break; }%> 
+                                                    <br>
                                                     <% if(this.TicketModel.toJSON().room){ %>
                                                         <span class="badge badge-primary">
                                                             <i class="fas fa-map-marker-alt"></i>
@@ -55,6 +55,10 @@
                                                                     <%=this.TicketModel.toJSON().bounty %>
                                                                 </span>
                                                                 <% } %>
+                                                                    <span class="badge badge-primary">
+                                                                        <i class="fas fa-envelope"></i>
+                                                                        <%= this.TicketModel.toJSON().contact_email %>
+                                                                    </span>
                                                                     <% for (var i in this.TicketModel.toJSON().assigned){ %>
                                                                         <span class="badge badge-primary">
                                                                             <i class="fas fa-user"></i>
@@ -94,7 +98,8 @@
                                                     <%= timeAgo(model.toJSON().created) %>
                                                 </small>
                                                 <strong class="d-block text-gray-dark">
-                                                    @<%=model.toJSON().user %>
+                                                    @
+                                                    <%=model.toJSON().user %>
                                                 </strong>
                                                 <%= model.toJSON().content %>
                                             </p>
@@ -116,24 +121,24 @@
                         <li class="list-group-item">
                             <h4 class="text-muted">Status</h4>
                             <form id="status-form" class="mb-2" novalidate>
-                                <div class="btn-group-vertical btn-group-toggle" id="status-options" data-toggle="buttons">
+                                <div class="btn-group-vertical btn-group-toggle w-100" id="status-options" data-toggle="buttons">
                                     <% if(!(status==1 || status==2)){ %>
-                                        <label class="btn btn-outline-info">
+                                        <label class="btn btn-outline-primary">
                                             <input name="status-options" id="status-accept" value="2" autocomplete="off" type="radio" required>
                                             <i class="fas fa-ellipsis-h"></i> Processing
                                         </label>
                                         <% } if(status!=0 && status!=5 && status!=4){ %>
-                                            <label class="btn btn-outline-success">
+                                            <label class="btn btn-outline-primary">
                                                 <input name="status-options" id="status-solved" value="4" autocomplete="off" type="radio" required>
                                                 <i class="fas fa-check"></i> Solved
                                             </label>
                                             <%} if(status<3){ %>
-                                                <label class="btn btn-outline-secondary">
+                                                <label class="btn btn-outline-primary">
                                                     <input name="status-options" id="status-blocked" value="3" autocomplete="off" type="radio" required>
                                                     <i class="fas fa-hand-paper"></i> Blocked
                                                 </label>
                                                 <% } if(status<4){ %>
-                                                    <label class="btn btn-outline-warning">
+                                                    <label class="btn btn-outline-primary">
                                                         <input name="status-options" id="status-spam" value="5" autocomplete="off" type="radio" required>
                                                         <i class="fas fa-ban"></i> Rejected
                                                     </label>
@@ -144,49 +149,40 @@
                                                         </label>
                                                         <% } %>
                                 </div>
-                                <button type="submit" id="status-btn" class="btn btn-primary">
-                                    <i class="fas fa-angle-right"></i>
-                                </button>
                             </form>
                         </li>
                         <% if (status<4&&!status==0){ %>
                             <li class="list-group-item">
                                 <h4 class="text-muted">Bounty</h4>
                                 <form id="bounty-form" class="mb-2" novalidate>
-                                    <div class="btn-group btn-group-toggle" id="bounty-options" data-toggle="buttons">
-                                        <label class="btn btn-outline-primary">
+                                    <div class="btn-group btn-group-toggle d-flex" id="bounty-options" data-toggle="buttons">
+                                        <label class="btn btn-outline-primary w-100">
                                             <input name="bounty-options" id="bounty-10" value="10" autocomplete="off" type="radio" required> +10
                                         </label>
-                                        <label class="btn btn-outline-primary">
+                                        <label class="btn btn-outline-primary w-100">
                                             <input name="bounty-options" id="bounty-25" value="25" autocomplete="off" type="radio" required> +25
                                         </label>
-                                        <label class="btn btn-outline-primary">
+                                        <label class="btn btn-outline-primary w-100">
                                             <input name="bounty-options" id="bounty-50" value="50" autocomplete="off" type="radio" required> +50
                                         </label>
-                                        <label class="btn btn-outline-primary">
+                                        <label class="btn btn-outline-primary w-100">
                                             <input name="bounty-options" id="bounty-100" value="100" autocomplete="off" type="radio" required> +100
                                         </label>
                                     </div>
-                                    <button type="submit" id="bounty-btn" class="btn btn-primary">
-                                        <i class="fas fa-angle-right"></i>
-                                    </button>
                                 </form>
                             </li>
                             <% } if(status>0&&status<4&&logged_in) { %></4>
                                 <li class="list-group-item" novalidate>
                                     <h4 class="text-muted">Assigned Users</h4>
                                     <form id="assign-form" novalidate>
-                                        <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-size="5" data-live-search="true"
-                                            title="Assign users" required>
+                                        <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-width="100%" data-size="4"
+                                            data-live-search="true" title="Assign users" required>
                                             <% this.UserCollection.each(function(model){ %>
                                                 <option value="<%= model.toJSON()._id %>">
                                                     <%= model.toJSON().name %>
                                                 </option>
                                                 <% }); %>
                                         </select>
-                                        <button type="submit" id="assign-btn" class="btn btn-primary">
-                                            <i class="fas fa-angle-right"></i>
-                                        </button>
                                     </form>
                                 </li>
                                 <% } %>
