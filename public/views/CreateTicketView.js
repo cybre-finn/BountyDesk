@@ -38,39 +38,6 @@ define([
             console.log(e);
             e.preventDefault();
             if (e.target.checkValidity() === true) {
-                if (app.session.get("logged_in")) {
-                    this.TicketCollection.create({
-                        issuer: this.$("#CreateTicket-issuer").val(),
-                        headline: this.$("#CreateTicket-headline").val(),
-                        room: this.$("#CreateTicket-room").val(),
-                        content: this.$("#CreateTicket-content").val()
-                    }, {
-                            success: function (model, response) {
-                                app.showAlert("Ticket created. Keep track of your mailbox for updates from us.", "alert-success");
-                                Backbone.history.navigate('/', true);
-                            },
-                            error: function (model, response) {
-                                app.showAlert(response.status, "alert-danger");
-                            }
-                        });
-                }
-                else {
-                    this.TicketCollection.create({
-                        issuer: this.$("#CreateTicket-issuer").val(),
-                        headline: this.$("#CreateTicket-headline").val(),
-                        room: this.$("#CreateTicket-room").val(),
-                        content: this.$("#CreateTicket-content").val(),
-                        contact_email: this.$("#CreateTicket-email").val()
-                    }, {
-                        success: function (model, response) {
-                            app.showAlert("Ticket created. Keep track of your mailbox for updates from us.", "alert-success", 0);
-                            Backbone.history.navigate('/', true);
-                        },
-                        error: function (model, response) {
-                            app.showAlert(response.status, "alert-danger");
-                        }
-                    });
-                }
             }
             else {
                 e.target.classList.add('was-validated');
