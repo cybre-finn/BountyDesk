@@ -2,10 +2,21 @@
     <div class="row p-1">
         <div class="col-lg-8 mb-3 mb-md-0">
             <div class="card mb-4">
-                <div class="card-header">Ticket <span class="text-muted float-right">
+                <div class="card-header">
+                    Ticket
+                    <div class="text-muted float-right">
                         <%= this.TicketModel.toJSON().issuer %> opened this
                             <%= timeAgo(this.TicketModel.toJSON().created) %>
-                    </span></div>
+
+                                <% if(logged_in){ %>
+                                    <button type="button" class="close ml-2" data-toggle="modal" data-target="#editTicket" aria-label="Close">
+                                        <span aria-hidden="true">
+                                            <i class="fas fa-pen-square"></i>
+                                        </span>
+                                    </button>
+                                    <% } %>
+                    </div>
+                </div>
                 <div class="card-body px-3 py-1">
                     <h1 class="mb-1 card-title">
                         <%= this.TicketModel.toJSON().headline %>
@@ -41,7 +52,7 @@
                                                     <i class="fas fa-ban"></i>
                                                     rejected
                                                 </span>
-                                                <% break; }%> 
+                                                <% break; }%>
                                                     <br>
                                                     <% if(this.TicketModel.toJSON().room){ %>
                                                         <span class="badge badge-primary">
@@ -81,7 +92,7 @@
                                     <input type="text" id="comment-content" class="form-control" placeholder="Comment" required>
                                 </div>
                                 <div class="col-2">
-                                    <button id="CreateUser-btn" type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block">
                                         <i class="fas fa-paper-plane"></i>
                                     </button>
                                 </div>
@@ -98,8 +109,7 @@
                                                     <%= timeAgo(model.toJSON().created) %>
                                                 </small>
                                                 <strong class="d-block text-gray-dark">
-                                                    @
-                                                    <%=model.toJSON().user %>
+                                                    <%= "@"+model.toJSON().user %>
                                                 </strong>
                                                 <%= model.toJSON().content %>
                                             </p>
@@ -190,6 +200,34 @@
 
                 </div>
                 <% } %>
+        </div>
+    </div>
+    <div class="modal fade" id="editTicket" tabindex="-1" role="dialog" aria-labelledby="editTicketLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTicketLabel">Edit Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form novalidate id="change-form" >
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="ticket-headline" class="col-form-label">In a nutshell:</label>
+                            <input type="text" class="form-control" id="ticket-headline" value="<%= this.TicketModel.toJSON().headline %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ticket-content" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="ticket-content" required><%= this.TicketModel.toJSON().content %></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

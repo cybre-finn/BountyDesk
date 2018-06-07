@@ -13,7 +13,7 @@ define([
     var TicketView = Backbone.View.extend({
 
         initialize: function (options) {
-            this.options=options;
+            this.options = options;
             this.UserCollection = new UserCollection({});
             this.TicketModel = new TicketModel({ id: this.options.ticket_id });
             this.CommentCollection = new CommentCollection();
@@ -35,7 +35,7 @@ define([
             }
             function successUserCollection() {
                 self.CommentCollection.fetch({
-                    data: $.param({ ticket_id: self.options.ticket_id}),
+                    data: $.param({ ticket_id: self.options.ticket_id }),
                     success: function () {
                         successTicketModel();
                     }
@@ -47,7 +47,8 @@ define([
             "change #status-form": "onChStatus",
             "change #bounty-form": "onChBounty",
             "change #assign-form": "onAssign",
-            "submit #comment-form": "onCrComment"
+            "submit #comment-form": "onCrComment",
+            "submit #change-form": "onCh"
         },
 
         render: function () {
@@ -67,6 +68,29 @@ define([
                 $("option[value=" + userid + "]").prop('selected', true);
             }
             return this;
+        },
+
+        onCh: function (e) {
+            e.preventDefault();
+            if (e.target.checkValidity() === true) {
+                $('#modal fade').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                var self = this;
+                this.TicketModel.set({
+                    headline: this.$("#ticket-headline").val(),
+                    content: this.$("#ticket-content").val()
+                });
+                this.TicketModel.save(null, {
+                    success: function (model, response) {
+                        self.render();
+                        this.$("#").classList.remove("mystyle");
+                    },
+                    error: function (model, response) {
+                        app.showAlert(response.status, "alert-danger");
+                    }
+                });
+            } else e.target.classList.add('was-validated');
         },
 
         onChStatus: function (e) {
