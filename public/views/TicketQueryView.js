@@ -3,9 +3,9 @@ define([
 
     "text!templates/TicketQuery.html",
     "collections/TicketCollection"
-], function (app, BlockedTicketsTpl, TicketCollection) {
+], function (app, StashedTicketsTpl, TicketCollection) {
 
-    var BlockedTicketsView = Backbone.View.extend({
+    var StashedTicketsView = Backbone.View.extend({
 
         initialize: function (options) {
             this.TicketCollection = new TicketCollection({ query: options.urlQuery });
@@ -22,7 +22,7 @@ define([
         },
 
         render: function () {
-            this.template = _.template(BlockedTicketsTpl);
+            this.template = _.template(StashedTicketsTpl);
             if (this.TicketCollection.length != 0) {
                 this.$el.html(this.template({ user: app.session.user.toJSON() }));
             }
@@ -34,5 +34,5 @@ define([
 
     });
 
-    return BlockedTicketsView;
+    return StashedTicketsView;
 });
