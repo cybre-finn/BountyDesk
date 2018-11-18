@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/usr/bin/env bash
 mongod --dbpath db &
-systemctl start redis.service &
+redis-server --appendonly no --save "" &
