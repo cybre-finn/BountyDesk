@@ -156,7 +156,7 @@ if (cluster.isMaster) {
   app.post("/logout", middleware_module.checkloggedin, function (req, res) {
     req.session.destroy();
     req.logout();
-    res.json({ user: "logged" });
+    res.json({ user: null });
   });
   //The 404 Route
   app.get('*', function (req, res) {
