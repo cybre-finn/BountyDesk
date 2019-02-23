@@ -3,8 +3,10 @@ define([
 
     "text!templates/CreateUser.html",
 
-    "collections/UserCollection"
-], function (app, CreateUserViewTpl, UserCollection) {
+    "collections/UserCollection",
+
+    "models/UserModel"
+], function (app, CreateUserViewTpl, UserCollection, UserModel) {
 
     var CreateUserView = Backbone.View.extend({
 
@@ -19,7 +21,8 @@ define([
         },
 
         events: {
-            "submit #CreateUser-form": "onCreateUser"
+            "submit #CreateUser-form": "onCreateUser",
+            "click #DeleteUser-btn": "onDeleteUser"
         },
 
         render: function () {
@@ -51,6 +54,16 @@ define([
             } else {
                 e.target.classList.add('was-validated');
             }
+        },
+        onDeleteUser: function (e) {
+            var self = this
+            this.UserCollection.where({ name: e.currentTarget.dataset.id })[0].destroy({
+                success: function (model, response) {
+                    self.render();
+                    app.showAlert("User removed", "alert-success");
+                }, wait: true
+            });
+            
         }
 
     });

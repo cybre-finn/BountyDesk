@@ -17,7 +17,7 @@ define([
             password: '',
             rep: 0
         },
-
+        idAttribute: 'name'
 
     });
     

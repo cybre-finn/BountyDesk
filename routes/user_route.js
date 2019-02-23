@@ -67,12 +67,14 @@ router.post('/', middleware_module.checkloggedin, function(req, res) {
 router.delete("/:name?", middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=config.rep_delete_user) {
-      User.remove({ name: req.params.id }, function(err) {
-        if (err) {
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(200);
-        }
+      User.findOne({ 'name':  req.params.name}, '-password', function (err, user) {
+        User.remove({ 'name': req.params.name }, function(err) {
+          if (err) {
+            res.sendStatus(500);
+          } else {
+            res.json(user);
+          }
+        });
       });
     }
     else {
