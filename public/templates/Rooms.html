@@ -19,7 +19,7 @@
         <div class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex justify-content-between align-items-center">
                 <%= model.toJSON().room_number %> <%= model.toJSON().role %>
-                    <button type="button" id="DeleteRoom-btn" class="btn btn-outline-danger btn-sm" value="<%= model.toJSON().room_number %>"><i class="fas fa-trash"></i></button>
+                    <button type="button" id="DeleteRoom-btn" class="btn btn-outline-danger btn-sm" data-id="<%= model.toJSON().room_number %>"><i class="fas fa-trash"></i></button>
             </div>
         </div>
         <% }); %>

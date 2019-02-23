@@ -53,10 +53,11 @@ define([
         },
         onDeleteRoom: function (e) {
             var self = this;
-            this.RoomCollection.where({ room_number: this.$("#DeleteRoom-btn").val() })[0].destroy({
+            this.RoomCollection.where({ room_number: e.currentTarget.dataset.id })[0].destroy({
                 success: function (model, response) {
                     self.render();
-                }
+                    app.showAlert("Room removed", "alert-success");
+                }, wait: true
             });
         }
 
