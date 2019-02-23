@@ -36,8 +36,8 @@ router.get("/:name?", function(req, res) {
   }
 });
 
-//Users (/user) - POST
-router.post('/', middleware_module.checkloggedin, function(req, res) {
+//Users (/user) - PUT
+router.put('/:name?', middleware_module.checkloggedin, function(req, res) {
   reputation_module.userrep(req.user.name, function(rep) {
     if(rep>=config.rep_create_user) {
       bcrypt.hash(req.body.password, config.crypt_saltRounds, function(err, hash) {
