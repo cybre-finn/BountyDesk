@@ -149,6 +149,27 @@ router.put('/:id', middleware_module.checkloggedin, function (req, res) {
           }
           else {
             var transporter = nodemailer.createTransport(smtpConfig);
+            if (ticketObj.assigned) {
+              for (var i = 0, len = ticketObj.assigned.length; i < len; i++) {
+                User.findOne({ 'name':  ticketObj.assigned[i].name}, function (err, user) {
+                  if (user) {
+                    var message = {
+                      from: config.smtp_address,
+                      to: user.email,
+                      subject: 'Updated assigned support ticket ' + ticketObj._id,
+                      html: 'A ticket that you are assigned to has just been updated. Take a look and consult for updates here: <a href="' + config.url + 'ticket/'
+                        + ticketObj._id + '">' + config.url + 'ticket/' + ticketObj._id + '</a>.'
+                    };
+                    transporter.sendMail(message, function (err) {
+                      if (err) console.log(err);
+                    });
+                  }
+                  else {
+                    console.log("[EMAIL] user not available")
+                  }
+                })
+              }
+            }
             var message = {
               from: config.smtp_address,
               to: ticketObj.contact_email,

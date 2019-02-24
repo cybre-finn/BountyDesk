@@ -13,8 +13,8 @@ config.rep_delete_room = 400;
 //Email settings
 config.smtp_host = "smtp.example.com";
 config.smtp_user = "user";
-config.smtp_port = "user";
-config.smtp_user = "user";
+config.smtp_port = 25;
+config.smtp_tls = true;
 config.smtp_password = "passwd";
 config.smtp_address = "it@example.com"
 //DB settings
