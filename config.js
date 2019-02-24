@@ -3,11 +3,11 @@ var config = {};
 config.url = "https://example.com/"
 //Reputation settings
 config.rep_create_user = 150;
-config.rep_delete_user = 400;
+config.rep_delete_user = 1500;
 config.rep_change_ticket = 50;
 config.rep_delete_ticket = 100;
 config.rep_create_comment = 300;
-config.rep_delete_comment = 500;
+config.rep_delete_comment = 400;
 config.rep_create_room = 200;
 config.rep_delete_room = 400;
 //Email settings
