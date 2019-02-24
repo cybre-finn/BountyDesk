@@ -186,7 +186,7 @@
                                     <h4 class="text-muted">Assigned Users</h4>
                                     <form id="assign-form" novalidate>
                                         <select class="selectpicker" data-style="btn-outline-primary" id="assign-select" multiple data-width="100%" data-size="4"
-                                            data-live-search="true" title="Assign users" required>
+                                            title="Assign users" required>
                                             <% this.UserCollection.each(function(model){ %>
                                                 <option value="<%= model.toJSON()._id %>">
                                                     <%= model.toJSON().name %>
